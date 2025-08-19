@@ -8,7 +8,7 @@ git push -u origin main
 feature/<nombre>: ramas para trabajar cada funcionalidad (por ej: feature/parser, feature/executor).
 
 
-1) Comenzar a trabajar (día a día):
+1) Comenzar a trabajar (día a día): 
 
 git checkout main
 git pull origin main
