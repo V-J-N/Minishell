@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 14:35:10 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/20 00:33:15 by serjimen         ###   ########.fr       */
+/*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
+/*   Updated: 2025/08/19 23:43:32 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-void	ft_bzero(void *s, size_t n)
+/**
+ * @struct t_env
+ * @brief Nodo de la lista enlazada que representa un variablle de entorno.
+ * 
+ */
+typedef struct s_env
 {
-	size_t			i;
-	unsigned char	*str;
+	char			*key;
+	char			*value;
+	char			*full_env;
+	struct s_env	*next;
+}					t_env;
 
-	str = (unsigned char *) s;
-	i = 0;
-	while (i < n)
-	{
-		str[i] = '\0';
-		i++;
-	}
-}
+#endif
