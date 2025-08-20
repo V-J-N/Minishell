@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:49:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/08/20 02:04:36 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:11:57 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
  * @note The function correctly handles the case where the 'envp' array might
  * contain invalid entries.
  */
-void	get_environment(char *envp[], t_env **environment)
+bool	get_environment(char *envp[], t_env **environment)
 {
 	t_env	*new_node;
 	int		i;
@@ -54,16 +54,17 @@ void	get_environment(char *envp[], t_env **environment)
 			key = get_key(envp[i]);
 			value = get_value(envp[i]);
 			if (!key || !value)
-				return (free(key), free(value));
+				return (free(key), free(value), false);
 			new_node = ft_lstnew_mini(key, value, envp[i]);
 			if (!new_node)
-				return (free(key), free(value));
+				return (free(key), free(value), false);
 			ft_addback_mini(environment, new_node);
 			free(key);
 			free(value);
 		}
 		i++;
 	}
+	return (true);
 }
 
 /**
