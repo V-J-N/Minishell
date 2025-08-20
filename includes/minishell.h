@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/17 17:40:52 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:44:23 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "structs.h"
 
 //ENVP_COPY:
 char	**copy_env(char **envp);
@@ -37,5 +38,8 @@ char	*ft_check_path(char *command, char **envp);
 //PIPEX_EXECUTOR:
 void	execute_command(char *cmd_str, char **envp);
 void	command_in(char *command, char **envp_copy);
+
+//LEXER
+char	**ft_tokenizer(char *str);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/17 17:49:03 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:42:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	execute_command(char *cmd_str, char **envp)
 	char	**args;
 	char	*cmd;
 
-	args = ft_split(cmd_str, ' ');//separar argumentos: por ej "ls -l"
+	// args = ft_split(cmd_str, ' ');//separar argumentos: por ej "ls -l"
+	args = ft_tokenizer(cmd_str);
 	if (!args || !args[0])
 		return ;
 	cmd = ft_check_path(args[0], envp);//conseguir path válido
