@@ -6,7 +6,7 @@
 #    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/08/21 09:42:45 by serjimen         ###   ########.fr        #
+#    Updated: 2025/08/21 09:45:45 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/executor_utils2.c\
 			$(SRC_DIR)/environment.c\
 			$(SRC_DIR)/environment_utils.c\
-			$(SRC_DIR)/environment_memory.c
+			$(SRC_DIR)/environment_memory.c\
 			$(SRC_DIR)/lexer.c
 
 # Objects

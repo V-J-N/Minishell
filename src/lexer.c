@@ -6,14 +6,14 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:33:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/20 18:13:16 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/21 09:50:09 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <structs.h>
 
-static t_token	*ft_lstnew_mini(char *value, t_token_type type)
+/* static t_token	*ft_lstnew_mini(char *value, t_token_type type)
 {
 	t_token	*node;
 
@@ -24,7 +24,7 @@ static t_token	*ft_lstnew_mini(char *value, t_token_type type)
 	node->type = type;
 	node->next = NULL;
 	return (node);
-}
+} */
 
 /**
  * @brief Appends the node to the en of the stack.
@@ -36,7 +36,7 @@ static t_token	*ft_lstnew_mini(char *value, t_token_type type)
  * @note This function does not return a value. It modifies the stack in place.
  * @warning If either head or new_node is NULL, the function does nothing.
  */
-static void	ft_ps_addback(t_token **head, t_token *new_node)
+/* static void	ft_ps_addback(t_token **head, t_token *new_node)
 {
 	t_token	*current;
 
@@ -51,9 +51,9 @@ static void	ft_ps_addback(t_token **head, t_token *new_node)
 	while (current->next != NULL)
 		current = current->next;
 	current->next = new_node;
-}
+} */
 
-t_token	*create_stack(char **array)
+/* t_token	*create_stack(char **array)
 {
 	t_token	*new_node;
 	t_token	*stack;
@@ -74,7 +74,7 @@ t_token	*create_stack(char **array)
 		i++;
 	}
 	return (stack);
-}
+} */
 
 char	**ft_tokenizer(char *str)
 {
