@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment_memory.c                               :+:      :+:    :+:   */
+/*   environment_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:37:53 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/20 02:35:14 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:39:06 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,38 @@ void	free_environment(t_env **env)
 		current = next;
 	}
 	*env = NULL;
+}
+
+/// @brief Search for the value in the list, given a key
+char	*get_value_by_key(t_env *env_list, const char *key)
+{
+	char	*value;
+
+	while (env_list)
+	{
+		if (ft_strncmp(env_list->key, key, ft_strlen(key)) == 0)
+		{
+			value = ft_strdup(env_list->value);
+			return (value);
+		}
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
+/// @brief Search for the 'full_env' in the list, given a key
+char	*get_full_env(t_env *env_list, const char *key)
+{
+	char	*full_env;
+
+	while (env_list)
+	{
+		if (ft_strncmp(env_list->key, key, ft_strlen(key)) == 0)
+		{
+			full_env = ft_strdup(env_list->full_env);
+			return (full_env);
+		}
+		env_list = env_list->next;
+	}
+	return (NULL);
 }

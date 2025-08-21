@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/08/20 12:05:48 by serjimen         ###   ########.fr        #
+#    Updated: 2025/08/21 18:15:12 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,12 @@ LIBFT_INCLUDE	= -I$(LIBFT_DIR)/include
 # Source files
 
 SRC		=	$(SRC_DIR)/minishell.c\
-			$(SRC_DIR)/minishell_utils.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
 			$(SRC_DIR)/executor_utils2.c\
 			$(SRC_DIR)/environment.c\
 			$(SRC_DIR)/environment_utils.c\
-			$(SRC_DIR)/environment_memory.c
+			$(SRC_DIR)/environment_utils2.c
 
 # Objects
 

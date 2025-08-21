@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/20 12:04:12 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:39:18 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,26 @@
 # include <readline/history.h>
 # include "structs.h"
 
-//ENVP_COPY:
-// char	**copy_env(char **envp);
-// int		envp_count(char **envp);
-// void	free_envp_copy(char **envp);
+//ENVIRONMENT:
+
 bool	get_environment(char *envp[], t_env **environment);
 void	free_environment(t_env **env);
-char	*get_key(char *str);
-char	*get_value(char *str);
-t_env	*ft_lstnew_mini(char *key, char *value, char *full);
-void	ft_addback_mini(t_env **head, t_env *new_node);
+char	*set_key(char *str);
+char	*set_value(char *str);
+t_env	*ft_lstnew_mini_env(char *key, char *value, char *full);
+void	ft_addback_mini_env(t_env **head, t_env *new_node);
+char	*get_value_by_key(t_env *env_list, const char *key);
+char	*get_full_env(t_env *env_list, const char *key);
 
-//PIPEX_UTILS:
+//EXECUTOR_UTILS:
 void	cmd_not_found(char *cmd, char **args);
-void	ft_free_split(char **split);
-char	**ft_potential_paths(char **envp);
-char	*ft_build_full_path(char *command, char **envp);
-char	*ft_check_path(char *command, char **envp);
+void	ft_free_array(char **array);
+char	**ft_potential_paths(char *path_value);
+char	*ft_build_full_path(char *command, char *path_value);
+char	*ft_check_path(char *command, char *path_value);
 
-//PIPEX_EXECUTOR:
+//EXECUTOR:
 void	execute_command(char *cmd_str, t_env **envp);
-// void	command_in(char *command, char **envp_copy);
 void	command_in(char *command, t_env **environment);
 char	**envlist_to_arr(t_env **envlist);
 
