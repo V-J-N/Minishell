@@ -5,10 +5,11 @@
 #                                                     +:+ +:+         +:+      #
 #    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/08/20 17:45:18 by serjimen         ###   ########.fr        #
+#    Created: Invalid date        by                   #+#    #+#              #
+#    Updated: 2025/08/21 09:42:45 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME	= 	minishell
 
@@ -34,6 +35,10 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/minishell_utils.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
+			$(SRC_DIR)/executor_utils2.c\
+			$(SRC_DIR)/environment.c\
+			$(SRC_DIR)/environment_utils.c\
+			$(SRC_DIR)/environment_memory.c
 			$(SRC_DIR)/lexer.c
 
 # Objects
@@ -44,7 +49,7 @@ OBJ		= 	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 CC		= 	cc
 
-CFLAGS	= 	-Wall -Wextra -Werror
+CFLAGS	= 	-Wall -Wextra -Werror -g
 
 # Includes
 
