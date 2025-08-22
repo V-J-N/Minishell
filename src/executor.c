@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/21 18:32:49 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:06:41 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,24 @@ void	execute_command(char *cmd_str, t_env **envlist)
 {
 	char	**args;
 	char	*cmd;
-	//char	**env_arr;
-	char	**env_paths;
+	char	**env_arr;
 
+	env_arr = envlist_to_arr(envlist);
+	if (!env_arr)
+		return ;
 	args = ft_split(cmd_str, ' ');
 	if (!args || !args[0])
+	{
+		ft_free_array(env_arr);
 		return ;
-	env_paths = ft_calloc(2, sizeof(char *));
-	if (!env_paths)
-		return ;
-	env_paths[0] = get_full_env(*envlist, "PATH");
-	env_paths[1] = NULL;
-	cmd = ft_check_path(args[0], env_paths[0]);
+	}
+	cmd = ft_check_path(args[0], env_arr);
 	if (!cmd)
 		cmd_not_found(args[0], args);
-	execve(cmd, args, env_paths);
+	execve(cmd, args, env_arr);
 	perror("execve");
 	ft_free_array(args);
-	ft_free_array(env_paths);
+	ft_free_array(env_arr);
 	free(cmd);
 	exit (1);
 }

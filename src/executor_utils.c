@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:09:35 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/21 18:47:12 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:12:51 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,25 @@ void	ft_free_array(char **array)
 }
 
 /// @brief Separate potential paths from env by spliting with the delimitator ':'
-char	**ft_potential_paths(char *path_value)
+char	**ft_potential_paths(char **envp) //a partir de PATH=, guardar en paths las posibles direcciones accesibles deparadas por ":"
 {
 	char	**paths;
+	int		i;
 
-	if (!path_value)
+	i = 0;
+	if (!envp[i] || ft_strlen(envp[i]) < 6)
+    	return (NULL);
+	
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0) //encontrar línea con "PATH="
+		i ++;
+	if (!envp[i])
 		return (NULL);
-	paths = ft_split(path_value + 5, ':');
+	paths = ft_split(envp[i] + 5, ':'); //separar los distintos paths delimitados por :
 	return (paths);
 }
 
 /// @brief Check potential paths by building the strings (paht + '/' + command)
-char	*ft_build_full_path(char *command, char *path_value)
+char	*ft_build_full_path(char *command, char **envp)
 {
 	char	**paths;
 	char	*full_path;
@@ -57,7 +64,7 @@ char	*ft_build_full_path(char *command, char *path_value)
 	int		i;
 
 	full_path = NULL;
-	paths = ft_potential_paths(path_value);
+	paths = ft_potential_paths(envp);
 	if (!paths)
 		return (NULL);
 	i = 0;
@@ -79,7 +86,7 @@ char	*ft_build_full_path(char *command, char *path_value)
 /// @warning !!! Estás bien al asumir que el usuario pasó una ruta (ej. ./myprog), 
 /// pero recuerda: Si es un path relativo, puede necesitar getcwd() para ejecutarse correctamente.
 /// Si estás en un entorno tipo minishell, deberías manejar también el caso ~/.
-char	*ft_check_path(char *command, char *path_value)
+char	*ft_check_path(char *command, char **envp)
 {
 	char	*full_path;
 
@@ -97,7 +104,7 @@ char	*ft_check_path(char *command, char *path_value)
 	}
 	else
 	{
-		full_path = ft_build_full_path(command, path_value);
+		full_path = ft_build_full_path(command, envp);
 		return (full_path);
 	}
 	return (NULL);
