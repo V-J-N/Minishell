@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/22 17:48:12 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:36:20 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ static void	ft_wait_and_exit(pid_t last_pid)// esta parte recupera la señal del
 	exit(EXIT_FAILURE); // Si no conseguimos capturar el último hijo por alguna razón
 }
 
-void	pipes(char **args, int blocks, t_env **env_list, int in, int out) //comando << LIMITADOR | comando1 >> archivo
+/// @brief Pipe manager:
+/// @param args array of splited by '|' commands
+/// @param blocks number of blocks of commands with their parameters
+/// @param in FD to read from at start
+/// @param out FD to write to at the end of the chain
+void	pipes(char **args, int blocks, t_env **env_list, int in, int out)
 {
 	int		i;
 	int		prev_pipe;
