@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:36:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/20 02:11:39 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:06:25 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
  * pointers. It is assumed that 'new_node' has already been allocated and
  * correctly initialized by the caller.
  */
-void	ft_addback_mini(t_env **head, t_env *new_node)
+void	ft_addback_mini_env(t_env **head, t_env *new_node)
 {
 	t_env	*current;
 
@@ -58,7 +58,7 @@ void	ft_addback_mini(t_env **head, t_env *new_node)
  * @return A pointer to the newly created 't_env' node. Returns NULL if memory
  * allocation fails for the node or any of its internal strings.
  */
-t_env	*ft_lstnew_mini(char *key, char *value, char *full)
+t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
 {
 	t_env	*new_node;
 
@@ -87,7 +87,7 @@ t_env	*ft_lstnew_mini(char *key, char *value, char *full)
  * @note The use of 'ft_calloc' guarantees that the allocated memory is
  * null-initialized, this removes the need for an explicit 'key[i] = '0\';'.
  */
-char	*get_key(char *str)
+char	*set_key(char *str)
 {
 	int		i;
 	char	*key;
@@ -122,7 +122,7 @@ char	*get_key(char *str)
  * @note The use of 'ft_calloc' guarantees that the allocated memory is
  * null-initialized, removing the need for an explicit asigment.
  */
-char	*get_value(char *str)
+char	*set_value(char *str)
 {
 	int		i;
 	int		j;
