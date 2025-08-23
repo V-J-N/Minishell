@@ -3,44 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/20 12:14:51 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:48:03 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+/// @brief Main function containing our Read Evaluate Print(Execute) Loop
+/// @param envp data is saved as a linked list in 'environment'
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_env	*environment;
-	// char	**envp_copy;
 
 	(void)argc;
-	(void)argv; // no queremos usarlas aunque existan: que el compilador las ignore(si no -Wall, etc. salta): sabemos que las ignoramos, vamos
-	// envp_copy = copy_env(envp); //copiar variables de entorno para poder modificarlas
+	(void)argv;
 	environment = NULL;
 	if (!get_environment(envp, &environment))
 		return (free_environment(&environment), perror("envp copy failed"), 1);
-	while (1) // REPLoop
+	while (1)
 	{
-		input = readline("$> "); // readline (se puede usar log?): muestra prompt y lee lo que introducimos
-		if (!input) // EOF (Ctrl+D)
+		input = readline("$> ");
+		if (!input)
 		{
 			printf("exit\n");
 			break ;
 		}
-		if (*input) // Si la línea no está vacía añadir al historial de comandos
+		if (*input)
 		{
 			add_history(input);
-			command_in(input, &environment); //ejecutar comando
+			command_in(input, &environment);
 		}
 		free(input);
 	}
-	// free_envp_copy(envp_copy);//liberar copia de envp
 	free_environment(&environment);
-	rl_clear_history();// eliminar history entre sesiones
+	rl_clear_history();
 	return (0);
 }

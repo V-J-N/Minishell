@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:49:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/08/20 12:11:57 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:05:43 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,20 @@ bool	get_environment(char *envp[], t_env **environment)
 	{
 		if (ft_strchr(envp[i], '=') != NULL)
 		{
-			key = get_key(envp[i]);
-			value = get_value(envp[i]);
+			key = set_key(envp[i]);
+			value = set_value(envp[i]);
 			if (!key || !value)
-				return (free(key), free(value), false);
-			new_node = ft_lstnew_mini(key, value, envp[i]);
+			{
+				if (key)
+					free(key);
+				if (value)
+					free(value);
+				return (false);
+			}
+			new_node = ft_lstnew_mini_env(key, value, envp[i]);
 			if (!new_node)
 				return (free(key), free(value), false);
-			ft_addback_mini(environment, new_node);
+			ft_addback_mini_env(environment, new_node);
 			free(key);
 			free(value);
 		}
