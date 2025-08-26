@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/23 17:20:33 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/26 09:20:42 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "structs.h"
 # include "structs.h"
 
 //ENVIRONMENT:
 
 //ENVIRONMENT:
-
 bool	get_environment(char *envp[], t_env **environment);
 void	free_environment(t_env **env);
 char	*set_key(char *str);
@@ -53,6 +53,12 @@ void	command_in(char *command, t_env **environment);
 
 //PIPES:
 void	pipes(char **args, int blocks, t_env **env_list, int in, int out);
+
+//INPUT_OUTPUT:
+int		get_inputfile_fd(char *infile);
+int		get_outputfile_fd(char *outfile);
+int		get_append_fd(char *outfile);
+int		get_heredoc_fd(char *limiter);
 
 //LEXER
 char	**ft_tokenizer(char *str);
