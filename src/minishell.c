@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/25 14:43:03 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:08:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*environment;
 	//int		in;
 	//int		out;
+	char	**pipe_args;
 
 	(void)argc;
 	(void)argv;
@@ -40,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 		{
 			add_history(input);
+			pipe_args = ft_split((const char*)input, '|');
 			//lexer:
 			//if input_file, output_file, here_doc and/or append:
 				//in = get_inputfile_fd;
@@ -55,9 +57,11 @@ int	main(int argc, char **argv, char **envp)
 				//if (out == -1)
 					//error;
 			//if command:
-			command_in(input, &environment);
+			//command_in(input, &environment);
 			//if pipe:
 				//pipes();
+			pipes(pipe_args, 3, &environment, 0, 1);// escribo manualmente como si hubiesen sido separados: ls -l | wc -l | cat
+			ft_free_array(pipe_args);
 		}
 		free(input);
 		//close(in);
