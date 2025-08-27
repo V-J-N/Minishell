@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/21 09:36:02 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/27 10:08:27 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
  * @file strutcs.h
  * @brief Header file for minishell data structures.
  */
-#ifndef STRUCTS_H
-# define STRUCTS_H
+#ifndef STRUCTS_H_
+# define STRUCTS_H_
 
 /**
  * @struct t_env

@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/08/26 10:57:42 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/08/27 11:17:04 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,9 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/environment_utils.c\
 			$(SRC_DIR)/environment_utils2.c\
 			$(SRC_DIR)/lexer.c\
+			$(SRC_DIR)/lexer_utils.c\
+			$(SRC_DIR)/lexer_utils2.c\
+			$(SRC_DIR)/lexer_test.c
 
 # Objects
 

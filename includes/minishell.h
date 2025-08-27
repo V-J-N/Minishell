@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/26 13:03:30 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/27 11:14:56 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	**ft_potential_paths(char **envp);
 char	*ft_build_full_path(char *command, char **envp);
 char	*ft_check_path(char *command, char **envp);
 char	**envlist_to_arr(t_env **envlist);
+char	**tokenlist_to_arr(t_token **tokenlist);
 
 //EXECUTOR:
 void	execute_command(char *cmd_str, t_env **envp);
@@ -60,5 +61,10 @@ int		get_append_fd(char *outfile);
 int		get_heredoc_fd(char *limiter);
 
 //LEXER
-char	**ft_tokenizer(char *str);
+t_token	*ft_tokenizer(char *str);
+t_token	*ft_lstnew_token(char *value, t_token_type type);
+void	ft_addback_token(t_token **head, t_token *new_node);
+void	free_tokens(t_token **tokens);
+void	print_list(t_token *list);
+
 #endif
