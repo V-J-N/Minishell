@@ -6,13 +6,13 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/26 09:20:42 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/26 13:03:30 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MINISHELL_H_
+# define MINISHELL_H_
 # include "libft.h"
 # include <stdlib.h>
 # include <fcntl.h>
@@ -24,7 +24,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-# include "structs.h"
 # include "structs.h"
 
 //ENVIRONMENT:

@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:33:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/21 09:50:09 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/08/26 13:15:00 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <structs.h>
 
-/* static t_token	*ft_lstnew_mini(char *value, t_token_type type)
+static t_token	*ft_lstnew_token(char *value, t_token_type type)
 {
 	t_token	*node;
 
 	node = malloc(sizeof(t_token));
 	if (!node)
 		return (NULL);
-	node->value = value;
+	node->value = ft_strdup(value);
 	node->type = type;
 	node->next = NULL;
 	return (node);
-} */
+}
 
 /**
  * @brief Appends the node to the en of the stack.
@@ -76,6 +76,54 @@
 	return (stack);
 } */
 
+void	set_append(char *str)
+{
+	ft_lstnew_token(str, APPEND);
+}
+
+void	set_token(char *str)
+{
+	if (ft_strlen(str) == 2 && ft_strncmp(str, ">>", 2) == 0)
+		set_append(str);
+// 	else if (ft_strlen(str) == 2 && ft_strncmp(str, "<<", 2) == 0)
+// 		set_heredoc();
+// 	else if (ft_strlen(str) == 1 && ft_strncmp(str, ">", 1) == 0)
+// 		set_redir_in();
+// 	else if (ft_strlen(str) == 1 && ft_strncmp(str, "<", 1) == 0)
+// 		set_redir_out();
+// 	else if (ft_strlen(str) == 1 && ft_strncmp(str, "|", 1) == 0)
+// 		set_pipe();
+}
+
+bool	is_token(char *str)
+{
+	if (ft_strlen(str) == 2 && ft_strncmp(str, ">>", 2) == 0)
+		return (true);
+	else if (ft_strlen(str) == 2 && ft_strncmp(str, "<<", 2) == 0)
+		return (true);
+	else if (ft_strlen(str) == 1 && ft_strncmp(str, ">", 1) == 0)
+		return (true);
+	else if (ft_strlen(str) == 1 && ft_strncmp(str, "<", 1) == 0)
+		return (true);
+	else if (ft_strlen(str) == 1 && ft_strncmp(str, "|", 1) == 0)
+		return (true);
+	else
+		return (false);
+}
+
+void	check_tokens(char *str)
+{
+	if (is_token(str))
+	{
+		set_token(str);
+	}
+	else
+	{
+		// set_word();
+		printf("%s is word\n", str);
+	}
+}
+
 char	**ft_tokenizer(char *str)
 {
 	char	**tokens;
@@ -85,7 +133,8 @@ char	**ft_tokenizer(char *str)
 	i = 0;
 	while (tokens[i])
 	{
-		printf("Token %d: [%s]\n", i, tokens[i]);
+		check_tokens(tokens[i]);
+		// printf("Token %d: [%s]\n", i, tokens[i]);
 		i++;
 	}
 	return (tokens);
