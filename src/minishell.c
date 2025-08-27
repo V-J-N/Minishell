@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/26 17:08:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/27 12:17:22 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_env	*environment;
-	//int		in;
-	//int		out;
+	//PIPES_TEST:
 	char	**pipe_args;
+	char	*trimmed;
+	int		i;
+	int 	num_blocks;
+	int		exit_pipes;
+	//TESTS_REDIRECCION:
+	int		in;
+	int		out;
 
 	(void)argc;
 	(void)argv;
@@ -30,8 +36,9 @@ int	main(int argc, char **argv, char **envp)
 		return (free_environment(&environment), perror("envp copy failed"), 1);
 	while (1)
 	{
-		//in = -1;
-		//out = -1;
+		in = -1;
+		out = -1;
+		exit_pipes = 0;
 		input = readline("$> ");
 		if (!input)
 		{
@@ -41,31 +48,69 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 		{
 			add_history(input);
+
+			//INTENTO FALLIDO DE REDIRECCIÓN, MAL PARSEO:
+			/* if (ft_strncmp(input, "<<", ft_strlen(input)) == 0)//si hay here_doc
+			{
+				in = get_heredoc_fd("stop");
+				if (in == -1)
+				{
+					close(in);
+					continue;
+				}
+			}
+			else if (ft_strncmp(input, "<", ft_strlen(input)) == 0)//si hay infile
+			{
+				in = get_inputfile_fd("infile");
+				if (in == -1)
+				{
+					close(in);
+					continue;
+				}
+			}
+			if (ft_strncmp(input, ">>", ft_strlen(input)) == 0)//si hay output append
+			{
+				out = get_append_fd("outfile");
+				if (out == -1)
+				{
+					close(out);
+					continue;
+				}
+			}
+			else if (ft_strncmp(input, ">", ft_strlen(input)) == 0)//si hay output truncate
+			{
+				out = get_outputfile_fd("outfile");
+				if (out == -1)
+				{
+					close(out);
+					continue;
+				}
+			} */
+
+			//parseo de pipes:
 			pipe_args = ft_split((const char*)input, '|');
-			//lexer:
-			//if input_file, output_file, here_doc and/or append:
-				//in = get_inputfile_fd;
-				//if (in == -1)
-					//error;
-				//in = get_heredoc_fd();
-				//if (in == -1)
-					//error;
-				//out = get_outputfile_fd();
-				//if (out == -1)
-					//error;
-				//out = get_append_fd();
-				//if (out == -1)
-					//error;
-			//if command:
-			//command_in(input, &environment);
-			//if pipe:
-				//pipes();
-			pipes(pipe_args, 3, &environment, 0, 1);// escribo manualmente como si hubiesen sido separados: ls -l | wc -l | cat
+			i = 0;
+			while (pipe_args[i])
+			{
+				trimmed = ft_strtrim(pipe_args[i], " \t\n<>");
+				free(pipe_args[i]);
+				pipe_args[i] = trimmed;
+				i++;
+			}
+			num_blocks = 0;
+			while (pipe_args[num_blocks])// número de bloques de comandos
+				num_blocks++;
+			if (in == -1)//detectamos si estamos usando FDs especiales (si hemos incorporado redirecciones, etc.)
+				in = 0;//si no, usamos std in and out
+			if (out == -1)
+				out = 1;
+			exit_pipes = pipes(pipe_args, num_blocks, &environment, in, out);//Esto debería centralizar todo, creo. Si sólo hay un comando, usará un comando
+			printf("exit status: %d\n", exit_pipes);
+			ft_close_two(in, out);
 			ft_free_array(pipe_args);
 		}
 		free(input);
-		//close(in);
-		//close(out);
+		
 	}
 	free_environment(&environment);
 	rl_clear_history();

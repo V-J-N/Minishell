@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/25 14:55:40 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:50:46 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,12 @@ void	execute_command(char *cmd_str, t_env **envp);
 void	command_in(char *command, t_env **environment);
 
 //PIPES:
-void	pipes(char **args, int blocks, t_env **env_list, int in, int out);
+int		pipes(char **args, int blocks, t_env **env_list, int in, int out);
+void	safe_close(int fd);
+void	ft_close_two(int fd1, int fd2);
+void	ft_close_three(int fd1, int fd2, int fd3);
+int		ft_wait_and_exit(pid_t last_pid);
+
 
 //INPUT_OUTPUT:
 int		get_inputfile_fd(char *infile);
