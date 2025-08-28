@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/27 11:16:09 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/27 18:11:01 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	execute_command(char *cmd_str, t_env **envlist)
 	env_arr = envlist_to_arr(envlist);
 	if (!env_arr)
 		return ;
-	tokenlist = ft_tokenizer(cmd_str);
+	tokenlist = tokenizer(cmd_str);
 	print_list(tokenlist);
-	args = tokenlist_to_arr(&tokenlist);
+	args = tokenlist_to_arr(tokenlist);
 	if (!args || !args[0])
 	{
 		ft_free_array(env_arr);

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/27 11:14:56 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/28 17:09:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # include <signal.h>
 # include "structs.h"
 
-//ENVIRONMENT:
+//MINISHELL UTILS:
+void	ft_free_array(char **array);
 
 //ENVIRONMENT:
 bool	get_environment(char *envp[], t_env **environment);
@@ -40,12 +41,11 @@ char	*get_full_env(t_env *env_list, const char *key);
 
 //EXECUTOR_UTILS:
 void	cmd_not_found(char *cmd, char **args);
-void	ft_free_array(char **array);
 char	**ft_potential_paths(char **envp);
 char	*ft_build_full_path(char *command, char **envp);
 char	*ft_check_path(char *command, char **envp);
 char	**envlist_to_arr(t_env **envlist);
-char	**tokenlist_to_arr(t_token **tokenlist);
+char	**tokenlist_to_arr(t_token *tokenlist);
 
 //EXECUTOR:
 void	execute_command(char *cmd_str, t_env **envp);
@@ -61,10 +61,9 @@ int		get_append_fd(char *outfile);
 int		get_heredoc_fd(char *limiter);
 
 //LEXER
-t_token	*ft_tokenizer(char *str);
-t_token	*ft_lstnew_token(char *value, t_token_type type);
-void	ft_addback_token(t_token **head, t_token *new_node);
+t_token	*tokenizer(char *str);
+t_token	*lstnew_token(char *value, t_token_type type);
+void	lstaddback_token(t_token **head, t_token *new_node);
 void	free_tokens(t_token **tokens);
-void	print_list(t_token *list);
 
 #endif

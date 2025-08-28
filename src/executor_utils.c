@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:09:35 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/22 18:12:51 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:24:04 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,6 @@ void	cmd_not_found(char *cmd, char **args)
 	ft_putstr_fd("\n", 2);
 	ft_free_array(args);
 	exit (127) ;
-}
-
-void	ft_free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return ;
-	while (array[i])
-	{
-		free(array[i]);
-		i ++;
-	}
-	free(array);
 }
 
 /// @brief Separate potential paths from env by spliting with the delimitator ':'
