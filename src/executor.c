@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/22 18:06:41 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:11:01 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -23,6 +24,7 @@
 /// 'envlist' a 'env_arr', y recuperar de la lista el valor de "PATH=..."
 void	execute_command(char *cmd_str, t_env **envlist)
 {
+	t_token	*tokenlist;
 	char	**args;
 	char	*cmd;
 	char	**env_arr;
@@ -30,7 +32,9 @@ void	execute_command(char *cmd_str, t_env **envlist)
 	env_arr = envlist_to_arr(envlist);
 	if (!env_arr)
 		return ;
-	args = ft_split(cmd_str, ' ');
+	tokenlist = tokenizer(cmd_str);
+	print_list(tokenlist);
+	args = tokenlist_to_arr(tokenlist);
 	if (!args || !args[0])
 	{
 		ft_free_array(env_arr);

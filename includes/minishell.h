@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/25 14:55:40 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:09:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+
+#ifndef MINISHELL_H_
+# define MINISHELL_H_
 # include "libft.h"
 # include <stdlib.h>
 # include <fcntl.h>
@@ -25,6 +26,9 @@
 # include <signal.h>
 # include "structs.h"
 
+//MINISHELL UTILS:
+void	ft_free_array(char **array);
+
 //ENVIRONMENT:
 bool	get_environment(char *envp[], t_env **environment);
 void	free_environment(t_env **env);
@@ -37,11 +41,11 @@ char	*get_full_env(t_env *env_list, const char *key);
 
 //EXECUTOR_UTILS:
 void	cmd_not_found(char *cmd, char **args);
-void	ft_free_array(char **array);
 char	**ft_potential_paths(char **envp);
 char	*ft_build_full_path(char *command, char **envp);
 char	*ft_check_path(char *command, char **envp);
 char	**envlist_to_arr(t_env **envlist);
+char	**tokenlist_to_arr(t_token *tokenlist);
 
 //EXECUTOR:
 void	execute_command(char *cmd_str, t_env **envp);
@@ -55,5 +59,11 @@ int		get_inputfile_fd(char *infile);
 int		get_outputfile_fd(char *outfile);
 int		get_append_fd(char *outfile);
 int		get_heredoc_fd(char *limiter);
+
+//LEXER
+t_token	*tokenizer(char *str);
+t_token	*lstnew_token(char *value, t_token_type type);
+void	lstaddback_token(t_token **head, t_token *new_node);
+void	free_tokens(t_token **tokens);
 
 #endif
