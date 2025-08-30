@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:37:53 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/21 18:39:06 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:15:03 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
  * @brief Deallocates all nodes and their contents in the environment
  * linked list.
  * This function iterates through the entire 't_env' linked list, starting from
- * the head. For each node, it performs a full cleanup by first deallocating the
- * memory for the three strings it contains ('key', 'value', 'full_env'), and then
- * freeing the memory for the node itself.
+ * the head. For each node, it performs a full cleanup by first deallocating
+ * the memory for the three strings it contains ('key', 'value', 'full_env')
+ * and then freeing the memory for the node itself.
  * @param env A double pointer to the head of the 't_env' list.
  * @note The use of a temporary 'next' pointer is a standard and essential
  * pattern for safely traversing and freeing a linked list, as it prevents

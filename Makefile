@@ -6,9 +6,10 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/08/26 16:14:28 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/08/30 08:00:07 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME	= 	minishell
 
@@ -33,12 +34,17 @@ LIBFT_INCLUDE	= -I$(LIBFT_DIR)/include
 SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/pipes.c\
 			$(SRC_DIR)/input_output.c\
+			$(SRC_DIR)/minishell_utils.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
 			$(SRC_DIR)/executor_utils2.c\
 			$(SRC_DIR)/environment.c\
 			$(SRC_DIR)/environment_utils.c\
-			$(SRC_DIR)/environment_utils2.c
+			$(SRC_DIR)/environment_utils2.c\
+			$(SRC_DIR)/lexer.c\
+			$(SRC_DIR)/lexer_utils.c\
+			$(SRC_DIR)/lexer_utils2.c\
+			$(SRC_DIR)/lexer_test.c
 
 # Objects
 
