@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/27 12:17:22 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/30 08:48:44 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	main(int argc, char **argv, char **envp)
 	//TESTS_REDIRECCION:
 	int		in;
 	int		out;
+	//LEXER:
+	//t_token	*tokenlist;
 
 	(void)argc;
 	(void)argv;
@@ -49,46 +51,14 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 
-			//INTENTO FALLIDO DE REDIRECCIÓN, MAL PARSEO:
-			/* if (ft_strncmp(input, "<<", ft_strlen(input)) == 0)//si hay here_doc
-			{
-				in = get_heredoc_fd("stop");
-				if (in == -1)
-				{
-					close(in);
-					continue;
-				}
-			}
-			else if (ft_strncmp(input, "<", ft_strlen(input)) == 0)//si hay infile
-			{
-				in = get_inputfile_fd("infile");
-				if (in == -1)
-				{
-					close(in);
-					continue;
-				}
-			}
-			if (ft_strncmp(input, ">>", ft_strlen(input)) == 0)//si hay output append
-			{
-				out = get_append_fd("outfile");
-				if (out == -1)
-				{
-					close(out);
-					continue;
-				}
-			}
-			else if (ft_strncmp(input, ">", ft_strlen(input)) == 0)//si hay output truncate
-			{
-				out = get_outputfile_fd("outfile");
-				if (out == -1)
-				{
-					close(out);
-					continue;
-				}
-			} */
+			// tokenlist = tokenizer(input);
+			// print_list(tokenlist);
+			// pipe_args = tokenlist_to_arr(tokenlist);
+			// print_array(pipe_args);
 
-			//parseo de pipes:
+			// parseo de pipes:
 			pipe_args = ft_split((const char*)input, '|');
+			print_array(pipe_args);
 			i = 0;
 			while (pipe_args[i])
 			{
@@ -108,9 +78,9 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit status: %d\n", exit_pipes);
 			ft_close_two(in, out);
 			ft_free_array(pipe_args);
+			//free_tokens(&tokenlist);
 		}
 		free(input);
-		
 	}
 	free_environment(&environment);
 	rl_clear_history();

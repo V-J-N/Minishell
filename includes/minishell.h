@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/30 08:00:18 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/30 08:34:50 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,8 @@ t_token	*tokenizer(char *str);
 t_token	*lstnew_token(char *value, t_token_type type);
 void	lstaddback_token(t_token **head, t_token *new_node);
 void	free_tokens(t_token **tokens);
+//LEXER_TEST:
+void	print_list(t_token *list);
+void	print_array(char **array);
 
 #endif
