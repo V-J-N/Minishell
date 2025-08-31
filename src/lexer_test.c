@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 10:15:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/08/28 17:13:46 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/30 08:34:41 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_list(t_token *list)
+void	print_list(t_token *list)
 {
 	t_token	*temp;
 
@@ -23,6 +23,19 @@ static void	print_list(t_token *list)
 		printf("%d\n", temp->type);
 		temp = temp->next;
 	}
+}
+
+void	print_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		printf("[%d]: %s\n", i, array[i]);
+		i ++;
+	}
+	return ;
 }
 
 /* int	main(int argc, char *argv[])

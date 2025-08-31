@@ -6,26 +6,26 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/22 18:36:20 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:50:30 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	safe_close(int fd)
+void	safe_close(int fd)
 {
-	if (fd != -1)
+	if (fd > 2)
 		close(fd);
 }
 
-static void	ft_close_two(int fd1, int fd2)
+void	ft_close_two(int fd1, int fd2)
 {
 	safe_close(fd1);
 	safe_close(fd2);
 	return ;
 }
 
-static void	ft_close_three(int fd1, int fd2, int fd3)
+void	ft_close_three(int fd1, int fd2, int fd3)
 {
 	safe_close(fd1);
 	safe_close(fd2);
@@ -33,7 +33,7 @@ static void	ft_close_three(int fd1, int fd2, int fd3)
 	return ;
 }
 
-static void	ft_wait_and_exit(pid_t last_pid)// esta parte recupera la señal del último proceso hijo. Réplica de: echo $?
+int	ft_wait_and_exit(pid_t last_pid)// esta parte recupera la señal del último proceso hijo. Réplica de: echo $?
 {
 	int	status;
 	pid_t	pid;
@@ -43,9 +43,9 @@ static void	ft_wait_and_exit(pid_t last_pid)// esta parte recupera la señal del
 		if (pid == last_pid) // pero sólo recuperamos el id del último
 		{// Ahora usamos macros para extraer el código de salida de un proceso hijo:
 			if (WIFEXITED(status))//se ha salido normalmente?
-				exit(WEXITSTATUS(status));
+				return (WEXITSTATUS(status));
 			else if (WIFSIGNALED(status))//o se ha terminado con señal?
-				exit(128 + WTERMSIG(status));//qué señal?
+				return (128 + WTERMSIG(status));//qué señal?
 		}
 	}
 	exit(EXIT_FAILURE); // Si no conseguimos capturar el último hijo por alguna razón
@@ -56,7 +56,7 @@ static void	ft_wait_and_exit(pid_t last_pid)// esta parte recupera la señal del
 /// @param blocks number of blocks of commands with their parameters
 /// @param in FD to read from at start
 /// @param out FD to write to at the end of the chain
-void	pipes(char **args, int blocks, t_env **env_list, int in, int out)
+int	pipes(char **args, int blocks, t_env **env_list, int in, int out)
 {
 	int		i;
 	int		prev_pipe;
@@ -70,31 +70,31 @@ void	pipes(char **args, int blocks, t_env **env_list, int in, int out)
 	while (i < blocks)
 	{
 		if (i < blocks - 1 && pipe(pipe_fd) == -1) // si no estamos en el último comando(blocks -1), necesitamos pipe
-			perror("pipe"), exit(EXIT_FAILURE);
+			return (perror("pipe"), EXIT_FAILURE);
 		pid = fork();
 		if (pid < 0)
-			perror("fork"), exit(EXIT_FAILURE);
+			return (perror("fork"), EXIT_FAILURE);
 		if (pid == 0) //proceso hijo
 		{
 			if (i == 0)//si es el primero, usar in
 			{
 				if (dup2(in, 0) == -1)
-					perror("dup2 in"), exit(EXIT_FAILURE);
+					return (perror("dup2 in"), EXIT_FAILURE);
 			}
 			else//si no, usar anterior pipe
 			{
 				if (dup2(prev_pipe, 0) == -1)
-					perror("dup2 in"), exit(EXIT_FAILURE);
+					return (perror("dup2 in"), EXIT_FAILURE);
 			}
 			if (i == blocks - 1)
 			{
 				if (dup2(out, 1) == -1)// si es el último comando, escribir en out
-					perror("dup2 in"), exit(EXIT_FAILURE);
+					return (perror("dup2 in"), EXIT_FAILURE);
 			}
 			else
 			{
 				if (dup2(pipe_fd[1], 1) == -1)// si no, escribir en pipe actual para que el siguiente proceso lo lea
-					perror("dup2 in"), exit(EXIT_FAILURE);
+					return (perror("dup2 in"), EXIT_FAILURE);
 			}
 			ft_close_three(in, out, prev_pipe);
 			if (i < blocks - 1)//si no estamos en el último comando, cerrar pipe actual
@@ -116,5 +116,5 @@ void	pipes(char **args, int blocks, t_env **env_list, int in, int out)
 		i++;
 	}
 	ft_close_two(in, out);
-	ft_wait_and_exit(last_pid);
+	return (ft_wait_and_exit(last_pid));
 }

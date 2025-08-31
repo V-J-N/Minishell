@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/08/27 18:25:23 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/08/30 08:00:07 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ LIBFT_INCLUDE	= -I$(LIBFT_DIR)/include
 # Source files
 
 SRC		=	$(SRC_DIR)/minishell.c\
+			$(SRC_DIR)/pipes.c\
+			$(SRC_DIR)/input_output.c\
 			$(SRC_DIR)/minishell_utils.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\

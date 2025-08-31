@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/28 17:09:05 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/30 08:34:50 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,12 @@ void	execute_command(char *cmd_str, t_env **envp);
 void	command_in(char *command, t_env **environment);
 
 //PIPES:
-void	pipes(char **args, int blocks, t_env **env_list, int in, int out);
+int		pipes(char **args, int blocks, t_env **env_list, int in, int out);
+void	safe_close(int fd);
+void	ft_close_two(int fd1, int fd2);
+void	ft_close_three(int fd1, int fd2, int fd3);
+int		ft_wait_and_exit(pid_t last_pid);
+
 
 //INPUT_OUTPUT:
 int		get_inputfile_fd(char *infile);
@@ -65,5 +70,8 @@ t_token	*tokenizer(char *str);
 t_token	*lstnew_token(char *value, t_token_type type);
 void	lstaddback_token(t_token **head, t_token *new_node);
 void	free_tokens(t_token **tokens);
+//LEXER_TEST:
+void	print_list(t_token *list);
+void	print_array(char **array);
 
 #endif
