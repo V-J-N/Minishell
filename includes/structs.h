@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/27 10:08:27 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/01 15:09:22 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,30 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
-}				t_token;
+}					t_token;
+
+/**
+ * @brief enum de los tipo de comandos
+ * 
+ */
+typedef enum e_cmd_type
+{
+	CMD_NONE,
+	CMD_SIMPLE,
+	CMD_PIPE,
+	CMD_REDIR
+}			t_cmd_type;
+
+/**
+ * @brief Estructura para el parseo
+ * 
+ */
+typedef struct s_command
+{
+	char				**cmd_args;
+	size_t				cmd_argc;
+	t_cmd_type			type;
+	struct s_command	*next;
+}						t_command;
 
 #endif

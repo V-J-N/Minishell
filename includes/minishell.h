@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/30 08:34:50 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:11:55 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,14 @@ t_token	*tokenizer(char *str);
 t_token	*lstnew_token(char *value, t_token_type type);
 void	lstaddback_token(t_token **head, t_token *new_node);
 void	free_tokens(t_token **tokens);
+
 //LEXER_TEST:
 void	print_list(t_token *list);
 void	print_array(char **array);
+
+//PARSER
+t_command	*parse_command(t_token *tokens);
+size_t	lstsize_token_word(t_token *lst);
+
 
 #endif
