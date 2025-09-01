@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/01 15:15:04 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/01 17:21:46 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	print_commands(t_command *commands)
 	{
 		while (temp->cmd_args[i])
 		{
-			printf("Command: [%s]\n", temp->cmd_args[i]);
+			if (i == 0)
+				printf("Command: [%s]\n", temp->cmd_args[i]);
+			else
+				printf("Arguments or Flags: [%s]\n", temp->cmd_args[i]);
 			i++;
 		}
 		printf("Number of Commands: %d\n", (int)temp->cmd_argc);
@@ -48,6 +51,9 @@ int	main(int argc, char *argv[])
 		list = tokenizer(argv[1]);
 		commands = parse_command(list);
 	}
+	print_list(list);
 	print_commands(commands);
+	free_tokens(&list);
+	free_commands(&commands);
 	return (0);
 }

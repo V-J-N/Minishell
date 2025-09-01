@@ -6,16 +6,24 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/01 15:11:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/01 17:29:41 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file parser.c
- * @brief 
+ * @brief Main function for parsing a command toke stream.
  */
 #include "minishell.h"
 
+/**
+ * @brief 
+ * 
+ * @param block 
+ * @param tokens 
+ * @return true 
+ * @return false 
+ */
 static bool	fill_block(t_command *block, t_token *tokens)
 {
 	t_token		*temp;
@@ -23,7 +31,7 @@ static bool	fill_block(t_command *block, t_token *tokens)
 
 	temp = tokens;
 	i = 0;
-	while(temp && temp->type == WORD)
+	while (temp && temp->type == WORD)
 	{
 		block->cmd_args[i] = ft_strdup(temp->value);
 		if (!block->cmd_args[i])
@@ -35,6 +43,12 @@ static bool	fill_block(t_command *block, t_token *tokens)
 	return (true);
 }
 
+/**
+ * @brief 
+ * 
+ * @param tokens 
+ * @return t_command* 
+ */
 static t_command	*init_block(t_token *tokens)
 {
 	t_token		*temp;
@@ -54,6 +68,12 @@ static t_command	*init_block(t_token *tokens)
 	return (block);
 }
 
+/**
+ * @brief 
+ * 
+ * @param tokens 
+ * @return t_command* 
+ */
 t_command	*parse_command(t_token *tokens)
 {
 	t_command	*cmd_block;

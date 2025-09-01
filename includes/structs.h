@@ -6,21 +6,27 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/01 15:09:22 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/01 17:42:34 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file strutcs.h
  * @brief Header file for minishell data structures.
+ * This file contains the definitions for all core data structures used
+ * throughout the minishell project.
  */
-#ifndef STRUCTS_H_
-# define STRUCTS_H_
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 /**
  * @struct t_env
- * @brief Nodo de la lista enlazada que representa un variablle de entorno.
- * 
+ * @brief Node for the environment variable linked list.
+ * @var s_env::key A dynamically allocated string for the variable name.
+ * @var s_env::value A dynamically allocated string for the variable value.
+ * @var s_env::full_env A dynamically allocated string for the full
+ * "KEY=value".
+ * @var s_env::next A pointer to the next node in the linked list.
  */
 typedef struct s_env
 {
@@ -44,7 +50,7 @@ typedef enum e_token_type
 	REDIR_IN,		/**< Represents the '<' symbol for input redirection. */
 	REDIR_OUT,		/**< Represents the '>' symbol for output redirection. */
 	APPEND,			/**< Represents the '>>' symbol for appending output. */
-	HEREDOC			/**< Represents the '<<' symbol for here-document. */
+	HEREDOC,		/**< Represents the '<<' symbol for here-document. */
 }			t_token_type;
 
 /**
@@ -68,27 +74,46 @@ typedef struct s_token
 }					t_token;
 
 /**
- * @brief enum de los tipo de comandos
- * 
+ * @brief Enumaration for the different types of commands.
+ * This enum defines the types of commands that the parser identify.
  */
 typedef enum e_cmd_type
 {
 	CMD_NONE,
 	CMD_SIMPLE,
 	CMD_PIPE,
-	CMD_REDIR
+	CMD_REDIR,
 }			t_cmd_type;
 
 /**
- * @brief Estructura para el parseo
- * 
+ * @brief Structure for a parsed command.
+ * This structure represents a single command identified by the parser.
+ * @var s_command::cmd_args A dynamically allocated NULL-terminated array
+ * of strings representing the command and its arguments.
+ * @var s_command::cmd_argc The number of arguments in the 'cmd_args' array.
+ * @var s_command::type The classified type of the command, as defined by the
+ * 'e_cmd_type' enum.
+ * @var s_command::next A pointer to the next command in the parsed command
+ * stream.
  */
 typedef struct s_command
 {
 	char				**cmd_args;
 	size_t				cmd_argc;
 	t_cmd_type			type;
+	t_redir				*redirs;
 	struct s_command	*next;
 }						t_command;
+
+/**
+ * @brief 
+ * 
+ */
+typedef struct s_redir
+{
+	t_token_type	type;
+	char			*file;
+	struct s_redir	*next;
+}					t_redir;
 
 #endif
