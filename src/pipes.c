@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/27 11:50:30 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/02 14:56:42 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_wait_and_exit(pid_t last_pid)// esta parte recupera la señal del último
 				return (128 + WTERMSIG(status));//qué señal?
 		}
 	}
-	exit(EXIT_FAILURE); // Si no conseguimos capturar el último hijo por alguna razón
+	return (EXIT_FAILURE); // Si no conseguimos capturar el último hijo por alguna razón
 }
 
 /// @brief Pipe manager:
