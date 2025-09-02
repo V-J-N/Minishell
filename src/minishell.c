@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/30 08:48:44 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/02 17:09:23 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_env	*environment;
-	//PIPES_TEST:
+	//PIPES:
 	char	**pipe_args;
 	char	*trimmed;
 	int		i;
-	int 	num_blocks;
 	int		exit_pipes;
+	t_pipe	*pipe_data;
 	//TESTS_REDIRECCION:
 	int		in;
 	int		out;
@@ -67,14 +67,9 @@ int	main(int argc, char **argv, char **envp)
 				pipe_args[i] = trimmed;
 				i++;
 			}
-			num_blocks = 0;
-			while (pipe_args[num_blocks])// número de bloques de comandos
-				num_blocks++;
-			if (in == -1)//detectamos si estamos usando FDs especiales (si hemos incorporado redirecciones, etc.)
-				in = 0;//si no, usamos std in and out
-			if (out == -1)
-				out = 1;
-			exit_pipes = pipes(pipe_args, num_blocks, &environment, in, out);//Esto debería centralizar todo, creo. Si sólo hay un comando, usará un comando
+			pipe_data = init_pipe_data(pipe_args, &environment, in, out);
+			exit_pipes = pipes(pipe_data, -1);//Esto debería centralizar todo, creo. Si sólo hay un comando, usará un comando
+			free_pipe_data(pipe_data);
 			printf("exit status: %d\n", exit_pipes);
 			ft_close_two(in, out);
 			ft_free_array(pipe_args);
