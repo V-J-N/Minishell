@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/01 17:21:46 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/03 14:44:38 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 void	print_commands(t_command *commands)
 {
 	t_command	*temp;
+	t_redir		*redir;
 	int			i;
 
 	temp = commands;
@@ -34,6 +35,13 @@ void	print_commands(t_command *commands)
 		}
 		printf("Number of Commands: %d\n", (int)temp->cmd_argc);
 		printf("Type of Command: 1 - CMD_SIMPLE = %d\n", temp->type);
+		redir = temp->redirs;
+		while (redir)
+		{
+			printf("TYPE %d REDIR OUT\n", redir->type);
+			printf("Target file outfile: [%s]", redir->outfile);
+			redir = redir->next;
+		}
 		temp = temp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/01 17:42:34 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/03 14:32:25 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,18 @@ typedef enum e_cmd_type
 }			t_cmd_type;
 
 /**
+ * @brief 
+ * 
+ */
+typedef struct s_redir
+{
+	t_token_type	type;
+	char			*infile;
+	char			*outfile;
+	struct s_redir	*next;
+}					t_redir;
+
+/**
  * @brief Structure for a parsed command.
  * This structure represents a single command identified by the parser.
  * @var s_command::cmd_args A dynamically allocated NULL-terminated array
@@ -105,15 +117,5 @@ typedef struct s_command
 	struct s_command	*next;
 }						t_command;
 
-/**
- * @brief 
- * 
- */
-typedef struct s_redir
-{
-	t_token_type	type;
-	char			*file;
-	struct s_redir	*next;
-}					t_redir;
 
 #endif
