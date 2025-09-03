@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/03 14:38:07 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/03 15:00:28 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,18 @@ t_command	*parse_command(t_token *tokens)
 				return (free(cmd_node), NULL);
 			while (temp && temp->type == WORD)
 				temp = temp->next;
-			if (temp->type != WORD && temp->type != PIPE)
-			{
-				if (temp->next == NULL || temp->next->type != WORD)
-					return (printf("se necesita un target"), free(cmd_node), NULL);
- 				redir_node = create_redir(&cmd_node, temp);
-				add_redir(&cmd_node, redir_node);
-				//añadir node redir a cmd_list
-				//avanzar dos posiciones redir + filename
-				temp = temp->next->next;
-			}
 			// lstaddback_cmd(&cmd_list, cmd_node);
 			// continue;
+		}
+		else if (temp->type != WORD && temp->type != PIPE)
+		{
+			if (temp->next == NULL || temp->next->type != WORD)
+				return (printf("se necesita un target"), free(cmd_node), NULL);
+			redir_node = create_redir(&cmd_node, temp);
+			add_redir(&cmd_node, redir_node);
+			//añadir node redir a cmd_list
+			//avanzar dos posiciones redir + filename
+			temp = temp->next->next;
 		}
 		// else if (temp->type == PIPE)
 		// {

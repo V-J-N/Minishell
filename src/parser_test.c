@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/03 14:44:38 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/03 15:03:34 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ void	print_commands(t_command *commands)
 		redir = temp->redirs;
 		while (redir)
 		{
-			printf("TYPE %d REDIR OUT\n", redir->type);
-			printf("Target file outfile: [%s]", redir->outfile);
+			printf("TYPE %d REDIR\n", redir->type);
+			if (redir->type == REDIR_OUT || redir->type == APPEND)
+				printf("Target file: [%s]\n", redir->outfile);
+			else
+				printf("Target file: [%s]\n", redir->infile);
 			redir = redir->next;
 		}
 		temp = temp->next;
