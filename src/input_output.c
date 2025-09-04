@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/25 14:42:20 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:23:19 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,35 @@ int	get_append_fd(char *outfile)
 	return (fd);
 }
 
+static void	heredoc_child_process(char *limiter, int *pipe_fd)
+{
+	char	*line;
+
+	signal(SIGINT, SIG_DFL); // restaurar comportamiento default (terminar con Ctrl+C)
+	close(pipe_fd[0]); // cerramos lectura en el hijo
+	while (1)
+	{
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+		if (!line)
+			exit(EXIT_SUCCESS); // EOF o Ctrl+D
+		if (strncmp(line, limiter, strlen(limiter)) == 0 && line[strlen(limiter)] == '\n')
+		{
+			free(line);
+			break;
+		}
+		if (write(pipe_fd[1], line, strlen(line)) == -1)
+		{
+			perror("write to pipe");
+			free(line);
+			exit(EXIT_FAILURE);
+		}
+		free(line);
+	}
+	close(pipe_fd[1]);
+	exit(EXIT_SUCCESS);
+}
+
 /* HERE_DOC!!:
 Si presionas Ctrl+C mientras estás escribiendo en el heredoc, lo correcto es que el shell:
 Interrumpa solo el heredoc.
@@ -58,7 +87,6 @@ Lagunas teóricas: no entiendo muy bien cómo funcionan estas señales!
 int	get_heredoc_fd(char *limiter)
 {
 	int		pipe_fd[2];
-	char	*line;
 	pid_t	pid;
 	int		status;
 
@@ -68,31 +96,7 @@ int	get_heredoc_fd(char *limiter)
 	if (pid == -1)
 		return (perror("fork"), -1);
 	if (pid == 0) // HIJO:
-	{
-		signal(SIGINT, SIG_DFL); // restaurar comportamiento default (terminar con Ctrl+C)
-		close(pipe_fd[0]); // cerramos lectura en el hijo
-		while (1)
-		{
-			write(1, "heredoc> ", 9);
-			line = get_next_line(0);
-			if (!line)
-				exit(EXIT_SUCCESS); // EOF o Ctrl+D
-			if (strncmp(line, limiter, strlen(limiter)) == 0 && line[strlen(limiter)] == '\n')
-			{
-				free(line);
-				break;
-			}
-			if (write(pipe_fd[1], line, strlen(line)) == -1)
-			{
-				perror("write to pipe");
-				free(line);
-				exit(EXIT_FAILURE);
-			}
-			free(line);
-		}
-		close(pipe_fd[1]);
-		exit(EXIT_SUCCESS);
-	}
+		heredoc_child_process(limiter, pipe_fd);
 	signal(SIGINT, SIG_IGN); // ignorar SIGINT en el padre durante el heredoc
 	close(pipe_fd[1]); // cerramos escritura en el padre
 	waitpid(pid, &status, 0); // esperamos que termine el hijo
