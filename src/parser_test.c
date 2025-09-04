@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/03 15:03:34 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/04 12:59:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,23 @@ void	print_commands(t_command *commands)
 	int			i;
 
 	temp = commands;
-	i = 0;
 	while (temp)
 	{
+		i = 0;
 		while (temp->cmd_args[i])
 		{
 			if (i == 0)
 				printf("Command: [%s]\n", temp->cmd_args[i]);
 			else
-				printf("Arguments or Flags: [%s]\n", temp->cmd_args[i]);
+				printf("Arguments: [%s]\n", temp->cmd_args[i]);
 			i++;
 		}
 		printf("Number of Commands: %d\n", (int)temp->cmd_argc);
-		printf("Type of Command: 1 - CMD_SIMPLE = %d\n", temp->type);
 		redir = temp->redirs;
 		while (redir)
 		{
 			printf("TYPE %d REDIR\n", redir->type);
-			if (redir->type == REDIR_OUT || redir->type == APPEND)
-				printf("Target file: [%s]\n", redir->outfile);
-			else
-				printf("Target file: [%s]\n", redir->infile);
+			printf("Target file: [%s]\n", redir->file);
 			redir = redir->next;
 		}
 		temp = temp->next;

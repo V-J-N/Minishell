@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/03 14:32:25 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/04 11:50:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,13 @@ typedef struct s_token
 }					t_token;
 
 /**
- * @brief Enumaration for the different types of commands.
- * This enum defines the types of commands that the parser identify.
- */
-typedef enum e_cmd_type
-{
-	CMD_NONE,
-	CMD_SIMPLE,
-	CMD_PIPE,
-	CMD_REDIR,
-}			t_cmd_type;
-
-/**
  * @brief 
  * 
  */
 typedef struct s_redir
 {
 	t_token_type	type;
-	char			*infile;
-	char			*outfile;
+	char			*file;
 	struct s_redir	*next;
 }					t_redir;
 
@@ -112,10 +99,8 @@ typedef struct s_command
 {
 	char				**cmd_args;
 	size_t				cmd_argc;
-	t_cmd_type			type;
 	t_redir				*redirs;
 	struct s_command	*next;
 }						t_command;
-
 
 #endif

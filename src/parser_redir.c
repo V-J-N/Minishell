@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/03 14:38:56 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/04 14:30:30 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,18 @@ void	add_redir(t_command **cmd_node, t_redir *new_redir)
 	current->next = new_redir;
 }
 
-t_redir	*create_redir(t_command **cmd_node, t_token *tokens)
+t_redir	*create_redir(t_token *tokens)
 {
 	t_token		*temp;
 	t_redir		*redir;
 	
 	redir = NULL;
 	temp = tokens;
-	(*cmd_node)->type = CMD_REDIR;
 	redir = ft_calloc(1, sizeof(t_redir));
 	if (!redir)
 		return (NULL);
 	redir->type = temp->type;
 	redir->next = NULL;
-	if (redir->type == REDIR_IN || redir->type == HEREDOC)
-		redir->infile = ft_strdup(temp->next->value);
-	else
-		redir->outfile = ft_strdup(temp->next->value);
+	redir->file = ft_strdup(temp->next->value);
 	return (redir);
 }
