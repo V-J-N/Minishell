@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/08/28 17:14:04 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/02 16:46:55 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,11 @@ void	ft_free_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	ft_close_two(int fd1, int fd2)
+{
+	safe_close(fd1);
+	safe_close(fd2);
+	return ;
 }

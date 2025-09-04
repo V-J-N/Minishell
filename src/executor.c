@@ -6,22 +6,22 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/30 08:38:48 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:52:48 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-
-/// @brief Execute a given command inside a child process
-/// @note 'args': separate multiple arguments in a command;
-/// 'env_arr': save 'envlist' as an array;
-/// 'cmd': the full path from the given command string
-/// @warning Hay que hacer free de 'env_arr' por si falla execve(), que no debería
-/// por haber sido chequeado con access().
-/// Duda para el futuro: execve() toma como parámetro un **envp. Si valiese con 
-/// con sólo la string de "PATH=...", podríamos desechar la necesidad de pasar de
-/// 'envlist' a 'env_arr', y recuperar de la lista el valor de "PATH=..."
+/**
+* @brief Execute a given command inside a child process
+* @note 'args': separate multiple arguments in a command;
+* 'env_arr': save 'envlist' as an array;
+* 'cmd': the full path from the given command string
+* @warning Hay que hacer free de 'env_arr' por si falla execve(), que no debería
+* por haber sido chequeado con access().
+* Duda para el futuro: execve() toma como parámetro un **envp. Si valiese con 
+* con sólo la string de "PATH=...", podríamos desechar la necesidad de pasar de
+* 'envlist' a 'env_arr', y recuperar de la lista el valor de "PATH=..." 
+*/
 void	execute_command(char *cmd_str, t_env **envlist)
 {
 	char	**args;
