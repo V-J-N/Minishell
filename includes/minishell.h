@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/04 14:31:51 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/05 01:53:41 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ size_t		lstsize_token_word(t_token *lst);
 t_redir		*create_redir(t_token *tokens);
 void		add_redir(t_command **cmd_node, t_redir *new_redir);
 void		lstaddback_cmd(t_command **head, t_command *new_node);
+void	*ft_realloc(void *ptr, size_t size, size_t oldsize);
 
 //PARSER TEST
 void		free_commands(t_command **commands);

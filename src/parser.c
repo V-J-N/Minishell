@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/04 14:32:42 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/06 03:28:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,21 @@
  * @param tokens 
  * @return t_command* 
  */
-static void	add_args(t_command **node, t_token *tokens, size_t i)
+static void	add_args(t_command **node, t_token *tokens)
 {
-	t_token	*temp;
+	t_arg	*temp;
+	t_arg	*new_arg;
 
-	temp = tokens;
-	(*node)->cmd_args[i] = ft_strdup(temp->value);
-	if (!(*node)->cmd_args[i])
-	{
-		ft_free_array((*node)->cmd_args);
+	(*node)->cmd_argc += 1;
+	new_arg = ft_calloc(1, sizeof(t_arg));
+	if (!new_arg)
 		return ;
-	}
+	new_arg->value = ft_strdup(tokens->value);
+	new_arg->next = NULL;
+	temp = (*node)->args;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_arg;
 }
 
 /**
@@ -68,25 +72,25 @@ static void	add_args(t_command **node, t_token *tokens, size_t i)
  * @param tokens 
  * @return t_command* 
  */
-static t_command	*create_cmd(t_token *tokens, size_t i)
+static t_command	*create_cmd(t_token *tokens)
 {
-	t_token		*temp;
 	t_command	*node;
 
 	node = NULL;
-	temp = tokens;
 	node = ft_calloc(1, sizeof(t_command));
 	if (!node)
 		return (NULL);
+	node->args = NULL;
 	node->next = NULL;
 	node->redirs = NULL;
-	node->cmd_argc = lstsize_token_word(tokens);
-	node->cmd_args = ft_calloc(node->cmd_argc + 1, sizeof(char *));
-	if (!node->cmd_args)
+	node->cmd_argc = 1;
+	node->args = ft_calloc(1, sizeof(t_arg));
+	if (!node->args)
 		return (free(node), NULL);
-	node->cmd_args[i] = ft_strdup(temp->value);
-	if (!node->cmd_args[i])
-		return (ft_free_array(node->cmd_args), NULL);
+	node->args->value = ft_strdup(tokens->value);
+	if (!node->args->value)
+		return (free(node->args), free(node), NULL);
+	node->args->next = NULL;
 	return (node);
 }
 
@@ -102,12 +106,10 @@ t_command	*parse_command(t_token *tokens)
 	t_command	*current_cmd;
 	t_redir		*redir_node;
 	t_token		*temp;
-	size_t		i;
 
 	cmd_list = NULL;
 	current_cmd = NULL;
 	redir_node = NULL;
-	i = 0;
 	if (!tokens || tokens->type != WORD)
 		return (printf("Lo primero necesita ser un comando\n"), NULL);
 	temp = tokens;
@@ -116,9 +118,9 @@ t_command	*parse_command(t_token *tokens)
 		if (temp->type == WORD)
 		{
 			if (!current_cmd)
-				current_cmd = create_cmd(temp, i);
+				current_cmd = create_cmd(temp);
 			else
-				add_args(&current_cmd, temp, i);
+				add_args(&current_cmd, temp);
 			temp = temp->next;
 			if (!temp)
 			{
@@ -143,7 +145,7 @@ t_command	*parse_command(t_token *tokens)
 		{
 			break ;
 		}
- */	i++;
+ */
 	}
 	return (cmd_list);
 }

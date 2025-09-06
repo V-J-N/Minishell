@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:42:15 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/01 17:30:25 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/06 00:57:19 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_commands(t_command **commands)
 	while (current != NULL)
 	{
 		next = current->next;
-		ft_free_array(current->cmd_args);
+//		ft_free_array(current->cmd_args);
 		free(current);
 		current = next;
 	}
@@ -53,3 +53,31 @@ size_t	lstsize_token_word(t_token *lst)
 	}
 	return (counter);
 }
+
+/**
+ * @brief 
+ * 
+ * @param ptr 
+ * @param size 
+ * @return void* 
+ */
+/*void	*ft_realloc(void *ptr, size_t size, size_t oldsize)
+{
+	void	*new_ptr;
+	size_t	copy_size;
+
+	if (!ptr)
+		return (malloc(size));
+	if (size == 0)
+		return (free(ptr), NULL);
+	new_ptr = malloc(size);
+	if (!new_ptr)
+		return (NULL);
+	if (oldsize < size)
+		copy_size = oldsize;
+	else
+		copy_size = size;
+	ft_memcpy(new_ptr, ptr, copy_size);
+	free(ptr);
+	return (new_ptr);
+} */

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/04 11:50:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/06 02:52:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,16 @@ typedef struct s_redir
 }					t_redir;
 
 /**
+ * @brief 
+ * 
+ */
+typedef struct s_arg
+{
+	char			*value;
+	struct s_arg	*next;
+}					t_arg;
+
+/**
  * @brief Structure for a parsed command.
  * This structure represents a single command identified by the parser.
  * @var s_command::cmd_args A dynamically allocated NULL-terminated array
@@ -97,7 +107,7 @@ typedef struct s_redir
  */
 typedef struct s_command
 {
-	char				**cmd_args;
+	t_arg				*args;
 	size_t				cmd_argc;
 	t_redir				*redirs;
 	struct s_command	*next;

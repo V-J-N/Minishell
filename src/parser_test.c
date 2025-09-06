@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/04 12:59:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/06 03:20:53 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,16 @@ void	print_commands(t_command *commands)
 {
 	t_command	*temp;
 	t_redir		*redir;
-	int			i;
+	t_arg		*temp_args;
 
 	temp = commands;
 	while (temp)
 	{
-		i = 0;
-		while (temp->cmd_args[i])
+		temp_args = temp->args;
+		while(temp_args)
 		{
-			if (i == 0)
-				printf("Command: [%s]\n", temp->cmd_args[i]);
-			else
-				printf("Arguments: [%s]\n", temp->cmd_args[i]);
-			i++;
+			printf("Arguments: [%s]\n", temp_args->value);
+			temp_args = temp_args->next;
 		}
 		printf("Number of Commands: %d\n", (int)temp->cmd_argc);
 		redir = temp->redirs;
