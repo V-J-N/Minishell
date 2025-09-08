@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/06 03:28:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/08 14:37:15 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,11 @@ t_command	*parse_command(t_token *tokens)
 			}
 			if (temp->type != WORD && temp->type != PIPE)
 			{
-			if (temp->next == NULL || temp->next->type != WORD)
-				return (printf("se necesita un target"), free(current_cmd), NULL);
-			redir_node = create_redir(temp);
-			add_redir(&current_cmd, redir_node);
-			temp = temp->next->next;
+				if (temp->next == NULL || temp->next->type != WORD)
+					return (printf("se necesita un target"), free(current_cmd), NULL);
+				redir_node = create_redir(temp);
+				add_redir(&current_cmd, redir_node);
+				temp = temp->next->next;
 			}
 		}
 		if (!temp)
