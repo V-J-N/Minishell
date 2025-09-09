@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:25:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/04 13:41:23 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:25:38 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,24 @@ char	**envlist_to_arr(t_env **envlist)
 	}
 	envarr[i] = NULL;
 	return (envarr);
+}
+
+char	**command_to_arr(t_command *command)
+{
+	char	**command_array;
+	t_arg	*temp;
+	size_t	i;
+
+	if (!command)
+		return (NULL);
+	command_array = NULL;
+	temp = command->args;
+	i = 0;
+	while (temp)
+	{
+		command_array[i] = ft_strdup(temp->value);
+		temp = temp->next;
+	}
+	command_array[i] = NULL;
+	return (command_array);
 }

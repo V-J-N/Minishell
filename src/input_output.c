@@ -6,11 +6,29 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/04 12:23:19 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:23:08 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	redirect_in(t_command *command_list, int in_fd)
+{
+	if (command_list->redirs->type == REDIR_IN)
+		in_fd = get_inputfile_fd(command_list->redirs->file);
+	else if (command_list->redirs->type == HEREDOC)
+		in_fd = get_heredoc_fd(command_list->redirs->file);
+	return (in_fd);
+}
+
+int	redirect_out(t_command *command_list, int out_fd)
+{
+	if (command_list->redirs->type == REDIR_OUT)
+		out_fd = get_outputfile_fd(command_list->redirs->file);
+	else if (command_list->redirs->type == APPEND)
+		out_fd = get_append_fd(command_list->redirs->file);
+	return (out_fd);
+}
 
 int	get_inputfile_fd(char *infile)
 {
