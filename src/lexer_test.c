@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 10:15:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/08/30 08:34:41 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:00:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	print_list(t_token *list)
 	temp = list;
 	while (temp)
 	{
-		printf("%s - ", temp->value);
-		printf("%d\n", temp->type);
+		printf("Token [%s]\n", temp->value);
+		printf("Token Type [%d]\n", temp->type);
 		temp = temp->next;
 	}
 }
