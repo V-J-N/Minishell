@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/06 02:52:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/08 17:37:28 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 /**
  * @struct t_env
  * @brief Node for the environment variable linked list.
+ * This structure represents a single environment variable, storing its
+ * components in a deep-copied format.
  * @var s_env::key A dynamically allocated string for the variable name.
  * @var s_env::value A dynamically allocated string for the variable value.
  * @var s_env::full_env A dynamically allocated string for the full
@@ -56,7 +58,7 @@ typedef enum e_token_type
 /**
  * @brief Structure for a single token in the command line.
  * This structure represents a single lexical token. It holds the string value
- * of the token,, its classified type, and a pointer to the next token in the
+ * of the token, its classified type, and a pointer to the next token in the
  * sequence, forming a linked list. This linked list of token is the direct
  * output of the lexing phase and the primary input for the parsing phase.
  * @var s_token::value A dynamically allocated string containing the token's
@@ -74,8 +76,14 @@ typedef struct s_token
 }					t_token;
 
 /**
- * @brief 
- * 
+ * @brief Node for a command redirection list.
+ * This structure holds a single redirection operation. It stores the
+ * redirection type and the corresponding file name. The redirections
+ * for a command are stored in a linked list, which is processed by the
+ * executor.
+ * @var t_redir::type The type of redirection, as defined in 'e_token_type'.
+ * @var t_redir::file A dynamically allocated string for the file name.
+ * @var t_redir::next A pointer to the next redirection in the list.
  */
 typedef struct s_redir
 {
@@ -85,8 +93,12 @@ typedef struct s_redir
 }					t_redir;
 
 /**
- * @brief 
- * 
+ * @brief Node for a command argument list.
+ * This structure holds a single command argument. The arguments for a command
+ * are stored in a linked list. This design simplifies handling of variable
+ * length argument lists during parsing.
+ * @var t_arg::arg A dynamically allocated string for the argument.
+ * @var t_arg::next A pointer to the next argument in the list.
  */
 typedef struct s_arg
 {
@@ -97,11 +109,11 @@ typedef struct s_arg
 /**
  * @brief Structure for a parsed command.
  * This structure represents a single command identified by the parser.
- * @var s_command::cmd_args A dynamically allocated NULL-terminated array
- * of strings representing the command and its arguments.
- * @var s_command::cmd_argc The number of arguments in the 'cmd_args' array.
- * @var s_command::type The classified type of the command, as defined by the
- * 'e_cmd_type' enum.
+ * @var s_command::args The head of a 't_arg' linked list containing all the
+ * command's arguments.
+ * @var s_command::cmd_argc The number of arguments in the 'args' list.
+ * @var s_command::redirs The head of a 't_redir' linked list containing all
+ * the commands redirections.
  * @var s_command::next A pointer to the next command in the parsed command
  * stream.
  */
