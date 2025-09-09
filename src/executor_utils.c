@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:09:35 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/08/27 18:24:04 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/04 13:47:48 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,23 @@ void	cmd_not_found(char *cmd, char **args)
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd("\n", 2);
 	ft_free_array(args);
-	exit (127) ;
+	exit(127);
 }
 
-/// @brief Separate potential paths from env by spliting with the delimitator ':'
-char	**ft_potential_paths(char **envp) //a partir de PATH=, guardar en paths las posibles direcciones accesibles deparadas por ":"
+/// @brief Separate potential paths from env by spliting ':'
+char	**ft_potential_paths(char **envp)
 {
 	char	**paths;
 	int		i;
 
 	i = 0;
 	if (!envp[i] || ft_strlen(envp[i]) < 6)
-    	return (NULL);
-	
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0) //encontrar línea con "PATH="
+		return (NULL);
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i ++;
 	if (!envp[i])
 		return (NULL);
-	paths = ft_split(envp[i] + 5, ':'); //separar los distintos paths delimitados por :
+	paths = ft_split(envp[i] + 5, ':');
 	return (paths);
 }
 
@@ -67,10 +66,12 @@ char	*ft_build_full_path(char *command, char **envp)
 	return (ft_free_array(paths), NULL);
 }
 
-/// @brief Get full path from a command string, and check if it can be executed
-/// @warning !!! Estás bien al asumir que el usuario pasó una ruta (ej. ./myprog), 
-/// pero recuerda: Si es un path relativo, puede necesitar getcwd() para ejecutarse correctamente.
-/// Si estás en un entorno tipo minishell, deberías manejar también el caso ~/.
+/**
+ * @brief Get full path from a command string, and check if it can be executed
+*@warning !!! Estás bien al asumir que el usuario pasó una ruta (ej. ./myprog), 
+*si es un path relativo, puede necesitar getcwd() para ejecutarse correctamente.
+*Si estás en un entorno tipo minishell, deberías manejar también el caso ~/.
+*/
 char	*ft_check_path(char *command, char **envp)
 {
 	char	*full_path;

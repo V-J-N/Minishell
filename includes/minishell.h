@@ -51,11 +51,14 @@ void		execute_command(char *cmd_str, t_env **envp);
 void		command_in(char *command, t_env **environment);
 
 //PIPES:
-int			pipes(char **args, int blocks, t_env **env_list, int in, int out);
-void		safe_close(int fd);
-void		ft_close_two(int fd1, int fd2);
-void		ft_close_three(int fd1, int fd2, int fd3);
-int			ft_wait_and_exit(pid_t last_pid);
+int		pipes(t_pipe *pipe_data, int prev_pipe);
+void	safe_close(int fd);
+void	ft_close_two(int fd1, int fd2);
+void	ft_close_three(int fd1, int fd2, int fd3);
+int		ft_wait_and_exit(pid_t last_pid);
+t_pipe	*init_pipe_data(char **pipe_args, t_env **env_list, int in, int out);
+void	free_pipe_data(t_pipe *pipe_data);
+
 
 //INPUT_OUTPUT:
 int			get_inputfile_fd(char *infile);
