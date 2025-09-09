@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/08/27 11:27:04 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/04 13:34:03 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,10 +94,17 @@ Pruebas locas:
 (crea un archivo outfile vacío, supongo que porque el último comando hace cat sin introducir nada, o porque se haya creado en el penúltimo comando de append)
 
 < infile ls -l | wc -l | > outfile | < outfile | cat > outfile
-(igual que el caso anterior)
 
-< infile ls -l | wc -l | > outfile | < infile | cat > outfile
-(igual)
+
+< infile ls -l | wc -l | > outfile1 | < outfile2 | cat > outfile3
+
+
+< infile lx -l | wc -l | > outfile1 | < outfile2 | cat > outfile3
+
+
+< infile ls -l | wc -l | > outfile1 | < infile | cat > outfile2
+
+< infile ls -l | wc -l | > outfile1 | < infile cat | cat > outfile2
 
 
 Extra:
