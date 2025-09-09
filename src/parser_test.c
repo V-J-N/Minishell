@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/06 03:20:53 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/09 12:39:11 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char *argv[])
 		list = tokenizer(argv[1]);
 		commands = parse_command(list);
 	}
-	print_list(list);
+	//print_list(list);
 	print_commands(commands);
 	free_tokens(&list);
 	free_commands(&commands);

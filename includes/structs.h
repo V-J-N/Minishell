@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/08 17:37:28 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/09 13:09:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef enum e_token_type
 	REDIR_OUT,		/**< Represents the '>' symbol for output redirection. */
 	APPEND,			/**< Represents the '>>' symbol for appending output. */
 	HEREDOC,		/**< Represents the '<<' symbol for here-document. */
+	UNKNOWN			/**< Represents a invalid command. */
 }			t_token_type;
 
 /**
@@ -72,18 +73,13 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	// size_t	pos; // Saber la posición de los tokens, para gestión de errores.
+	// struct s_token	*prev; // <- Establecer una lista doblemente enlazada en el lexer.
 	struct s_token	*next;
 }					t_token;
 
 /**
- * @brief Node for a command redirection list.
- * This structure holds a single redirection operation. It stores the
- * redirection type and the corresponding file name. The redirections
- * for a command are stored in a linked list, which is processed by the
- * executor.
- * @var t_redir::type The type of redirection, as defined in 'e_token_type'.
- * @var t_redir::file A dynamically allocated string for the file name.
- * @var t_redir::next A pointer to the next redirection in the list.
+ * @brief
  */
 typedef struct s_redir
 {
@@ -122,6 +118,7 @@ typedef struct s_command
 	t_arg				*args;
 	size_t				cmd_argc;
 	t_redir				*redirs;
+	bool				is_command;
 	struct s_command	*next;
 }						t_command;
 

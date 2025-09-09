@@ -6,33 +6,18 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:42:15 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/06 00:57:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/09 12:34:48 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief 
- * 
- * @param commands 
- */
-void	free_commands(t_command **commands)
+bool	is_redir(t_token *list)
 {
-	t_command	*current;
-	t_command	*next;
-
-	if (!commands || !*commands)
-		return ;
-	current = *commands;
-	while (current != NULL)
-	{
-		next = current->next;
-//		ft_free_array(current->cmd_args);
-		free(current);
-		current = next;
-	}
-	*commands = NULL;
+	if (list->type == REDIR_IN || list->type == REDIR_OUT ||
+				list->type == APPEND || list->type == HEREDOC)
+		return (true);
+	return (false);
 }
 
 /**
