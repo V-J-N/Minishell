@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/10 14:11:24 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/10 18:02:39 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,41 @@
  */
 #include "minishell.h"
 
-static void	handle_redir(t_token *tokens, t_parse_state *p_struct)
+static bool	handle_redir(t_token *tokens, t_parse_state *p_struct)
 {
 	if (tokens->next == NULL || tokens->next->type != WORD)
-		parse_error("target file fails", p_struct);
+	{
+		free_tokens(&tokens);
+		return (false);
+	}
 	if (!p_struct->cmd_node)
 		p_struct->cmd_node = create_empty_cmd();
 	p_struct->redir_node = create_redir(tokens);
 	add_redir(p_struct->cmd_node, p_struct->redir_node);
+	return (true);
 }
 
-static void	handle_word(t_token *tokens, t_parse_state *p_struct)
+static bool	handle_word(t_token *tokens, t_parse_state *p_struct)
 {
 	if (!p_struct->cmd_node)
 		p_struct->cmd_node = create_cmd(tokens);
 	else if (!p_struct->cmd_node->is_command)
 	{
 		if (!(update_empty_cmd(tokens, p_struct->cmd_node)))
-			parse_error("malloc fails", p_struct);
+		{
+			free_tokens(&tokens);
+			return (false);
+		}
 	}
 	else
 	{
 		if (!(add_args(tokens, p_struct->cmd_node)))
-			parse_error("malloc fails", p_struct);
+		{
+			free_tokens(&tokens);
+			return (false);
+		}
 	}
+	return (true);
 }
 
 static t_parse_state	*init_parser(void)
@@ -64,7 +75,7 @@ static t_parse_state	*init_parser(void)
  * list. Returns NULL if the input is invalid or if a syntax or memory
  * allocation failure occurs.
  */
-t_command	*parse_command(t_token *tokens)
+t_parse_state	*parse_command(t_token *tokens)
 {
 	t_parse_state	*parser;
 	t_token			*temp;
@@ -73,27 +84,29 @@ t_command	*parse_command(t_token *tokens)
 	if (!tokens)
 		return (printf("ERROR - Necesitamos Tokens\n"), NULL);
 	parser = init_parser();
+	if (!parser)
+		return (NULL);
 	temp = tokens;
 	while (temp)
 	{
 		if (temp->type == PIPE)
-			return (free(parser), printf("ERROR - Lo primero no puede ser un PIPE\n"), NULL);
-		// Mas adelante se gestionaran los pipes, si lo primero es un pipe falla
-		// Si el pipe esta entremedias se crea el nodo y pasamos a un nodo nuevo.
+			return (parse_error("minishell: parse error", parser), NULL);
 		else if (temp->type == WORD)
 		{
-			handle_word(temp, parser);
+			if (!handle_word(temp, parser))
+				return (parse_error("minishell: parse error", parser), NULL);
 			temp = temp->next;
 		}
 		else if (is_redir(temp))
 		{
-			handle_redir(temp, parser);
+			if (!handle_redir(temp, parser))
+				return (parse_error("minishell: parse error", parser), NULL);
 			temp = temp->next->next;
 		}
 		else
-			return (printf("ERROR Desconocido"), NULL);
+			return (parse_error("minishell: parse error", parser), NULL);
 	}
 /* 	if (current_cmd)
 		lstaddback_cmd(&cmd_list, current_cmd);*/
-	return (parser->cmd_node);
+	return (parser);
 }
