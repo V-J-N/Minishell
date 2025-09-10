@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/08 14:37:15 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/10 12:17:32 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,13 @@ t_command	*parse_command(t_token *tokens)
 		lstaddback_cmd(&cmd_list, current_cmd);
 			break ;
 		}
-/* 		if (temp->type == PIPE) 
+		if (temp->type == PIPE)//Este trozo me lo ha sugerido la IA al preguntarle otra cosa y lo he incorporado para test, hay que revisar
 		{
-			break ;
+			lstaddback_cmd(&cmd_list, current_cmd);
+			current_cmd = NULL;
+			temp = temp->next;
+			continue;
 		}
- */
 	}
 	return (cmd_list);
 }

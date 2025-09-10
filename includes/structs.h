@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/06 02:52:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/09 16:54:38 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,13 @@ typedef struct s_command
 
 typedef struct s_pipe
 {
-	char	**args;
-	int		blocks;
-	t_env **env_list;
-	int		in;
-	int		out;
-	int		index;
-}			t_pipe;
+	t_command	*commands;
+	t_env 		**env_list;
+	int			command_count;
+	int			in;
+	int			out;
+	int			index;
+}				t_pipe;
 
 
 #endif

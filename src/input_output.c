@@ -6,11 +6,59 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/04 12:23:19 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:09:46 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* 
+IMPORTANTE: Al parecer, si bloque de comando tiene varias redirecciones,
+no utiliza procesos hijos por separado, sino que se ejecuta en un
+solo proceso, escribiendo a la vez en varios FDs!
+En shells reales, cada comando con sus redirecciones se ejecuta en un proceso.
+Hace falta implementar o testear múltiples redirecciones en un mismo
+bloque de comandos
+ */
+int redirect_in(t_command *command_list, int in_fd)
+{
+	t_redir *temp;
+	int 	new_fd;
+
+	temp = command_list->redirs;
+	new_fd = in_fd;
+	while (temp)
+	{
+		if (temp->type == REDIR_IN)
+			new_fd = get_inputfile_fd(temp->file);
+		else if (temp->type == HEREDOC)
+			new_fd = get_heredoc_fd(temp->file);
+		if (new_fd == -1)
+			return (-1);
+		temp = temp->next;
+	}
+	return (new_fd);
+}
+
+int redirect_out(t_command *command_list, int out_fd)
+{
+	t_redir *temp;
+	int 	new_fd;
+
+	temp = command_list->redirs;
+	new_fd = out_fd;
+	while (temp)
+	{
+		if (temp->type == REDIR_OUT)
+			new_fd = get_outputfile_fd(temp->file);
+		else if (temp->type == APPEND)
+			new_fd = get_append_fd(temp->file);
+		if (new_fd == -1)
+			return (-1);
+		temp = temp->next;
+	}
+	return (new_fd);
+}
 
 int	get_inputfile_fd(char *infile)
 {
