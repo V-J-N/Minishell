@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/09 13:59:51 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/10 14:03:09 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,22 @@ void		print_list(t_token *list);
 void		print_array(char **array);
 
 //PARSER
-t_command	*parse_command(t_token *tokens);
+t_command		*parse_command(t_token *tokens);
+t_command		*create_cmd(t_token *tokens);
+t_command		*create_empty_cmd();
+bool			update_empty_cmd(t_token *tokens, t_command *cmd_node);
+bool			add_args(t_token *tokens, t_command *cmd_node);
+
+void		parse_error(const char *str, t_parse_state *parse_struct);
+
 size_t		lstsize_token_word(t_token *lst);
 t_redir		*create_redir(t_token *tokens);
-void		add_redir(t_command **cmd_node, t_redir *new_redir);
+void		add_redir(t_command *cmd_node, t_redir *new_redir);
 void		lstaddback_cmd(t_command **head, t_command *new_node);
 bool		is_redir(t_token *list);
-t_command	*create_cmd(t_token *tokens);
-void		add_args(t_command **node, t_token *tokens);
-t_command	*create_empty_cmd();
-t_command	*update_empty_cmd(t_token *tokens, t_command **cmd_node);
-void		free_args(t_arg *args);
-void		free_redirs(t_redir *redirs);
+
+void			free_commands(t_command **commands);
+void			free_parser(t_parse_state **parse_struct);
 
 //PARSER TEST
 void		free_commands(t_command **commands);

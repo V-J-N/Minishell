@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/04 14:30:30 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/10 14:00:46 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,18 @@ void	lstaddback_cmd(t_command **head, t_command *new_node)
 	current->next = new_node;
 }
 
-void	add_redir(t_command **cmd_node, t_redir *new_redir)
+void	add_redir(t_command *cmd_node, t_redir *new_redir)
 {
 	t_redir	*current;
 
-	if (!*cmd_node || !new_redir)
+	if (!cmd_node || !new_redir)
 		return ;
-	if (!(*cmd_node)->redirs)
+	if (!cmd_node->redirs)
 	{
-		(*cmd_node)->redirs = new_redir;
+		cmd_node->redirs = new_redir;
 		return ;
 	}
-	current = (*cmd_node)->redirs;
+	current = cmd_node->redirs;
 	while (current->next)
 		current = current->next;
 	current->next = new_redir;

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:38:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/09 14:08:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/10 12:38:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * 
  * @param redirs
  */
-void	free_redirs(t_redir *redirs)
+static void	free_redirs(t_redir *redirs)
 {
 	t_redir	*current;
 	t_redir	*next;
@@ -44,7 +44,7 @@ void	free_redirs(t_redir *redirs)
  * 
  * @param args 
  */
-void	free_args(t_arg *args)
+static void	free_args(t_arg *args)
 {
 	t_arg	*current;
 	t_arg	*next;
@@ -83,4 +83,16 @@ void	free_commands(t_command **commands)
 		current = next;
 	}
 	*commands = NULL;
+}
+
+void	free_parser(t_parse_state **parse_struct)
+{
+	if (!parse_struct || !*parse_struct)
+		return ;
+	if ((*parse_struct)->cmd_list)
+		free_commands(&(*parse_struct)->cmd_list);
+	if ((*parse_struct)->cmd_node)
+		free_commands(&(*parse_struct)->cmd_node);
+	free(*parse_struct);
+	*parse_struct = NULL;
 }

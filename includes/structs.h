@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/09 13:09:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/10 10:57:04 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,17 @@ typedef struct s_command
 	bool				is_command;
 	struct s_command	*next;
 }						t_command;
+
+/**
+ * @brief Estructura para el parseo
+ * 
+ */
+typedef struct s_parse_state
+{
+	t_command			*cmd_list;
+	t_command			*cmd_node;
+	t_redir				*redir_node;
+}						t_parse_state;
 
 typedef struct s_pipe
 {
