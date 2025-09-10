@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/09 17:38:21 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:13:31 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <errno.h>
 # include "structs.h"
 
 //MINISHELL UTILS:
@@ -39,13 +40,14 @@ char		*get_value_by_key(t_env *env_list, const char *key);
 char		*get_full_env(t_env *env_list, const char *key);
 
 //EXECUTOR_UTILS:
-void		cmd_not_found(char *cmd, char **args);
+void		cmd_not_found(char *cmd, char **env_arr, char **args);
 char		**ft_potential_paths(char **envp);
 char		*ft_build_full_path(char *command, char **envp);
 char		*ft_check_path(char *command, char **envp);
 char		**envlist_to_arr(t_env **envlist);
 char		**tokenlist_to_arr(t_token *tokenlist);
 char		**command_to_arr(t_command *command);
+int			ft_wait_and_exit(pid_t last_pid);
 
 //EXECUTOR:
 int			execute_all(t_command *commands, t_env **environment);
@@ -57,7 +59,6 @@ int			pipes(t_pipe *pipe_data);
 void		safe_close(int fd);
 void		ft_close_two(int fd1, int fd2);
 void		ft_close_three(int fd1, int fd2, int fd3);
-int			ft_wait_and_exit(pid_t last_pid);
 t_pipe		*init_pipe_data(t_command *command, t_env **env_list, size_t nbr_of_commands);
 void		free_pipe_data(t_pipe *pipe_data);
 

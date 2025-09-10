@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:42:15 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/09 17:24:21 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/10 09:39:08 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ size_t	number_of_redirs(t_command *command_list)
 	count = 0;
 	while(temp)
 	{
-		temp = command_list->redirs->next;
-		count ++;
+		count++;
+		temp = temp->next;
 	}
 	return (count);
 }

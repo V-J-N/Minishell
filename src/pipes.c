@@ -6,13 +6,13 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/09 17:19:01 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:26:12 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
+static void	pipe_child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 {
 	if (pipe_data->index == 0)//si es el primero, usar in
 	{
@@ -41,6 +41,9 @@ static void	child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 	exit(EXIT_FAILURE);
 }
 
+/**
+ * @brief Checks if we need to keep redirecting fds through pipes.
+*/
 static void	next_pipe(t_pipe *pipe_data, int *pipe_fd, int *prev_pipe)
 {
 	if (pipe_data->index < pipe_data->command_count - 1)
@@ -56,13 +59,16 @@ static void	next_pipe(t_pipe *pipe_data, int *pipe_fd, int *prev_pipe)
 	return ;
 }
 
-/// @brief Pipe manager:
+/**
+ * @brief Pipe manager.
+ */
 int	pipes(t_pipe *pipe_data)
 {
 	int		pipe_fd[2];
 	int		prev_pipe;
 	pid_t	pid;
 	pid_t	last_pid;
+	int		status;
 
 	prev_pipe = -1;
 	last_pid = -1;
@@ -74,7 +80,7 @@ int	pipes(t_pipe *pipe_data)
 		if (pid < 0)
 			return (perror("fork"), EXIT_FAILURE);
 		if (pid == 0)
-			child_process(pipe_data, prev_pipe, pipe_fd);
+			signal(SIGINT, SIG_DFL), pipe_child_process(pipe_data, prev_pipe, pipe_fd);
 		last_pid = pid;
 		safe_close(prev_pipe); //cerrar descriptor que ya ha heredado el hijo
 		next_pipe(pipe_data, pipe_fd, &prev_pipe);
@@ -82,5 +88,8 @@ int	pipes(t_pipe *pipe_data)
 		pipe_data->commands = pipe_data->commands->next;
 	}
 	ft_close_two(pipe_data->in, pipe_data->out);
-	return (ft_wait_and_exit(last_pid));
+	signal(SIGINT, SIG_IGN); // padre ignora Ctrl+C hasta que vuelve el hijo
+	status = ft_wait_and_exit(last_pid);
+	signal(SIGINT, SIG_DFL);//padre vuelve a hacer caso a la señal
+	return (status);
 }
