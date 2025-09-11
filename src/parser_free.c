@@ -6,21 +6,19 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:38:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/10 12:38:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/11 13:57:43 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @brief 
- * 
+ * @file parser_free.c
+ * @brief Utility functions for memory management in the parser.
  */
-
 #include "minishell.h"
 
 /**
- * @brief 
- * 
- * @param redirs
+ * @brief Frees all nodes and their contents in a redirection linked list.
+ * @param redirs A pointer to the head of the 't_redir' list to be freed.
  */
 static void	free_redirs(t_redir *redirs)
 {
@@ -40,9 +38,8 @@ static void	free_redirs(t_redir *redirs)
 }
 
 /**
- * @brief 
- * 
- * @param args 
+ * @brief Frees all nodes and their contents in an argument linked list.
+ * @param args A pointer to the head of the 't_arg' list to be freed.
  */
 static void	free_args(t_arg *args)
 {
@@ -62,9 +59,8 @@ static void	free_args(t_arg *args)
 }
 
 /**
- * @brief 
- * 
- * @param commands 
+ * @brief Frees all command nodes and their contents in a command linked list.
+ * @param commands A double pointer to the head of the 't_command' list.
  */
 void	free_commands(t_command **commands)
 {
@@ -85,6 +81,12 @@ void	free_commands(t_command **commands)
 	*commands = NULL;
 }
 
+/**
+ * @brief Frees the entire parser state structure and its contents.
+ * @param parse_struct A pointer to a pointer to the 't_parse_state'.
+ * @note It is designed to be called both upon sucessful parsing and in
+ * case of a fatal error, guaranteeing a clean exit without memory leaks.
+ */
 void	free_parser(t_parse_state **parse_struct)
 {
 	if (!parse_struct || !*parse_struct)

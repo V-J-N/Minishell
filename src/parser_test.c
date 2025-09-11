@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/10 18:04:07 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/11 13:14:15 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_commands(t_parse_state *commands)
 	while (temp)
 	{
 		temp_args = temp->cmd_node->args;
-		while(temp_args)
+		while (temp_args)
 		{
 			printf("Arguments: [%s]\n", temp_args->value);
 			temp_args = temp_args->next;
@@ -43,7 +43,7 @@ void	print_commands(t_parse_state *commands)
 	}
 }
 
-int	main(int argc, char *argv[])
+/* int	main(int argc, char *argv[])
 {
 	t_token			*list;
 	t_parse_state	*commands;
@@ -55,7 +55,7 @@ int	main(int argc, char *argv[])
 	{
 		list = tokenizer(argv[1]);
 		if (!list)
-			return (free_tokens(&list), -1);
+			return (-1);
 		commands = parse_command(list);
 		if (!commands)
 			return (-1);
@@ -65,4 +65,4 @@ int	main(int argc, char *argv[])
 	free_tokens(&list);
 	free_parser(&commands);
 	return (0);
-}
+} */

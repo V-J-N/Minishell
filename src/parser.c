@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/10 18:02:39 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/11 11:35:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,21 @@
  */
 #include "minishell.h"
 
+/**
+ * @brief Processes and incorporates a redirection token into the current
+ * command block.
+ * @param tokens A pointer to the current 't_token' node.
+ * @param p_struct A pointer to the 't_parse_state' structure.
+ * @return true on success, indicating that the redirection was processed
+ * and the state was updated successfully.
+ * @return false on a syntax error or a memory allocation failure.
+ * @note This function correctly validates the redirection syntax before
+ * processing the tokens.
+ */
 static bool	handle_redir(t_token *tokens, t_parse_state *p_struct)
 {
 	if (tokens->next == NULL || tokens->next->type != WORD)
-	{
-		free_tokens(&tokens);
 		return (false);
-	}
 	if (!p_struct->cmd_node)
 		p_struct->cmd_node = create_empty_cmd();
 	p_struct->redir_node = create_redir(tokens);
@@ -30,6 +38,19 @@ static bool	handle_redir(t_token *tokens, t_parse_state *p_struct)
 	return (true);
 }
 
+/**
+ * @brief Processes and incorporates a WORD token into the current command
+ * block.
+ * @param tokens A pointer to the current 't_token' node to be processed.
+ * @param p_struct A pointer to the 't_parse_state' structure that holds the
+ * parser's current state.
+ * @return true on success, indicating that the token was processed and the
+ * state was updated successfully.
+ * @return false on failure, typically due to a memory allocation error, after
+ * which the caller should perform necessary cleanup.
+ * @note This function correctly distinguishes between a command name and its
+ * arguments.
+ */
 static bool	handle_word(t_token *tokens, t_parse_state *p_struct)
 {
 	if (!p_struct->cmd_node)
@@ -53,6 +74,14 @@ static bool	handle_word(t_token *tokens, t_parse_state *p_struct)
 	return (true);
 }
 
+/**
+ * @brief Allocates and initializes the parser state structure.
+ * This function creates a new 't_parse_state' structure, which serves
+ * serves as a central container for all data generated during the parsing
+ * process.
+ * @return t_parse_state* A pointer to the newly allocated and initialized
+ * 't_parse_state' structure. Returns 'NULL' if memory allocation fails.
+ */
 static t_parse_state	*init_parser(void)
 {
 	t_parse_state	*parser;
@@ -65,21 +94,23 @@ static t_parse_state	*init_parser(void)
 	parser->redir_node = NULL;
 	return (parser);
 }
+
 /**
  * @brief Parses a token stream to create a command block list.
- * This function iterates throught a token stream, identifying a 't_command'
- * linked list.
+ * This function orchestates the entire parsing process. It initializes a
+ * 't_parse_state' structure to manage the parsing state, the iterates through
+ * the token stream to identify and process different token types.
  * @param tokens A pointer to the head of the 't_token' linked list, which
  * represents the command line to be parsed.
- * @return t_command* A pointer to the head of the newly created 't_command'
- * list. Returns NULL if the input is invalid or if a syntax or memory
- * allocation failure occurs.
+ * @return t_parse_state* A pointer to the fully populated 't_parse_state'
+ * structure, which contains the parsed command list. Returns 'NULL' if the
+ * input is invalid or if a syntax or memory allocation failure occurs.
  */
 t_parse_state	*parse_command(t_token *tokens)
 {
 	t_parse_state	*parser;
 	t_token			*temp;
-	
+
 	parser = NULL;
 	if (!tokens)
 		return (printf("ERROR - Necesitamos Tokens\n"), NULL);
@@ -90,21 +121,21 @@ t_parse_state	*parse_command(t_token *tokens)
 	while (temp)
 	{
 		if (temp->type == PIPE)
-			return (parse_error("minishell: parse error", parser), NULL);
+			return (free_tokens(&tokens), parse_error("minishell: PIPE parse error", parser), NULL);
 		else if (temp->type == WORD)
 		{
 			if (!handle_word(temp, parser))
-				return (parse_error("minishell: parse error", parser), NULL);
+				return (free_tokens(&tokens), parse_error("minishell: WORD parse error", parser), NULL);
 			temp = temp->next;
 		}
 		else if (is_redir(temp))
 		{
 			if (!handle_redir(temp, parser))
-				return (parse_error("minishell: parse error", parser), NULL);
+				return (free_tokens(&tokens), parse_error("minishell: REDIR parse error", parser), NULL);
 			temp = temp->next->next;
 		}
 		else
-			return (parse_error("minishell: parse error", parser), NULL);
+			return (free_tokens(&tokens), parse_error("minishell: UNKNOW parse error", parser), NULL);
 	}
 /* 	if (current_cmd)
 		lstaddback_cmd(&cmd_list, current_cmd);*/
