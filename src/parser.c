@@ -6,141 +6,142 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2025/09/11 11:35:05 by sergio-jime      ###   ########.fr       */
+=======
 /*   Updated: 2025/09/10 12:17:32 by vjan-nie         ###   ########.fr       */
+>>>>>>> 5cad140a46a1768d85fc1df4c96bb4e5922f7e82
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file parser.c
- * @brief Main function for parsing a command toke stream.
+ * @brief Main function for parsing a command token stream.
  */
 #include "minishell.h"
 
 /**
- * @brief 
- * 
- * @param block 
- * @param tokens 
- * @return true 
- * @return false 
+ * @brief Processes and incorporates a redirection token into the current
+ * command block.
+ * @param tokens A pointer to the current 't_token' node.
+ * @param p_struct A pointer to the 't_parse_state' structure.
+ * @return true on success, indicating that the redirection was processed
+ * and the state was updated successfully.
+ * @return false on a syntax error or a memory allocation failure.
+ * @note This function correctly validates the redirection syntax before
+ * processing the tokens.
  */
-/* static bool	fill_word_node(t_command *node, t_token *tokens)
+static bool	handle_redir(t_token *tokens, t_parse_state *p_struct)
 {
-	t_token		*temp;
-	size_t		i;
+	if (tokens->next == NULL || tokens->next->type != WORD)
+		return (false);
+	if (!p_struct->cmd_node)
+		p_struct->cmd_node = create_empty_cmd();
+	p_struct->redir_node = create_redir(tokens);
+	add_redir(p_struct->cmd_node, p_struct->redir_node);
+	return (true);
+}
 
-	temp = tokens;
-	i = 0;
-	while (temp && temp->type == WORD)
+/**
+ * @brief Processes and incorporates a WORD token into the current command
+ * block.
+ * @param tokens A pointer to the current 't_token' node to be processed.
+ * @param p_struct A pointer to the 't_parse_state' structure that holds the
+ * parser's current state.
+ * @return true on success, indicating that the token was processed and the
+ * state was updated successfully.
+ * @return false on failure, typically due to a memory allocation error, after
+ * which the caller should perform necessary cleanup.
+ * @note This function correctly distinguishes between a command name and its
+ * arguments.
+ */
+static bool	handle_word(t_token *tokens, t_parse_state *p_struct)
+{
+	if (!p_struct->cmd_node)
+		p_struct->cmd_node = create_cmd(tokens);
+	else if (!p_struct->cmd_node->is_command)
 	{
-		node->cmd_args[i] = ft_strdup(temp->value);
-		if (!node->cmd_args[i])
-			return (ft_free_array(node->cmd_args), false);
-		temp = temp->next;
-		i++;
+		if (!(update_empty_cmd(tokens, p_struct->cmd_node)))
+		{
+			free_tokens(&tokens);
+			return (false);
+		}
+	}
+	else
+	{
+		if (!(add_args(tokens, p_struct->cmd_node)))
+		{
+			free_tokens(&tokens);
+			return (false);
+		}
 	}
 	return (true);
-} */
-
-/**
- * @brief 
- * 
- * @param node 
- * @param tokens 
- * @return t_command* 
- */
-static void	add_args(t_command **node, t_token *tokens)
-{
-	t_arg	*temp;
-	t_arg	*new_arg;
-
-	(*node)->cmd_argc += 1;
-	new_arg = ft_calloc(1, sizeof(t_arg));
-	if (!new_arg)
-		return ;
-	new_arg->value = ft_strdup(tokens->value);
-	new_arg->next = NULL;
-	temp = (*node)->args;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_arg;
 }
 
 /**
- * @brief 
- * 
- * @param tokens 
- * @return t_command* 
+ * @brief Allocates and initializes the parser state structure.
+ * This function creates a new 't_parse_state' structure, which serves
+ * serves as a central container for all data generated during the parsing
+ * process.
+ * @return t_parse_state* A pointer to the newly allocated and initialized
+ * 't_parse_state' structure. Returns 'NULL' if memory allocation fails.
  */
-static t_command	*create_cmd(t_token *tokens)
+static t_parse_state	*init_parser(void)
 {
-	t_command	*node;
+	t_parse_state	*parser;
 
-	node = NULL;
-	node = ft_calloc(1, sizeof(t_command));
-	if (!node)
+	parser = ft_calloc(1, sizeof(t_parse_state));
+	if (!parser)
 		return (NULL);
-	node->args = NULL;
-	node->next = NULL;
-	node->redirs = NULL;
-	node->cmd_argc = 1;
-	node->args = ft_calloc(1, sizeof(t_arg));
-	if (!node->args)
-		return (free(node), NULL);
-	node->args->value = ft_strdup(tokens->value);
-	if (!node->args->value)
-		return (free(node->args), free(node), NULL);
-	node->args->next = NULL;
-	return (node);
+	parser->cmd_list = NULL;
+	parser->cmd_node = NULL;
+	parser->redir_node = NULL;
+	return (parser);
 }
 
 /**
- * @brief 
- * 
- * @param tokens 
- * @return t_command* 
+ * @brief Parses a token stream to create a command block list.
+ * This function orchestates the entire parsing process. It initializes a
+ * 't_parse_state' structure to manage the parsing state, the iterates through
+ * the token stream to identify and process different token types.
+ * @param tokens A pointer to the head of the 't_token' linked list, which
+ * represents the command line to be parsed.
+ * @return t_parse_state* A pointer to the fully populated 't_parse_state'
+ * structure, which contains the parsed command list. Returns 'NULL' if the
+ * input is invalid or if a syntax or memory allocation failure occurs.
  */
-t_command	*parse_command(t_token *tokens)
+t_parse_state	*parse_command(t_token *tokens)
 {
-	t_command	*cmd_list;
-	t_command	*current_cmd;
-	t_redir		*redir_node;
-	t_token		*temp;
+	t_parse_state	*parser;
+	t_token			*temp;
 
-	cmd_list = NULL;
-	current_cmd = NULL;
-	redir_node = NULL;
-	if (!tokens || tokens->type != WORD)
-		return (printf("Lo primero necesita ser un comando\n"), NULL);
+	parser = NULL;
+	if (!tokens)
+		return (printf("ERROR - Necesitamos Tokens\n"), NULL);
+	parser = init_parser();
+	if (!parser)
+		return (NULL);
 	temp = tokens;
 	while (temp)
 	{
-		if (temp->type == WORD)
+		if (temp->type == PIPE)
+			return (free_tokens(&tokens), parse_error("minishell: PIPE parse error", parser), NULL);
+		else if (temp->type == WORD)
 		{
-			if (!current_cmd)
-				current_cmd = create_cmd(temp);
-			else
-				add_args(&current_cmd, temp);
+			if (!handle_word(temp, parser))
+				return (free_tokens(&tokens), parse_error("minishell: WORD parse error", parser), NULL);
 			temp = temp->next;
-			if (!temp)
-			{
-				lstaddback_cmd(&cmd_list, current_cmd);
-				break ;
-			}
-			if (temp->type != WORD && temp->type != PIPE)
-			{
-				if (temp->next == NULL || temp->next->type != WORD)
-					return (printf("se necesita un target"), free(current_cmd), NULL);
-				redir_node = create_redir(temp);
-				add_redir(&current_cmd, redir_node);
-				temp = temp->next->next;
-			}
 		}
-		if (!temp)
+		else if (is_redir(temp))
 		{
-		lstaddback_cmd(&cmd_list, current_cmd);
-			break ;
+			if (!handle_redir(temp, parser))
+				return (free_tokens(&tokens), parse_error("minishell: REDIR parse error", parser), NULL);
+			temp = temp->next->next;
 		}
+<<<<<<< HEAD
+		else
+			return (free_tokens(&tokens), parse_error("minishell: UNKNOW parse error", parser), NULL);
+=======
 		if (temp->type == PIPE)//Este trozo me lo ha sugerido la IA al preguntarle otra cosa y lo he incorporado para test, hay que revisar
 		{
 			lstaddback_cmd(&cmd_list, current_cmd);
@@ -148,6 +149,9 @@ t_command	*parse_command(t_token *tokens)
 			temp = temp->next;
 			continue;
 		}
+>>>>>>> 5cad140a46a1768d85fc1df4c96bb4e5922f7e82
 	}
-	return (cmd_list);
+/* 	if (current_cmd)
+		lstaddback_cmd(&cmd_list, current_cmd);*/
+	return (parser);
 }

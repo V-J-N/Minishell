@@ -6,56 +6,54 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/04 14:30:30 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/11 13:02:09 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file parser_redir.c
- * @brief 
+ * @brief Utility functions for managing redirections in the parser.
  */
 #include "minishell.h"
 
-void	lstaddback_cmd(t_command **head, t_command *new_node)
-{
-	t_command	*current;
-
-	if (!head || !new_node)
-		return ;
-	new_node->next = NULL;
-	if (*head == NULL)
-	{
-		*head = new_node;
-		return ;
-	}
-	current = *head;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = new_node;
-}
-
-void	add_redir(t_command **cmd_node, t_redir *new_redir)
+/**
+ * @brief Appends a new redirection node to a command's redirection list.
+ * This function adds a new redirection node 't_redir' to an existing
+ * 't_command' node's redirection list.
+ * @param cmd_node A pointer to the 't_command' node.
+ * @param new_redir A pointer to the 't_redir' node.
+ */
+void	add_redir(t_command *cmd_node, t_redir *new_redir)
 {
 	t_redir	*current;
 
-	if (!*cmd_node || !new_redir)
+	if (!cmd_node || !new_redir)
 		return ;
-	if (!(*cmd_node)->redirs)
+	if (!cmd_node->redirs)
 	{
-		(*cmd_node)->redirs = new_redir;
+		cmd_node->redirs = new_redir;
 		return ;
 	}
-	current = (*cmd_node)->redirs;
+	current = cmd_node->redirs;
 	while (current->next)
 		current = current->next;
 	current->next = new_redir;
 }
 
+/**
+ * @brief Creates a new redirection node from a token stream.
+ * This function is a constructor for a 't_redir' node. It allocates and
+ * initializes a new node with the redirection type and the corresponding
+ * file name.
+ * @param tokens A pointer to the token representing the redirection symbol.
+ * @return t_redir* A pointer to the newly created 't_redir' node. Returns
+ * NULL if memory allocation fails.
+ */
 t_redir	*create_redir(t_token *tokens)
 {
 	t_token		*temp;
 	t_redir		*redir;
-	
+
 	redir = NULL;
 	temp = tokens;
 	redir = ft_calloc(1, sizeof(t_redir));
@@ -64,5 +62,7 @@ t_redir	*create_redir(t_token *tokens)
 	redir->type = temp->type;
 	redir->next = NULL;
 	redir->file = ft_strdup(temp->next->value);
+	if (!redir->file)
+		return (free_redirs(redir), NULL);
 	return (redir);
 }

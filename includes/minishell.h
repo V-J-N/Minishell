@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/10 11:13:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/12 10:20:58 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -82,17 +83,24 @@ void		print_list(t_token *list);
 void		print_array(char **array);
 
 //PARSER
-t_command	*parse_command(t_token *tokens);
-size_t		lstsize_token_word(t_token *lst);
-t_redir		*create_redir(t_token *tokens);
-void		add_redir(t_command **cmd_node, t_redir *new_redir);
-void		lstaddback_cmd(t_command **head, t_command *new_node);
-void		*ft_realloc(void *ptr, size_t size, size_t oldsize);
-size_t		number_of_commands(t_command *command_list);//nueva
-size_t		number_of_redirs(t_command *command_list);//nueva
+
+size_t			number_of_commands(t_command *command_list);//nueva
+size_t			number_of_redirs(t_command *command_list);//nueva
+t_parse_state	*parse_command(t_token *tokens);
+t_command		*create_cmd(t_token *tokens);
+t_command		*create_empty_cmd();
+bool			update_empty_cmd(t_token *tokens, t_command *cmd_node);
+bool			add_args(t_token *tokens, t_command *cmd_node);
+t_redir			*create_redir(t_token *tokens);
+void			add_redir(t_command *cmd_node, t_redir *new_redir);
+void			lstaddback_cmd(t_command **head, t_command *new_node);
+size_t			lstsize_token_word(t_token *lst);
+bool			is_redir(t_token *list);
+void			free_commands(t_command **commands);
+void			free_parser(t_parse_state **parse_struct);
+void			parse_error(const char *str, t_parse_state *parse_struct);
 
 //PARSER TEST
-void		free_commands(t_command **commands);
-void		print_commands(t_command *commands);
+void			print_commands(t_parse_state *commands);
 
 #endif
