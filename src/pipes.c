@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/10 12:26:12 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:42:39 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,40 @@
 
 static void	pipe_child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 {
-	if (pipe_data->index == 0)//si es el primero, usar in
-	{
-		if (dup2(pipe_data->in, 0) == -1)
-			perror("dup2 in"), exit(EXIT_FAILURE);
-	}
-	else//si no, usar anterior pipe
-	{
-		if (dup2(prev_pipe, 0) == -1)
-			perror("dup2 in"), exit(EXIT_FAILURE);
-	}
-	if (pipe_data->index == pipe_data->command_count - 1)
-	{
-		if (dup2(pipe_data->out, 1) == -1)// si es el último comando, escribir en out
-			perror("dup2 in"), exit(EXIT_FAILURE);
-	}
+	int	new_in;
+	int	new_out;
+
+	signal(SIGINT, SIG_DFL); // Restaurar señales por si el padre las bloqueó
+	if (pipe_data->index == 0)//si es el primer bloque, buscar IN
+		new_in = redirect_in(pipe_data->commands, pipe_data->in);
+	else//si no, usar IN desde el pipe anterior
+		new_in = prev_pipe;
+	if (pipe_data->index == pipe_data->command_count - 1)// si es último comando buscar OUT
+		new_out = redirect_out(pipe_data->commands, pipe_data->out);
 	else
+		new_out = pipe_fd[1];//si no, escribir en el siguiente pipe
+	if (new_in == -1 || new_out == -1)
+		exit(EXIT_FAILURE);
+
+	// Aplicar redirecciones de entrada/salida si son diferentes:
+	if (new_in != STDIN_FILENO)
 	{
-		if (dup2(pipe_fd[1], 1) == -1)// si no, escribir en pipe actual para que el siguiente proceso lo lea
+		if (dup2(new_in, STDIN_FILENO) == -1)
 			perror("dup2 in"), exit(EXIT_FAILURE);
+		safe_close(new_in);
 	}
-	ft_close_three(pipe_data->in, pipe_data->out, prev_pipe);
-	if (pipe_data->index < pipe_data->command_count - 1)//si no estamos en el último comando, cerrar pipe actual
+	if (new_out != STDOUT_FILENO)
+	{
+		if (dup2(new_out, STDOUT_FILENO) == -1)
+			perror("dup2 out"), exit(EXIT_FAILURE);
+		safe_close(new_out);
+	}
+	ft_close_three(pipe_data->in, pipe_data->out, prev_pipe);//cerrar descriptores no utilizados
+	if (pipe_data->index < pipe_data->command_count - 1)//si es último comando cerramos pipe
 		ft_close_two(pipe_fd[0], pipe_fd[1]);
-	command_in(pipe_data->commands, pipe_data->env_list, pipe_data->in, pipe_data->out);
+
+	// Ejecutar directamente sin más forks, nos saltamos command_in
+	execute_command(pipe_data->commands, pipe_data->env_list);
 	exit(EXIT_FAILURE);
 }
 

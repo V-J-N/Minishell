@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:23:06 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/10 12:20:14 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/12 11:16:01 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void	ft_close_three(int fd1, int fd2, int fd3)
 	safe_close(fd1);
 	safe_close(fd2);
 	safe_close(fd3);
+	return ;
+}
+
+void	ft_close_two(int fd1, int fd2)
+{
+	safe_close(fd1);
+	safe_close(fd2);
 	return ;
 }
 

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/09/10 10:57:04 by sergio-jime      ###   ########.fr       */
-=======
-/*   Updated: 2025/09/09 16:54:38 by vjan-nie         ###   ########.fr       */
->>>>>>> 5cad140a46a1768d85fc1df4c96bb4e5922f7e82
+/*   Updated: 2025/09/12 10:55:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

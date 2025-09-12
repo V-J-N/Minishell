@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/12 10:20:58 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/12 11:18:49 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ bool			is_redir(t_token *list);
 void			free_commands(t_command **commands);
 void			free_parser(t_parse_state **parse_struct);
 void			parse_error(const char *str, t_parse_state *parse_struct);
+void			free_redirs(t_redir *redirs);
 
 //PARSER TEST
 void			print_commands(t_parse_state *commands);
