@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/09 17:40:40 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:15:33 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 /// @param envp data is saved as a linked list in 'environment'
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_env	*environment;
-	int		exit_signal;
+	char			*input;
+	t_env			*environment;
+	int				exit_signal;
 	//LEXER:
-	t_token	*tokenlist;
+	t_token			*tokenlist;
 	//PARSER:
-	t_command	*commands;
+	t_parse_state	*parse_state;
 
 	(void)argc;
 	(void)argv;
 	environment = NULL;
 	tokenlist = NULL;
-	commands = NULL;
+	parse_state = NULL;
 	if (!get_environment(envp, &environment))
 		return (free_environment(&environment), perror("envp copy failed"), 1);
 	while (1)
@@ -45,11 +45,15 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			tokenlist = tokenizer(input);
-			commands = parse_command(tokenlist);
-			exit_signal = execute_all(commands, &environment);
+			if (!tokenlist)
+				return (-1);
+			parse_state = parse_command(tokenlist);
+			if (!parse_state)
+				return (-1);
+			exit_signal = execute_all(parse_state->cmd_list, &environment);
 			printf("exit status: %d\n", exit_signal);
 			free_tokens(&tokenlist);
-			free_commands(&commands);
+			free_parser(&parse_state);
 		}
 		free(input);
 	}

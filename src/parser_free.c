@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:38:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/11 13:57:43 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/12 12:15:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @brief Frees all nodes and their contents in a redirection linked list.
  * @param redirs A pointer to the head of the 't_redir' list to be freed.
  */
-static void	free_redirs(t_redir *redirs)
+void	free_redirs(t_redir *redirs)
 {
 	t_redir	*current;
 	t_redir	*next;
@@ -93,7 +93,8 @@ void	free_parser(t_parse_state **parse_struct)
 		return ;
 	if ((*parse_struct)->cmd_list)
 		free_commands(&(*parse_struct)->cmd_list);
-	if ((*parse_struct)->cmd_node)
+	// Solo liberar cmd_node si NO está ya en la lista, actualizado a "else if"
+	else if ((*parse_struct)->cmd_node)
 		free_commands(&(*parse_struct)->cmd_node);
 	free(*parse_struct);
 	*parse_struct = NULL;

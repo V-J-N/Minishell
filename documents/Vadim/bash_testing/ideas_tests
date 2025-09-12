@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/04 13:34:03 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/12 13:08:32 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ comando de bash:
 < file1 cmd1 | cmd2 >file2
 
 -----------------------------------------------------
+
+valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes ./minishell
 
 Pruebas comunes:
 
@@ -86,7 +88,7 @@ ls -l << stop | wc -l | cat >> outfile
 
 Pruebas locas:
 
-< infile ls -l | wc -l | << cat | ls -l > outfile
+< infile ls -l | wc -l | << cat | ls -l > outfile !!!!
 ("cat" se toma como limitador, entra en el proceso here_doc, y luego al terminar hace un ls -l del directorio: parece que los procesos hijos de los pipes van independientemente, y si no se transmite la información no pasa nada. Out devuelve el último ls -l)
 
 
@@ -96,15 +98,15 @@ Pruebas locas:
 < infile ls -l | wc -l | > outfile | < outfile | cat > outfile
 
 
-< infile ls -l | wc -l | > outfile1 | < outfile2 | cat > outfile3
+< infile ls -l | wc -l | > outfile1 | < outfile2 | cat > outfile3 !!
 
 
-< infile lx -l | wc -l | > outfile1 | < outfile2 | cat > outfile3
+< infile lx -l | wc -l | > outfile1 | < outfile2 | cat > outfile3 !!
 
 
-< infile ls -l | wc -l | > outfile1 | < infile | cat > outfile2
+< infile ls -l | wc -l | > outfile1 | < infile | cat > outfile2 !!
 
-< infile ls -l | wc -l | > outfile1 | < infile cat | cat > outfile2
+< infile ls -l | wc -l | > outfile1 | < infile cat | cat > outfile2 !!
 
 
 Extra:
