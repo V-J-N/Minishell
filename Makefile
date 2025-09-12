@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/02 16:38:30 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/09 17:34:46 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,10 @@ LIBFT_INCLUDE	= -I$(LIBFT_DIR)/include
 # Source files
 
 SRC		=	$(SRC_DIR)/minishell.c\
+			$(SRC_DIR)/minishell_utils.c\
 			$(SRC_DIR)/pipes.c\
 			$(SRC_DIR)/pipes_utils.c\
 			$(SRC_DIR)/input_output.c\
-			$(SRC_DIR)/minishell_utils.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
 			$(SRC_DIR)/executor_utils2.c\
@@ -45,7 +45,9 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/lexer.c\
 			$(SRC_DIR)/lexer_utils.c\
 			$(SRC_DIR)/lexer_utils2.c\
-			$(SRC_DIR)/lexer_test.c
+			$(SRC_DIR)/parser.c\
+			$(SRC_DIR)/parser_utils.c\
+			$(SRC_DIR)/parser_redir.c
 
 # Objects
 

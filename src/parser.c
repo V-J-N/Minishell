@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/09/11 11:35:05 by sergio-jime      ###   ########.fr       */
+=======
+/*   Updated: 2025/09/10 12:17:32 by vjan-nie         ###   ########.fr       */
+>>>>>>> 5cad140a46a1768d85fc1df4c96bb4e5922f7e82
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +138,18 @@ t_parse_state	*parse_command(t_token *tokens)
 				return (free_tokens(&tokens), parse_error("minishell: REDIR parse error", parser), NULL);
 			temp = temp->next->next;
 		}
+<<<<<<< HEAD
 		else
 			return (free_tokens(&tokens), parse_error("minishell: UNKNOW parse error", parser), NULL);
+=======
+		if (temp->type == PIPE)//Este trozo me lo ha sugerido la IA al preguntarle otra cosa y lo he incorporado para test, hay que revisar
+		{
+			lstaddback_cmd(&cmd_list, current_cmd);
+			current_cmd = NULL;
+			temp = temp->next;
+			continue;
+		}
+>>>>>>> 5cad140a46a1768d85fc1df4c96bb4e5922f7e82
 	}
 /* 	if (current_cmd)
 		lstaddback_cmd(&cmd_list, current_cmd);*/

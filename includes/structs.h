@@ -6,7 +6,11 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/09/10 10:57:04 by sergio-jime      ###   ########.fr       */
+=======
+/*   Updated: 2025/09/09 16:54:38 by vjan-nie         ###   ########.fr       */
+>>>>>>> 5cad140a46a1768d85fc1df4c96bb4e5922f7e82
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,13 +139,13 @@ typedef struct s_parse_state
 
 typedef struct s_pipe
 {
-	char	**args;
-	int		blocks;
-	t_env **env_list;
-	int		in;
-	int		out;
-	int		index;
-}			t_pipe;
+	t_command	*commands;
+	t_env 		**env_list;
+	int			command_count;
+	int			in;
+	int			out;
+	int			index;
+}				t_pipe;
 
 
 #endif
