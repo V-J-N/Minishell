@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:42:15 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/12 11:16:45 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/15 11:36:49 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ size_t	number_of_redirs(t_command *command_list)
 		return (0);
 	temp = command_list->redirs;
 	count = 0;
-	while(temp)
+	while (temp)
 	{
 		count++;
 		temp = temp->next;
