@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/15 11:10:45 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/15 11:38:55 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_commands(t_parse_state *commands)
 	}
 }
 
-int	main(int argc, char *argv[])
+/* int	main(int argc, char *argv[])
 {
 	t_token			*list;
 	t_parse_state	*commands;
@@ -68,4 +68,4 @@ int	main(int argc, char *argv[])
 	free_tokens(&list);
 	free_parser(&commands);
 	return (0);
-}
+} */
