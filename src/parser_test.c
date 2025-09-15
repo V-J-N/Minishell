@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/15 10:18:34 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/15 11:10:45 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,31 @@
 void	print_commands(t_parse_state *commands)
 {
 	t_parse_state	*temp;
-	t_redir			*redir;
-	t_arg			*temp_args;
+	t_command		*list;
+	size_t			i;
 
 	temp = commands;
-	while (temp)
+	list = temp->cmd_list;
+	i = 0;
+	while (list)
 	{
-		temp_args = temp->cmd_node->args;
-		while (temp_args)
-		{
-			printf("Arguments: [%s]\n", temp_args->value);
-			temp_args = temp_args->next;
-		}
-		printf("Number of Commands: %d\n", (int)temp->cmd_node->cmd_argc);
-		redir = temp->cmd_node->redirs;
-		while (redir)
-		{
-			printf("TYPE %d REDIR\n", redir->type);
-			printf("Target file: [%s]\n", redir->file);
-			redir = redir->next;
-		}
-		break ;
-		// Bucle infinito no es una lista.
+		printf("==== Node List [%ld]\n", i);
+		printf("-> Command [%s]\n", list->args->value);
+		list->args = list->args->next;
+		if (list->cmd_argc > 0)
+			while (list->args)
+			{
+				printf("----> Arguments [%s]\n", list->args->value);
+				list->args = list->args->next;
+			}
+		if (list->redirs)
+			while (list->redirs)
+			{
+				printf("|__> Redirs [%s]\n", list->redirs->file);
+				list->redirs = list->redirs->next;
+			}
+		list = list->next;
+		i++;
 	}
 }
 
@@ -60,7 +63,7 @@ int	main(int argc, char *argv[])
 		if (!commands)
 			return (-1);
 	}
-	print_list(list);
+	//print_list(list);
 	print_commands(commands);
 	free_tokens(&list);
 	free_parser(&commands);

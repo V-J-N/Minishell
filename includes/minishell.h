@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/12 11:18:49 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/15 11:34:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ void			free_commands(t_command **commands);
 void			free_parser(t_parse_state **parse_struct);
 void			parse_error(const char *str, t_parse_state *parse_struct);
 void			free_redirs(t_redir *redirs);
+bool			handle_pipe(t_token *tokens, t_parse_state *p_struct);
+bool			handle_redir(t_token *tokens, t_parse_state *p_struct);
+bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 
 //PARSER TEST
 void			print_commands(t_parse_state *commands);
