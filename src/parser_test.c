@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/15 11:38:55 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/15 14:45:12 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	print_commands(t_parse_state *commands)
 	while (list)
 	{
 		printf("==== Node List [%ld]\n", i);
-		printf("-> Command [%s]\n", list->args->value);
-		list->args = list->args->next;
+		if (list->args)
+		{
+			printf("-> Command [%s]\n", list->args->value);
+			list->args = list->args->next;
+		}
 		if (list->cmd_argc > 0)
 			while (list->args)
 			{
@@ -46,7 +49,7 @@ void	print_commands(t_parse_state *commands)
 	}
 }
 
-/* int	main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_token			*list;
 	t_parse_state	*commands;
@@ -68,4 +71,4 @@ void	print_commands(t_parse_state *commands)
 	free_tokens(&list);
 	free_parser(&commands);
 	return (0);
-} */
+}
