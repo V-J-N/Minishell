@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/12 12:02:34 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/15 10:36:17 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
  * @brief Main function for parsing a command token stream.
  */
 #include "minishell.h"
+
+static bool handle_pipe(t_token *tokens, t_parse_state *p_struct)
+{
+	if (!p_struct->cmd_node)
+		return (false);
+	if (!tokens->next || tokens->next->type != WORD)
+		return (false);
+	lstaddback_cmd(&p_struct->cmd_list, p_struct->cmd_node);
+	p_struct->cmd_node = NULL;
+	return (true);
+}
 
 /**
  * @brief Processes and incorporates a redirection token into the current
@@ -120,22 +131,16 @@ t_parse_state	*parse_command(t_token *tokens)
 	temp = tokens;
 	while (temp)
 	{
-		/*
-		if (temp->type == PIPE)
-			return (free_tokens(&tokens), parse_error("minishell: PIPE parse error", parser), NULL);
-			*/
 		if (temp->type == WORD)
 		{
 			if (!handle_word(temp, parser))
 				return (free_tokens(&tokens), parse_error("minishell: WORD parse error", parser), NULL);
 			temp = temp->next;
 		}
-		else if (temp->type == PIPE)// sugerencia de la IA, lo uso para test
+		else if (temp->type == PIPE)
 		{
-			if (!parser->cmd_node)
-				return (free_tokens(&tokens), parse_error("minishell: pipe sin comando previo", parser), NULL);
-			lstaddback_cmd(&parser->cmd_list, parser->cmd_node);
-			parser->cmd_node = NULL;
+			if (!handle_pipe(temp, parser))
+				return (free_tokens(&tokens), parse_error("minishell: PIPE parse error", parser), NULL);
 			temp = temp->next;
 		}
 		else if (is_redir(temp))
