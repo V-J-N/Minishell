@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/12 10:55:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:13:32 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_redir
 {
 	t_token_type	type;
 	char			*file;
+	int             heredoc_fd;
 	struct s_redir	*next;
 }					t_redir;
 

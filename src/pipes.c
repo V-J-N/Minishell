@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/12 12:42:39 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:23:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	pipe_child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 {
 	int	new_in;
 	int	new_out;
+	char **args = command_to_arr(pipe_data->commands);
 
 	signal(SIGINT, SIG_DFL); // Restaurar señales por si el padre las bloqueó
 	if (pipe_data->index == 0)//si es el primer bloque, buscar IN
@@ -45,7 +46,14 @@ static void	pipe_child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 	ft_close_three(pipe_data->in, pipe_data->out, prev_pipe);//cerrar descriptores no utilizados
 	if (pipe_data->index < pipe_data->command_count - 1)//si es último comando cerramos pipe
 		ft_close_two(pipe_fd[0], pipe_fd[1]);
-
+	if (!args || !args[0])
+	{
+		if (pipe_data->command_count == 1 && has_redirections(pipe_data->commands))
+			exit(redirection_only(pipe_data->commands, STDIN_FILENO, STDOUT_FILENO));
+		if (args)
+			ft_free_array(args);
+		exit(EXIT_SUCCESS);
+	}
 	// Ejecutar directamente sin más forks, nos saltamos command_in
 	execute_command(pipe_data->commands, pipe_data->env_list);
 	exit(EXIT_FAILURE);

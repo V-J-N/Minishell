@@ -6,11 +6,16 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/10 12:09:46 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:16:10 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	has_redirections(t_command *cmd)
+{
+	return (cmd && cmd->redirs != NULL);
+}
 
 /* 
 IMPORTANTE: Al parecer, si bloque de comando tiene varias redirecciones,
@@ -30,11 +35,19 @@ int redirect_in(t_command *command_list, int in_fd)
 	while (temp)
 	{
 		if (temp->type == REDIR_IN)
-			new_fd = get_inputfile_fd(temp->file);
+		 {
+            if (new_fd != STDIN_FILENO)
+                close(new_fd);
+            new_fd = get_inputfile_fd(temp->file);
+            if (new_fd == -1)
+                return -1;
+        }
 		else if (temp->type == HEREDOC)
-			new_fd = get_heredoc_fd(temp->file);
-		if (new_fd == -1)
-			return (-1);
+		{
+            if (new_fd != STDIN_FILENO)
+                close(new_fd);
+            new_fd = temp->heredoc_fd;
+        }
 		temp = temp->next;
 	}
 	return (new_fd);
@@ -50,11 +63,21 @@ int redirect_out(t_command *command_list, int out_fd)
 	while (temp)
 	{
 		if (temp->type == REDIR_OUT)
+		{
+			if (new_fd != STDOUT_FILENO)
+    			close(new_fd);
 			new_fd = get_outputfile_fd(temp->file);
+			if (new_fd == -1)
+                return -1;
+		}
 		else if (temp->type == APPEND)
-			new_fd = get_append_fd(temp->file);
-		if (new_fd == -1)
-			return (-1);
+		{
+            if (new_fd != STDOUT_FILENO)
+                close(new_fd);
+            new_fd = get_append_fd(temp->file);
+            if (new_fd == -1)
+                return -1;
+        }
 		temp = temp->next;
 	}
 	return (new_fd);
@@ -88,6 +111,77 @@ int	get_append_fd(char *outfile)
 	if (fd < 0)
 		return (perror(outfile), -1);
 	return (fd);
+}
+
+int	redirection_only(t_command *cmd, int in, int out)
+{
+	pid_t	pid;
+	int		new_in, new_out;
+	int		status;
+
+	pid = fork();
+	if (pid < 0)
+		return (perror("Fork"), EXIT_FAILURE);
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		new_in = redirect_in(cmd, in);
+		new_out = redirect_out(cmd, out);
+		if (new_in == -1 || new_out == -1)
+			exit(EXIT_FAILURE);
+		if (new_in != STDIN_FILENO)
+		{
+			dup2(new_in, STDIN_FILENO);
+			close(new_in);
+		}
+		if (new_out != STDOUT_FILENO)
+		{
+			dup2(new_out, STDOUT_FILENO);
+			close(new_out);
+		}
+		// No ejecutamos comando. Solo redirecciones.
+		exit(EXIT_SUCCESS);
+	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, SIG_DFL);
+	return (ft_wait_and_exit(status));
+}
+
+bool prepare_all_heredocs(t_command *cmd_list)
+{
+	t_command *current;
+
+	current = cmd_list;
+	while (current)
+	{
+		if (!prepare_heredocs(current))
+			return (false);
+		current = current->next;
+	}
+	return (true);
+}
+
+bool prepare_heredocs(t_command *cmd)
+{
+	t_redir	*redir;
+	int		fd;
+
+	if (!cmd)
+		return (true);
+	redir = cmd->redirs;
+	while (redir)
+	{
+		if (redir->type == HEREDOC)
+		{
+			fd = get_heredoc_fd(redir->file);
+			if (fd == -1)
+				return (false);
+			redir->heredoc_fd = fd;
+		}
+		redir = redir->next;
+	}
+	return (true);
 }
 
 static void	heredoc_child_process(char *limiter, int *pipe_fd)
