@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/16 16:24:06 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:06:48 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	execute_all(t_command *commands, t_env **environment)
 		return (perror("No command"), EXIT_FAILURE);
 	if (command_count == 1)
 	{
-		if (!commands->args && has_redirections(commands))
+		if (!commands->args && has_redirs(commands))
 			return (redirection_only(commands, STDIN_FILENO, STDOUT_FILENO));
 		return (command_in(commands, environment, STDIN_FILENO, STDOUT_FILENO));
 	}

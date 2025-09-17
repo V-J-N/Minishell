@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/16 16:16:44 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/17 13:31:22 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ Comando que existe y está en el PATH:
 
 Comando con ruta relativa válida:
 
-< infile "./a.out" | cat > outfile
+< infile "./a.out" | cat > outfile (!!! para minishell lo acepta sin comillas, bash ambas)
 (impresión prueba en outfile, se ignora infile porque execve ha ejecutado correctamente a.out, con lo que el proceso hijo es reemplazado por el ejecutable)
 
 Comando con ruta absoluta válida: (realpath ./a.out)
@@ -106,8 +106,9 @@ Pruebas locas:
 
 < infile ls -l | wc -l | > outfile1 | < infile | cat > outfile2
 
-< infile ls -l | wc -l | > outfile1 | < infile cat | cat > outfile2 !!
+< infile ls -l | wc -l | > outfile1 | < infile cat | cat > outfile2
 
+< infile ls -l | wc -l | << stop | < infile cat | cat > outfile2
 
 Extra:
 
@@ -120,12 +121,13 @@ Extra:
 HEREDOC!
 
 << stop | wc -l > outfile
-
 ls -l
 stop
-
-Debería ser igual a 
 
 echo ls -l | wc -l > outfile
 
 sh << stop | wc -l > outfile (biennnnn)
+
+NUEVOS PROBLEMAS:
+
+< infile "./a.out" | cat > outfile (!!! para minishell lo acepta sin comillas, bash ambas)

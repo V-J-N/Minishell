@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/16 14:51:02 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:05:51 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ int			redirect_out(t_command *command_list, int out_fd);
 bool		prepare_heredocs(t_command *cmd);
 bool		prepare_all_heredocs(t_command *cmd_list);
 int			redirection_only(t_command *cmd, int in, int out);
-bool		has_redirections(t_command *cmd);
+bool		has_redirs(t_command *cmd);
+bool		has_input_redir(t_command *cmd);
+bool		has_output_redir(t_command *cmd);
 
 //LEXER
 t_token		*tokenizer(char *str);

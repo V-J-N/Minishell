@@ -6,13 +6,37 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/16 15:16:10 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:05:22 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	has_redirections(t_command *cmd)
+bool	has_input_redir(t_command *cmd)
+{
+    t_redir *r = cmd->redirs;
+    while (r)
+    {
+        if (r->type == REDIR_IN || r->type == HEREDOC)
+            return true;
+        r = r->next;
+    }
+    return false;
+}
+
+bool	has_output_redir(t_command *cmd)
+{
+    t_redir *r = cmd->redirs;
+    while (r)
+    {
+        if (r->type == REDIR_OUT || r->type == APPEND)
+            return true;
+        r = r->next;
+    }
+    return false;
+}
+
+bool	has_redirs(t_command *cmd)
 {
 	return (cmd && cmd->redirs != NULL);
 }
