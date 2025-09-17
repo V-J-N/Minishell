@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/15 11:38:55 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/16 13:31:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	print_commands(t_parse_state *commands)
 {
 	t_parse_state	*temp;
 	t_command		*list;
+	t_arg			*arg;
+	t_redir			*redir;
 	size_t			i;
 
 	temp = commands;
@@ -26,21 +28,26 @@ void	print_commands(t_parse_state *commands)
 	i = 0;
 	while (list)
 	{
-		printf("==== Node List [%ld]\n", i);
-		printf("-> Command [%s]\n", list->args->value);
-		list->args = list->args->next;
+		printf("==== Node List [%zu]\n", i);
+		arg = list->args;
+		if (arg)
+			printf("-> Command [%s]\n", arg->value);
+		if (arg)
+			arg = arg->next;
 		if (list->cmd_argc > 0)
-			while (list->args)
+		{
+			while (arg)
 			{
-				printf("----> Arguments [%s]\n", list->args->value);
-				list->args = list->args->next;
+				printf("----> Arguments [%s]\n", arg->value);
+				arg = arg->next;
 			}
-		if (list->redirs)
-			while (list->redirs)
-			{
-				printf("|__> Redirs [%s]\n", list->redirs->file);
-				list->redirs = list->redirs->next;
-			}
+		}
+		redir = list->redirs;
+		while (redir)
+		{
+			printf("|__> Redirs [%s]\n", redir->file);
+			redir = redir->next;
+		}
 		list = list->next;
 		i++;
 	}

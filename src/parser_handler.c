@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:33:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/15 11:34:18 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/16 11:56:32 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	handle_pipe(t_token *tokens, t_parse_state *p_struct)
 {
 	if (!p_struct->cmd_node)
 		return (false);
-	if (!tokens->next || tokens->next->type != WORD)
+	if (!tokens->next)
 		return (false);
 	lstaddback_cmd(&p_struct->cmd_list, p_struct->cmd_node);
 	p_struct->cmd_node = NULL;

@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/10 12:07:34 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:06:48 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute_command(t_command *command, t_env **envlist)
 
 	env_arr = envlist_to_arr(envlist);
 	if (!env_arr)
-		exit(1);//error genérico
+		exit(1);
 	args = command_to_arr(command);
 	if (!args || !args[0])
 	{
@@ -102,11 +102,17 @@ int	execute_all(t_command *commands, t_env **environment)
 
 	if (!commands || !environment)
 		return (perror("Missing data structures"), EXIT_FAILURE);
+	if (!prepare_all_heredocs(commands))
+		return (EXIT_FAILURE);
 	command_count = number_of_commands(commands);
 	if (command_count < 1)
 		return (perror("No command"), EXIT_FAILURE);
 	if (command_count == 1)
+	{
+		if (!commands->args && has_redirs(commands))
+			return (redirection_only(commands, STDIN_FILENO, STDOUT_FILENO));
 		return (command_in(commands, environment, STDIN_FILENO, STDOUT_FILENO));
+	}
 	pipe_data = init_pipe_data(commands, environment, command_count);
 	if (!pipe_data)
 		return (perror("pipe_data error"), EXIT_FAILURE);

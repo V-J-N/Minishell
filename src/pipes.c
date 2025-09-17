@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/12 12:42:39 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:20:30 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,30 @@
 
 static void	pipe_child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 {
-	int	new_in;
-	int	new_out;
+	int		new_in;
+	int		new_out;
+	char	**args;
 
-	signal(SIGINT, SIG_DFL); // Restaurar señales por si el padre las bloqueó
-	if (pipe_data->index == 0)//si es el primer bloque, buscar IN
-		new_in = redirect_in(pipe_data->commands, pipe_data->in);
-	else//si no, usar IN desde el pipe anterior
-		new_in = prev_pipe;
-	if (pipe_data->index == pipe_data->command_count - 1)// si es último comando buscar OUT
-		new_out = redirect_out(pipe_data->commands, pipe_data->out);
+	signal(SIGINT, SIG_DFL);
+	// entrada?
+	if (has_input_redir(pipe_data->commands))
+		new_in = redirect_in(pipe_data->commands, STDIN_FILENO);
+	else if (pipe_data->index == 0)
+		new_in = pipe_data->in;
 	else
-		new_out = pipe_fd[1];//si no, escribir en el siguiente pipe
+		new_in = prev_pipe;
+	// salida?
+	if (has_output_redir(pipe_data->commands))
+		new_out = redirect_out(pipe_data->commands, STDOUT_FILENO);
+	else if (pipe_data->index == pipe_data->command_count - 1)
+		new_out = pipe_data->out;
+	else
+		new_out = pipe_fd[1];
+	// errores?
 	if (new_in == -1 || new_out == -1)
 		exit(EXIT_FAILURE);
 
-	// Aplicar redirecciones de entrada/salida si son diferentes:
+	// actualizar posibles redir si no son std, duplicar nuevos fd
 	if (new_in != STDIN_FILENO)
 	{
 		if (dup2(new_in, STDIN_FILENO) == -1)
@@ -42,12 +50,21 @@ static void	pipe_child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 			perror("dup2 out"), exit(EXIT_FAILURE);
 		safe_close(new_out);
 	}
-	ft_close_three(pipe_data->in, pipe_data->out, prev_pipe);//cerrar descriptores no utilizados
-	if (pipe_data->index < pipe_data->command_count - 1)//si es último comando cerramos pipe
+
+	// cerrar los no usados
+	ft_close_three(pipe_data->in, pipe_data->out, prev_pipe);
+	if (pipe_data->index < pipe_data->command_count - 1)
 		ft_close_two(pipe_fd[0], pipe_fd[1]);
 
-	// Ejecutar directamente sin más forks, nos saltamos command_in
+	// ver si sólo es redir sin comando!
+	args = command_to_arr(pipe_data->commands);
+	if (!args || !args[0])
+	{
+		free(args);
+		exit(EXIT_SUCCESS);
+	}
 	execute_command(pipe_data->commands, pipe_data->env_list);
+	// Solo llegamos aquí si execve falla
 	exit(EXIT_FAILURE);
 }
 
