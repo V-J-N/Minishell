@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/18 13:12:08 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/19 15:30:09 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,50 @@ t_token	*advance_tokenizer(char *str)
 	t_token			*new_token;
 	t_token_quote	quote;
 	char			*buffer;
-	size_t	i;
+	size_t			i;
+	size_t			j;
+	size_t			buffer_size;
 
 	i = 0;
 	list = NULL;
 	quote = NONE;
-	buffer = ft_calloc(16, sizeof(char));
+	buffer_size = 16;
 	while (str[i])
 	{
+		buffer = ft_calloc(buffer_size, sizeof(char));
+		j = 0;
 		quote = verify_quotes(str[i]);
 		if (quote == NONE)
 		{
-			while (ft_isalnum(str[i]) && str[i])
+			while ((str[i] && ft_isalnum(str[i])) || str[i] == '-')
 			{
-				buffer[i] = str[i];
+				buffer[j] = str[i];
 				i++;
-				// if (i == 16) aumentar el buffer
+				j++;
+				if (j == buffer_size - 1)
+				{
+					buffer_size *=2;
+					buffer = ft_realloc(buffer, buffer_size);
+				}
 			}
-			if (str[i] == 32 || !str[i])
+			if (str[i] == 32|| !str[i])
 			{
 				new_token = lstnew_token(buffer, WORD, quote);
-				free(buffer);
 				lstaddback_token(&list, new_token);
-				free_tokens(&new_token);
 				if (!str[i])
+				{
+					free(buffer);
 					break ;
+				}
+			}
+			if (str[i] == '|')
+			{
+				new_token = lstnew_token("|", PIPE, quote);
+				lstaddback_token(&list, new_token);
+				i++;
 			}
 		}
+		free(buffer);
 		i++;
 	}
 	return (list);

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/18 12:40:46 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/19 15:29:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_token			*lstnew_token(char *value, t_token_type type,
 					t_token_quote quote);
 void			lstaddback_token(t_token **head, t_token *new_node);
 void			free_tokens(t_token **tokens);
+char			*ft_realloc(char *buffer, size_t capacity);
 
 t_token			*advance_tokenizer(char *str);
 

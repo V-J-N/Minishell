@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:10:15 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/01 12:42:56 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/19 14:24:10 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,28 @@ char	**tokenlist_to_arr(t_token *tokenlist)
 	}
 	tokenarr[i] = NULL;
 	return (tokenarr);
+}
+
+/**
+ * @brief 
+ * 
+ */
+
+char	*ft_realloc(char *buffer, size_t capacity)
+{
+	char	*new_buffer;
+	size_t	i;
+
+	new_buffer = ft_calloc(capacity, sizeof(char));
+	if (!new_buffer)
+		return (NULL);
+	i = 0;
+	while (buffer[i])
+	{
+		new_buffer[i] = buffer[i];
+		i++;
+	}
+	new_buffer[i] = '\0';
+	free(buffer);
+	return (new_buffer);
 }

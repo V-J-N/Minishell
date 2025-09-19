@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/15 11:39:41 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/09/19 15:01:27 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,10 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/environment_utils.c\
 			$(SRC_DIR)/environment_utils2.c\
 			$(SRC_DIR)/lexer.c\
+			$(SRC_DIR)/lexer_tokens.c\
 			$(SRC_DIR)/lexer_utils.c\
 			$(SRC_DIR)/lexer_utils2.c\
+			$(SRC_DIR)/lexer_test.c\
 			$(SRC_DIR)/parser.c\
 			$(SRC_DIR)/parser_utils.c\
 			$(SRC_DIR)/parser_cmd.c\
@@ -46,6 +48,7 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/parser_free.c\
 			$(SRC_DIR)/parser_error.c\
 			$(SRC_DIR)/parser_handler.c\
+			$(SRC_DIR)/parser_test.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
 			$(SRC_DIR)/executor_utils2.c\
