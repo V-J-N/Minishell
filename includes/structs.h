@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/15 18:23:55 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/18 11:27:24 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ typedef enum e_token_type
 	UNKNOWN,		/**< Represents a invalid command. */
 }			t_token_type;
 
+typedef enum e_token_quote
+{
+	NONE,
+	SINGLE,
+	DOUBLE,
+}			t_token_quote;
+
 /**
  * @struct t_token
  * @brief Structure for a single token in the command line.
@@ -75,6 +82,8 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	t_token_quote	quote;
+	bool			is_expanded;
 	struct s_token	*next;
 }					t_token;
 

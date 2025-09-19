@@ -6,11 +6,24 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 10:15:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/01 17:00:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/18 13:18:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*create_input(char **argv)
+{
+	char	*input;
+	size_t	i;
+
+	i = 1;
+	input = ft_calloc(1024, sizeof(char));
+	while (argv[i])
+	{
+		/* code */
+	}
+}
 
 void	print_list(t_token *list)
 {
@@ -38,16 +51,15 @@ void	print_array(char **array)
 	return ;
 }
 
-/* int	main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_token	*token_list;
 	(void)argc;
 	// (void)argv;
 
 	token_list = NULL;
-	token_list = tokenizer(argv[1]);
+	token_list = tokenizer(argv);
 	print_list(token_list);
 	free_tokens(&token_list);
 	return (0);
 }
- */

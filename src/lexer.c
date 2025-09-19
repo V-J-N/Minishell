@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:33:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/27 17:42:32 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/18 13:12:03 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  * the operator. Returns NULL if an unexpected error occurs during token
  * creation.
  */
-static t_token	*set_token(char *str)
+/* static t_token	*set_token(char *str)
 {
 	t_token	*new_token;
 	size_t	len;
@@ -46,7 +46,7 @@ static t_token	*set_token(char *str)
 	else
 		new_token = NULL;
 	return (new_token);
-}
+} */
 
 /**
  * @brief Checks if a string is a valid minishell operator.
@@ -56,7 +56,7 @@ static t_token	*set_token(char *str)
  * @note The function correctly handles the case of multi-character
  * operators by checking their length first.
  */
-static bool	is_operator(char *str)
+/* static bool	is_operator(char *str)
 {
 	size_t	len;
 
@@ -73,7 +73,7 @@ static bool	is_operator(char *str)
 		return (true);
 	else
 		return (false);
-}
+} */
 
 /**
  * @brief Classifies a given string and creates a new token node.
@@ -87,7 +87,7 @@ static bool	is_operator(char *str)
  * The design  adheres to the "deep copy" principle, ensuring the new
  * token node is self-contained and independent of the input string.
  */
-static t_token	*classify_tokens(char *str)
+/* static t_token	*classify_tokens(char *str)
 {
 	t_token	*new_token;
 
@@ -100,7 +100,7 @@ static t_token	*classify_tokens(char *str)
 	if (!new_token)
 		return (NULL);
 	return (new_token);
-}
+} */
 
 /**
  * @brief Splits a command string, classifies the resulting substring, and
@@ -125,25 +125,26 @@ static t_token	*classify_tokens(char *str)
 t_token	*tokenizer(char *str)
 {
 	t_token	*tokens_list;
-	t_token	*new_token;
-	char	**tokens;
-	size_t	i;
+//	t_token	*new_token;
+//	char	**tokens;
+//	size_t	i;
 
 	tokens_list = NULL;
 	if (!str || !*str)
 		return (NULL);
-	tokens = ft_split(str, ' ');
-	if (!tokens)
-		return (NULL);
-	i = 0;
-	while (tokens[i])
-	{
-		new_token = classify_tokens(tokens[i]);
-		if (!new_token)
-			return (ft_free_array(tokens), free_tokens(&tokens_list), NULL);
-		lstaddback_token(&tokens_list, new_token);
-		i++;
-	}
-	ft_free_array(tokens);
+	// tokens = ft_split(str, ' ');
+	// if (!tokens)
+	// 	return (NULL);
+	// i = 0;
+	// while (tokens[i])
+	// {
+	// 	new_token = classify_tokens(tokens[i]);
+	// 	if (!new_token)
+	// 		return (ft_free_array(tokens), free_tokens(&tokens_list), NULL);
+	// 	lstaddback_token(&tokens_list, new_token);
+	// 	i++;
+	// }
+	// ft_free_array(tokens);
+	tokens_list = advance_tokenizer(str);
 	return (tokens_list);
 }
