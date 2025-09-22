@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:09:35 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/10 11:51:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:36:58 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	cmd_not_found(char *cmd, char **env_arr, char **args)
 	ft_putstr_fd("\n", 2);
 	ft_free_array(args);
 	ft_free_array(env_arr);
-	exit(127);//command not found error
+	exit(127);
 }
 
 /**
@@ -46,7 +46,7 @@ char	**ft_potential_paths(char **envp)
 
 /** 
  * @brief Check potential paths by building the strings 
- * (paht + '/' + command) 
+ * (path + '/' + command) 
  */
 char	*ft_build_full_path(char *command, char **envp)
 {
@@ -55,7 +55,6 @@ char	*ft_build_full_path(char *command, char **envp)
 	char	*path;
 	int		i;
 
-	full_path = NULL;
 	paths = ft_potential_paths(envp);
 	if (!paths)
 		return (NULL);
@@ -64,11 +63,11 @@ char	*ft_build_full_path(char *command, char **envp)
 	{
 		path = ft_strjoin(paths[i], "/");
 		if (!path)
-    		break;
+			break ;
 		full_path = ft_strjoin(path, command);
 		free(path);
 		if (!full_path)
-    		break;
+			break ;
 		if (access(full_path, X_OK) == 0)
 			return (ft_free_array(paths), full_path);
 		free(full_path);
