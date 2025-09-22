@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/16 11:58:21 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/22 13:16:04 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,9 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
 			$(SRC_DIR)/executor_utils2.c\
-			$(SRC_DIR)/input_output.c\
+			$(SRC_DIR)/redir.c\
+			$(SRC_DIR)/redir_utils.c\
+			$(SRC_DIR)/here_doc.c\
 			$(SRC_DIR)/pipes.c\
 			$(SRC_DIR)/pipes_utils.c
 
