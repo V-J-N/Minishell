@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/19 15:30:42 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/22 11:31:26 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			tokenlist = tokenizer(input);
-			// print_list(tokenlist);
+			print_list(tokenlist);
 			if (!tokenlist)
 				return (-1);
 			parse_state = parse_command(tokenlist);
