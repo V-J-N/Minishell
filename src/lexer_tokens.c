@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/22 17:05:03 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/22 17:43:23 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_token	*advance_tokenizer(char *str)
 	buffer_size = 16;
 	buffer = NULL;
 	new_token = NULL;
-	list = NULL;
 	while (str[i])
 	{
 		quote = verify_quotes(str[i]);
@@ -70,7 +69,7 @@ t_token	*advance_tokenizer(char *str)
 					buffer_size *=2;
 					buffer = ft_realloc(buffer, buffer_size);
 					if (!buffer)
-						return NULL;
+						return (free_tokens(&list), NULL);
 				}
 				buffer[j] = '\0';
 			}
@@ -87,6 +86,44 @@ t_token	*advance_tokenizer(char *str)
 				new_token = lstnew_token("|", PIPE, quote);
 				lstaddback_token(&list, new_token);
 				i++;
+			}
+			else if (str[i] == '>')
+			{
+				if (str[i+1] == '>')
+				{
+					if (buffer && *buffer != '\0')
+						buffer = tokenize_buffer(buffer, new_token, &list);
+					new_token = lstnew_token(">>", APPEND, quote);
+					lstaddback_token(&list, new_token);
+					i += 2;
+				}
+				else
+				{
+					if (buffer && *buffer != '\0')
+						buffer = tokenize_buffer(buffer, new_token, &list);
+					new_token = lstnew_token(">", REDIR_OUT, quote);
+					lstaddback_token(&list, new_token);
+					i++;
+				}
+			}
+			else if (str[i] == '<')
+			{
+				if (str[i+1] == '<')
+				{
+					if (buffer && *buffer != '\0')
+						buffer = tokenize_buffer(buffer, new_token, &list);
+					new_token = lstnew_token("<<", HEREDOC, quote);
+					lstaddback_token(&list, new_token);
+					i += 2;
+				}
+				else
+				{
+					if (buffer && *buffer != '\0')
+						buffer = tokenize_buffer(buffer, new_token, &list);
+					new_token = lstnew_token("<", REDIR_IN, quote);
+					lstaddback_token(&list, new_token);
+					i++;
+				}
 			}
 		}
 	}
