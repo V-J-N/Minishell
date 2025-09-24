@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/17 13:07:54 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:34:36 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			tokenlist = tokenizer(input);
+			// print_list(tokenlist);
 			if (!tokenlist)
 				return (-1);
 			parse_state = parse_command(tokenlist);
 			if (!parse_state)
 				return (-1);
-			//print_commands(parse_state);
+			// print_commands(parse_state);
 			exit_signal = execute_all(parse_state->cmd_list, &environment);
 			printf("exit status: %d\n", exit_signal);
 			free_tokens(&tokenlist);

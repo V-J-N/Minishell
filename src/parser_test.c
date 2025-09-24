@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/16 13:31:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:50:30 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	print_commands(t_parse_state *commands)
 	i = 0;
 	while (list)
 	{
-		printf("==== Node List [%zu]\n", i);
-		arg = list->args;
-		if (arg)
-			printf("-> Command [%s]\n", arg->value);
-		if (arg)
-			arg = arg->next;
+		printf("==== Node List [%ld]\n", i);
+		if (list->args)
+		{
+			printf("-> Command [%s]\n", list->args->value);
+			list->args = list->args->next;
+		}
 		if (list->cmd_argc > 0)
 		{
 			while (arg)

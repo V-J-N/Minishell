@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
+#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/22 13:16:04 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/24 12:17:34 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,13 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/environment_utils.c\
 			$(SRC_DIR)/environment_utils2.c\
 			$(SRC_DIR)/lexer.c\
+			$(SRC_DIR)/lexer_tokens.c\
+			$(SRC_DIR)/lexer_tokens2.c\
+			$(SRC_DIR)/lexer_tokens3.c\
 			$(SRC_DIR)/lexer_utils.c\
 			$(SRC_DIR)/lexer_utils2.c\
+			$(SRC_DIR)/lexer_utils3.c\
+			$(SRC_DIR)/lexer_test.c\
 			$(SRC_DIR)/parser.c\
 			$(SRC_DIR)/parser_test.c\
 			$(SRC_DIR)/parser_utils.c\
@@ -47,6 +52,7 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/parser_free.c\
 			$(SRC_DIR)/parser_error.c\
 			$(SRC_DIR)/parser_handler.c\
+			$(SRC_DIR)/parser_test.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
 			$(SRC_DIR)/executor_utils2.c\
