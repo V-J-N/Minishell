@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/17 13:05:51 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:04:02 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -39,13 +40,13 @@ t_env		*ft_lstnew_mini_env(char *key, char *value, char *full);
 void		ft_addback_mini_env(t_env **head, t_env *new_node);
 char		*get_value_by_key(t_env *env_list, const char *key);
 char		*get_full_env(t_env *env_list, const char *key);
+char		**envlist_to_arr(t_env **envlist);
 
 //EXECUTOR_UTILS:
 void		cmd_not_found(char *cmd, char **env_arr, char **args);
 char		**ft_potential_paths(char **envp);
 char		*ft_build_full_path(char *command, char **envp);
 char		*ft_check_path(char *command, char **envp);
-char		**envlist_to_arr(t_env **envlist);
 char		**tokenlist_to_arr(t_token *tokenlist);
 char		**command_to_arr(t_command *command);
 int			ft_wait_and_exit(pid_t last_pid);

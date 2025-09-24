@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:37:53 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/28 17:15:03 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/24 12:22:47 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,6 @@ void	free_environment(t_env **env)
 	*env = NULL;
 }
 
-/// @brief Search for the value in the list, given a key
-char	*get_value_by_key(t_env *env_list, const char *key)
-{
-	char	*value;
-
-	while (env_list)
-	{
-		if (ft_strncmp(env_list->key, key, ft_strlen(key)) == 0)
-		{
-			value = ft_strdup(env_list->value);
-			return (value);
-		}
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
-
 /// @brief Search for the 'full_env' in the list, given a key
 char	*get_full_env(t_env *env_list, const char *key)
 {
@@ -76,4 +59,47 @@ char	*get_full_env(t_env *env_list, const char *key)
 		env_list = env_list->next;
 	}
 	return (NULL);
+}
+
+static int	ft_envlst_size(t_env *lst)
+{
+	int	counter;
+
+	counter = 0;
+	while (lst)
+	{
+		counter++;
+		lst = lst->next;
+	}
+	return (counter);
+}
+
+/**
+ * @brief Extracts the data from our
+ * environment data structure list and returns
+ * an array of strings that can be used by execve()
+ * */
+char	**envlist_to_arr(t_env **envlist)
+{
+	int		count;
+	char	**envarr;
+	t_env	*temp;
+	int		i;
+
+	count = ft_envlst_size(*envlist);
+	envarr = ft_calloc(count + 1, sizeof(char *));
+	if (!envarr)
+		return (NULL);
+	temp = *envlist;
+	i = 0;
+	while (temp)
+	{
+		envarr[i] = ft_strdup(temp->full_env);
+		if (!envarr[i])
+			return (ft_free_array(envarr), NULL);
+		temp = temp->next;
+		i++;
+	}
+	envarr[i] = NULL;
+	return (envarr);
 }
