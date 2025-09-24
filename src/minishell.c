@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/22 17:48:56 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/24 11:34:36 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			tokenlist = tokenizer(input);
-			// print_list(tokenlist);
+			print_list(tokenlist);
 			if (!tokenlist)
 				return (-1);
 			parse_state = parse_command(tokenlist);

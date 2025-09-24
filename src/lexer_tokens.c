@@ -3,131 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/22 17:43:23 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/24 12:24:30 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*tokenize_buffer(char *buffer, t_token *new_token, t_token **list)
+t_lexer	*init_lexer(char *str)
 {
-		new_token = lstnew_token(buffer, WORD, NONE);
-		lstaddback_token(list, new_token);
-		free(buffer);
-		buffer = NULL;
-		return (buffer);
-}
+	t_lexer	*lexer;
 
-t_token_quote	verify_quotes(char c)
-{
-	t_token_quote	state;
-
-	state = NONE;
-	if (c == 34)
-		return (state = DOUBLE);
-	else if (c == 39)
-		return (state = SINGLE);
-	return (state);
+	lexer = ft_calloc(1, sizeof(t_lexer));
+	if (!lexer)
+		return (NULL);
+	lexer->list = NULL;
+	lexer->new_token = NULL;
+	lexer->quote = NONE;
+	lexer->buffer = NULL;
+	lexer->string = str;
+	lexer->i = 0;
+	lexer->j = 0;
+	lexer->buffer_size = 16;
+	return (lexer);
 }
 
 t_token	*advance_tokenizer(char *str)
 {
-	t_token			*list;
-	t_token			*new_token;
-	t_token_quote	quote;
-	char			*buffer;
-	size_t			i;
-	size_t			j;
-	size_t			buffer_size;
+	t_lexer	*lexer;
 
-	i = 0;
-	list = NULL;
-	quote = NONE;
-	buffer_size = 16;
-	buffer = NULL;
-	new_token = NULL;
-	while (str[i])
-	{
-		quote = verify_quotes(str[i]);
-		if (quote == NONE)
-		{
-			if (buffer == NULL)
-			{
-				buffer = ft_calloc(buffer_size, sizeof(char));
-				j = 0;
-			}
-			if (str[i] != 32 && str[i] != '|' && str[i] != '<' && str[i] != '>')
-			{
-				buffer[j] = str[i];
-				i++;
-				j++;
-				if (j == buffer_size - 1)
-				{
-					buffer_size *=2;
-					buffer = ft_realloc(buffer, buffer_size);
-					if (!buffer)
-						return (free_tokens(&list), NULL);
-				}
-				buffer[j] = '\0';
-			}
-			else if (str[i] == 32)
-			{
-				if (buffer && *buffer != '\0')
-					buffer = tokenize_buffer(buffer, new_token, &list);
-				i++;
-			}
-			else if (str[i] == '|')
-			{
-				if (buffer && *buffer != '\0')
-					buffer = tokenize_buffer(buffer, new_token, &list);
-				new_token = lstnew_token("|", PIPE, quote);
-				lstaddback_token(&list, new_token);
-				i++;
-			}
-			else if (str[i] == '>')
-			{
-				if (str[i+1] == '>')
-				{
-					if (buffer && *buffer != '\0')
-						buffer = tokenize_buffer(buffer, new_token, &list);
-					new_token = lstnew_token(">>", APPEND, quote);
-					lstaddback_token(&list, new_token);
-					i += 2;
-				}
-				else
-				{
-					if (buffer && *buffer != '\0')
-						buffer = tokenize_buffer(buffer, new_token, &list);
-					new_token = lstnew_token(">", REDIR_OUT, quote);
-					lstaddback_token(&list, new_token);
-					i++;
-				}
-			}
-			else if (str[i] == '<')
-			{
-				if (str[i+1] == '<')
-				{
-					if (buffer && *buffer != '\0')
-						buffer = tokenize_buffer(buffer, new_token, &list);
-					new_token = lstnew_token("<<", HEREDOC, quote);
-					lstaddback_token(&list, new_token);
-					i += 2;
-				}
-				else
-				{
-					if (buffer && *buffer != '\0')
-						buffer = tokenize_buffer(buffer, new_token, &list);
-					new_token = lstnew_token("<", REDIR_IN, quote);
-					lstaddback_token(&list, new_token);
-					i++;
-				}
-			}
-		}
-	}
-	if (buffer && *buffer != '\0')
-		buffer = tokenize_buffer(buffer, new_token, &list);
-	return (list);
+	lexer = init_lexer(str);
+	lexer = lexer_loop(lexer);
+	if (lexer->buffer && *lexer->buffer != '\0')
+		lexer->buffer = tokenize_buffer(lexer->buffer,
+				lexer->new_token, &(lexer->list));
+	return (lexer->list);
 }

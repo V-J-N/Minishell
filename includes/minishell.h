@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/19 15:29:05 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/24 12:16:44 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,23 @@ int				redirect_out(t_command *command_list, int out_fd);
 
 //LEXER
 t_token			*tokenizer(char *str);
+t_lexer			*init_lexer(char *str);
+t_token			*advance_tokenizer(char *str);
+t_lexer			*lexer_loop(t_lexer *lexer);
+void			free_tokens(t_token **tokens);
+void			lstaddback_token(t_token **head, t_token *new_node);
 t_token			*lstnew_token(char *value, t_token_type type,
 					t_token_quote quote);
-void			lstaddback_token(t_token **head, t_token *new_node);
-void			free_tokens(t_token **tokens);
+char			**tokenlist_to_arr(t_token *tokenlist);
 char			*ft_realloc(char *buffer, size_t capacity);
-
-t_token			*advance_tokenizer(char *str);
-
+t_token_quote	verify_quotes(char c);
+char			*tokenize_buffer(char *buffer, t_token *new_token,
+					t_token **list);
+t_lexer			*tokenize_char(t_lexer *lexer);
+t_lexer			*tokenize_space(t_lexer *lexer);
+t_lexer			*tokenize_pipe(t_lexer *lexer);
+t_lexer			*tokenize_input(t_lexer *lexer);
+t_lexer			*tokenize_output(t_lexer *lexer);
 
 //LEXER_TEST:
 void			print_list(t_token *list);

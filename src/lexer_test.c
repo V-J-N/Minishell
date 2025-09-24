@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 10:15:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/22 11:31:21 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/24 12:21:12 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*create_input(int argc, char **argv)
 		if ((int)i < (argc - 1))
 			input[k++] = ' ';
 		i++;
-
 	}
 	input[k] = '\0';
 	return (input);

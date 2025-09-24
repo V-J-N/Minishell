@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/18 11:27:24 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/09/24 11:32:13 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,17 @@ typedef struct s_pipe
 	int			out;
 	int			index;
 }				t_pipe;
+
+typedef struct s_lexer
+{
+	t_token			*list;
+	t_token			*new_token;
+	t_token_quote	quote;
+	char			*buffer;
+	char			*string;
+	size_t			i;
+	size_t			j;
+	size_t			buffer_size;
+}					t_lexer;
 
 #endif
