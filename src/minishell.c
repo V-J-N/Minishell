@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			tokenlist = tokenizer(input);
-			print_list(tokenlist);
+			// print_list(tokenlist);
 			if (!tokenlist)
 				return (-1);
 			parse_state = parse_command(tokenlist);

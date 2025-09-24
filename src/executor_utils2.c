@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:25:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/10 11:48:39 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:52:05 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**command_to_arr(t_command *command)
 	command_array = NULL;
 	command_array = malloc(sizeof(char *) * (command->cmd_argc + 1));
 	if (!command_array)
-	    return (NULL);
+		return (NULL);
 	temp = command->args;
 	i = 0;
 	while (temp)
@@ -96,7 +96,7 @@ char	**command_to_arr(t_command *command)
  */
 int	ft_wait_and_exit(pid_t last_pid)
 {
-	int	status;
+	int		status;
 	pid_t	pid;
 
 	while ((pid = wait(&status)) > 0) //esperamos a todos los hijos

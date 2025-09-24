@@ -6,16 +6,29 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/10 12:07:34 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:24:07 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	ft_execve_failed(char **args, char **env_arr, char *full_path)
+{
+	ft_free_array(args);
+	ft_free_array(env_arr);
+	free(full_path);
+	perror("execve");
+	if (errno == ENOENT)
+		exit(127);
+	else if (errno == EACCES)
+		exit(126);
+	else
+		exit(1);
+}
+
 /**
- * @brief Execution of command if there's a 
- * valid path inside a child process. Exit with
- * corresponding error.
+ * @brief Execution of command if there's a valid path inside a child process.
+ * If execve fails, ft_execve_failed handles a clean exit of the child process.
 */
 void	execute_command(t_command *command, t_env **envlist)
 {
@@ -25,7 +38,7 @@ void	execute_command(t_command *command, t_env **envlist)
 
 	env_arr = envlist_to_arr(envlist);
 	if (!env_arr)
-		exit(1);//error genérico
+		exit(1);
 	args = command_to_arr(command);
 	if (!args || !args[0])
 	{
@@ -36,16 +49,31 @@ void	execute_command(t_command *command, t_env **envlist)
 	if (!full_path)
 		cmd_not_found(args[0], env_arr, args);
 	execve(full_path, args, env_arr);
-	ft_free_array(args);
-	ft_free_array(env_arr);
-	free(full_path);
-	perror("execve");
-	if (errno == ENOENT)
-		exit(127); // No existe el binario
-	else if (errno == EACCES)
-		exit(126); // Permiso denegado
-	else
-		exit(1); // Otro error genérico
+	ft_execve_failed(args, env_arr, full_path);
+}
+
+static void	exec_child_process(t_command *command, t_env **env, int in, int out)
+{
+	int	new_in;
+	int	new_out;
+
+	signal(SIGINT, SIG_DFL);
+	new_in = redirect_in(command, in);
+	new_out = redirect_out(command, out);
+	if (new_in == -1 || new_out == -1)
+		exit(EXIT_FAILURE);
+	if (new_in != STDIN_FILENO)
+	{
+		dup2(new_in, STDIN_FILENO);
+		close(new_in);
+	}
+	if (new_out != STDOUT_FILENO)
+	{
+		dup2(new_out, STDOUT_FILENO);
+		close(new_out);
+	}
+	execute_command(command, env);
+	return ;
 }
 
 /** 
@@ -55,8 +83,6 @@ void	execute_command(t_command *command, t_env **envlist)
 int	command_in(t_command *command, t_env **environment, int in, int out)
 {
 	pid_t	pid;
-	int 	new_in;
-	int 	new_out;
 	int		status;
 
 	if (!command || !environment)
@@ -65,27 +91,10 @@ int	command_in(t_command *command, t_env **environment, int in, int out)
 	if (pid < 0)
 		return (perror("Fork"), EXIT_FAILURE);
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL); // hijo reacciona a Ctrl+C
-		new_in = redirect_in(command, in);
-		new_out = redirect_out(command, out);
-		if (new_in == -1 || new_out == -1)
-			exit(EXIT_FAILURE);
-		if (new_in != STDIN_FILENO)
-		{
-			dup2(new_in, STDIN_FILENO);
-			close(new_in);
-		}
-		if (new_out != STDOUT_FILENO)
-		{
-			dup2(new_out, STDOUT_FILENO);
-			close(new_out);
-		}
-		execute_command(command, environment);
-	}
-	signal(SIGINT, SIG_IGN); // padre ignora Ctrl+C hasta que hijo termine
+		exec_child_process(command, environment, in, out);
+	signal(SIGINT, SIG_IGN);
 	status = ft_wait_and_exit(pid);
-	signal(SIGINT, SIG_DFL);//padre vuelve a hacer caso a la señal
+	signal(SIGINT, SIG_DFL);
 	return (status);
 }
 
@@ -93,6 +102,8 @@ int	command_in(t_command *command, t_env **environment, int in, int out)
  * @brief Checks if we need to execute a single command block
  * or several ones through pipes, and returns the exit signal
  * of the process.
+ * Prepares heredoc FDs before execution, and saves them in the
+ * corresponding redir struct.
 */
 int	execute_all(t_command *commands, t_env **environment)
 {
@@ -102,11 +113,17 @@ int	execute_all(t_command *commands, t_env **environment)
 
 	if (!commands || !environment)
 		return (perror("Missing data structures"), EXIT_FAILURE);
+	if (!prepare_all_heredocs(commands))
+		return (EXIT_FAILURE);
 	command_count = number_of_commands(commands);
 	if (command_count < 1)
 		return (perror("No command"), EXIT_FAILURE);
 	if (command_count == 1)
+	{
+		if (!commands->args && has_redirs(commands))
+			return (redirection_only(commands, STDIN_FILENO, STDOUT_FILENO));
 		return (command_in(commands, environment, STDIN_FILENO, STDOUT_FILENO));
+	}
 	pipe_data = init_pipe_data(commands, environment, command_count);
 	if (!pipe_data)
 		return (perror("pipe_data error"), EXIT_FAILURE);

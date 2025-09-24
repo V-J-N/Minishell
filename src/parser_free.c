@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:38:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/12 12:15:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:19:06 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	free_redirs(t_redir *redirs)
 	while (current != NULL)
 	{
 		next = current->next;
+		if (current->type == HEREDOC && current->heredoc_fd > 2)
+			close(redirs->heredoc_fd);
 		free(current->file);
 		free(current);
 		current = next;

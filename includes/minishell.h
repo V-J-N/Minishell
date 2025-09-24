@@ -65,12 +65,18 @@ t_pipe			*init_pipe_data(t_command *command, t_env **env_list,
 void			free_pipe_data(t_pipe *pipe_data);
 
 //INPUT_OUTPUT:
-int				get_inputfile_fd(char *infile);
-int				get_outputfile_fd(char *outfile);
-int				get_append_fd(char *outfile);
-int				get_heredoc_fd(char *limiter);
-int				redirect_in(t_command *command_list, int in_fd);
-int				redirect_out(t_command *command_list, int out_fd);
+int			  get_inputfile_fd(char *infile);
+int			  get_outputfile_fd(char *outfile);
+int			  get_append_fd(char *outfile);
+int			  get_heredoc_fd(char *limiter);
+int			  redirect_in(t_command *command_list, int in_fd);
+int			  redirect_out(t_command *command_list, int out_fd);
+bool		  prepare_heredocs(t_command *cmd);
+bool		  prepare_all_heredocs(t_command *cmd_list);
+int			  redirection_only(t_command *cmd, int in, int out);
+bool		  has_redirs(t_command *cmd);
+bool		  has_input_redir(t_command *cmd);
+bool		  has_output_redir(t_command *cmd);
 
 //LEXER
 t_token			*tokenizer(char *str);

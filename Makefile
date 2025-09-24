@@ -45,6 +45,7 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/lexer_utils3.c\
 			$(SRC_DIR)/lexer_test.c\
 			$(SRC_DIR)/parser.c\
+			$(SRC_DIR)/parser_test.c\
 			$(SRC_DIR)/parser_utils.c\
 			$(SRC_DIR)/parser_cmd.c\
 			$(SRC_DIR)/parser_redir.c\
@@ -55,7 +56,9 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/executor.c\
 			$(SRC_DIR)/executor_utils.c\
 			$(SRC_DIR)/executor_utils2.c\
-			$(SRC_DIR)/input_output.c\
+			$(SRC_DIR)/redir.c\
+			$(SRC_DIR)/redir_utils.c\
+			$(SRC_DIR)/here_doc.c\
 			$(SRC_DIR)/pipes.c\
 			$(SRC_DIR)/pipes_utils.c
 
