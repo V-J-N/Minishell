@@ -6,45 +6,46 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/24 13:45:27 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:26:00 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_builtin(char *cmd, t_env *env)
+int	execute_builtin(char *cmd, t_env *env, t_command *cmd_lst)
 {
-	if (!(ft_strncmp(cmd, "cd", 3)))
+	
+	if (!(ft_strncmp(cmd, "echo", 5)))
+		return (ft_echo(cmd_lst));
+	else if (!(ft_strncmp(cmd, "pwd", 4)))
+		return (ft_pwd(env));
+	else if (!(ft_strncmp(cmd, "env", 4)))
+		return (ft_env(env));
+	/* else if (!(ft_strncmp(cmd, "cd", 3)))
 		return (ft_cd());
 	else if (!(ft_strncmp(cmd, "export", 7)))
 		return (ft_export());
 	else if (!(ft_strncmp(cmd, "unset", 6)))
 		return (ft_unset());
 	else if (!(ft_strncmp(cmd, "exit", 5)))
-		return (ft_exit());
-	else if (!(ft_strncmp(cmd, "echo", 5)))
-		return (ft_echo());
-	else if (!(ft_strncmp(cmd, "pwd", 4)))
-		return (ft_pwd(env));
-	else if (!(ft_strncmp(cmd, "env", 4)))
-		return (ft_env());
+		return (ft_exit()); */
 	return (-1);
 }
 
-int	built_in(char *cmd, t_env env)
+int	built_in(char *cmd, t_env *env, t_command *cmd_lst)
 {
 	pid_t	pid;
 	int		exit_return;
 
 	if (is_parent_built_in(cmd))
-		return (execute_built_in(cmd, env));
+		return (execute_builtin(cmd, env, cmd_lst));
 	else
 	{
 		pid = fork();
 		if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
-			exit_return = execute_built_in(cmd, env);
+			exit_return = execute_builtin(cmd, env, cmd_lst);
 			if (exit_return == -1)
 				exit(EXIT_FAILURE);
 			else
@@ -90,6 +91,9 @@ int	ft_pwd(t_env *env)
 	return (EXIT_SUCCESS);
 }
 
+/** @brief Shows in terminal the environment variables
+ * stored in the t_env list.
+ */
 int	ft_env(t_env *env)
 {
 	t_env	*temp;
@@ -99,12 +103,15 @@ int	ft_env(t_env *env)
 	temp = env;
 	while (temp)
 	{
-		printf("%s\n", temp->full_env);
+		ft_printf("%s\n", temp->full_env);
 		temp = temp->next;
 	}
 	return (EXIT_SUCCESS);
 }
 
+/** @brief  Prints in STDOUT the parameters received.
+ * If '-n' flag is given, there is no "\n" at the end.
+*/
 int	ft_echo(t_command *cmd)
 {
 	bool	newline;

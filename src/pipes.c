@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/22 14:56:44 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:36:52 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static void	p_child_process(t_pipe *pipe_data, int prev_pipe, int *pipe_fd)
 	ft_close_three(pipe_data->in, pipe_data->out, prev_pipe);
 	if (pipe_data->index < pipe_data->command_count - 1)
 		ft_close_two(pipe_fd[0], pipe_fd[1]);
+	if (is_built_in(pipe_data->commands->args->value))
+		exit(built_in(pipe_data->commands->args->value, *pipe_data->env_list, pipe_data->commands));
 	execute_command(pipe_data->commands, pipe_data->env_list);
 	exit(EXIT_FAILURE);
 }
