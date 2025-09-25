@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/22 12:24:22 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/25 13:18:09 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,7 +121,7 @@ ls >outfile1 >>outfile2 >>outfile3
 
 < infile >outfile cat
 
-<< stop >outfile cat
+<< stop >outfile cat (leaks!!)
 
 < infile <outfile cat
 bash: outfile: No existe el archivo o el directorio
@@ -154,5 +154,18 @@ ls | << stop cat | cat > outfile
 NUEVOS PROBLEMAS:
 
 < infile "./a.out" | cat > outfile (!!! para minishell lo acepta sin comillas, bash ambas)
+(por ahora se queda ejecutando, falta implementación de comillas)
 
 ls >outfile1 >outfile2 >outfile3 (nuestra minishell interpreta los outfiles como comandos!!, con espacio lo coge bien)
+
+
+BUILTINS:
+
+ls | exit (status: 0)
+
+env | grep USER
+unset USER
+(unset algo sin key no dice nada ni da error)
+
+export USER=veid
+

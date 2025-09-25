@@ -6,54 +6,11 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:25:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/22 14:52:05 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:03:38 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_envlst_size(t_env *lst)
-{
-	int	counter;
-
-	counter = 0;
-	while (lst)
-	{
-		counter++;
-		lst = lst->next;
-	}
-	return (counter);
-}
-
-/**
- * @brief Extracts the data from our
- * environment data structure list and returns
- * an array of strings that can be used by execve()
- * */
-char	**envlist_to_arr(t_env **envlist)
-{
-	int		count;
-	char	**envarr;
-	t_env	*temp;
-	int		i;
-
-	count = ft_envlst_size(*envlist);
-	envarr = ft_calloc(count + 1, sizeof(char *));
-	if (!envarr)
-		return (NULL);
-	temp = *envlist;
-	i = 0;
-	while (temp)
-	{
-		envarr[i] = ft_strdup(temp->full_env);
-		if (!envarr[i])
-			return (ft_free_array(envarr), NULL);
-		temp = temp->next;
-		i++;
-	}
-	envarr[i] = NULL;
-	return (envarr);
-}
 
 /**
 * @brief Extracts the command and flags saved

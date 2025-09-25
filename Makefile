@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/24 12:17:34 by serjimen         ###   ########.fr        #
+#    Updated: 2025/09/25 13:40:48 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,6 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/lexer_utils3.c\
 			$(SRC_DIR)/lexer_test.c\
 			$(SRC_DIR)/parser.c\
-			$(SRC_DIR)/parser_test.c\
 			$(SRC_DIR)/parser_utils.c\
 			$(SRC_DIR)/parser_cmd.c\
 			$(SRC_DIR)/parser_redir.c\
@@ -59,6 +58,12 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/redir.c\
 			$(SRC_DIR)/redir_utils.c\
 			$(SRC_DIR)/here_doc.c\
+			$(SRC_DIR)/built_ins.c\
+			$(SRC_DIR)/built_ins_utils.c\
+			$(SRC_DIR)/exit.c\
+			$(SRC_DIR)/echo.c\
+			$(SRC_DIR)/cd.c\
+			$(SRC_DIR)/export.c\
 			$(SRC_DIR)/pipes.c\
 			$(SRC_DIR)/pipes_utils.c
 

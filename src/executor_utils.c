@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:09:35 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/22 14:36:58 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:52:30 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,31 @@
  */
 void	cmd_not_found(char *cmd, char **env_arr, char **args)
 {
-	ft_putstr_fd("command not found: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd("\n", 2);
-	ft_free_array(args);
-	ft_free_array(env_arr);
+	if (ft_strchr(cmd, '/'))
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_free_array(args);
+		ft_free_array(env_arr);
+	}
+	else
+	{
+		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd("\n", 2);
+		ft_free_array(args);
+		ft_free_array(env_arr);
+	}
 	exit(127);
+}
+
+int	is_directory(const char *path)
+{
+	struct stat statbuf;
+
+	if (stat(path, &statbuf) != 0)
+		return (0);
+	return (S_ISDIR(statbuf.st_mode));
 }
 
 /**
@@ -91,7 +110,7 @@ char	*ft_check_path(char *command, char **envp)
 	if (ft_strchr(command, '/'))
 	{
 		full_path = ft_strdup(command);
-		if (access(full_path, X_OK) == 0)
+		if (access(full_path, X_OK) == 0 && !is_directory(full_path))
 			return (full_path);
 		else
 		{
