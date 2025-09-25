@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/25 11:25:57 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:42:50 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
+# include <limits.h>
 # include "structs.h"
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 //MINISHELL UTILS:
 void			ft_free_array(char **array);
@@ -139,7 +143,10 @@ int				ft_env(t_env *env);
 int				ft_echo(t_command *cmd);
 
 //BI_PARENT:
-
+int				ft_exit(t_command *cmd_lst);
+int				ft_unset(t_command *cmd_lst, t_env **env);
+int				ft_export(t_command *cmd, t_env **env);
+int				ft_cd(t_command *cmd, t_env **env);
 
 
 //BUILT_IN_UTILS:
@@ -147,5 +154,7 @@ bool			is_built_in(char *cmd);
 bool			is_parent_built_in(char *cmd);
 t_env			*find_node_by_key(t_env *env_list, const char *key);
 char			*get_value_by_key(t_env *env_list, const char *key);
+char			**args_to_array(t_arg *args);
+void			delete_env_key(t_env **env, const char *key);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:34:38 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/24 13:45:11 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:47:48 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,42 @@ t_env	*find_node_by_key(t_env *env_list, const char *key)
 	return (NULL);
 }
 
+static void	delete_free(t_env *env)
+{
+	free(env->key);
+	free(env->value);
+	free(env->full_env);
+	free(env);
+	return ;
+}
+
+void	delete_env_key(t_env **env, const char *key)
+{
+	t_env	*prev;
+	t_env	*curr;
+
+	if (!env || !*env || !key)
+		return ;
+	prev = NULL;
+	curr = *env;
+	while (curr)
+	{
+		if (ft_strlen(curr->key) == ft_strlen(key) &&
+		ft_strncmp(curr->key, key, ft_strlen(key)) == 0)
+		{
+			if (prev)
+				prev->next = curr->next;
+			else
+				*env = curr->next;
+			delete_free(curr);
+			return ;
+		}
+		prev = curr;
+		curr = curr->next;
+	}
+	return ;
+}
+
 bool	is_built_in(char *cmd)
 {
 	return (!ft_strncmp(cmd, "cd", 3) || !ft_strncmp(cmd, "export", 7) ||
@@ -55,6 +91,31 @@ bool	is_parent_built_in(char *cmd)
 {
 	return (!ft_strncmp(cmd, "cd", 3) || !ft_strncmp(cmd, "export", 7) ||
 			!ft_strncmp(cmd, "unset", 6) || !ft_strncmp(cmd, "exit", 5));
+}
+
+char	**args_to_array(t_arg *args)
+{
+	size_t	count = 0;
+	t_arg	*tmp = args;
+	char	**arr;
+
+	while (tmp)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	arr = ft_calloc(count + 1, sizeof(char *));
+	if (!arr)
+		return NULL;
+	tmp = args;
+	for (size_t i = 0; i < count; i++)
+	{
+		arr[i] = ft_strdup(tmp->value);
+		if (!arr[i])
+			return (ft_free_array(arr), NULL);
+		tmp = tmp->next;
+	}
+	return arr;
 }
 
 /* void	update_env_value(t_env **env, const char *key, const char *value)

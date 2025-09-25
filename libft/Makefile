@@ -6,13 +6,14 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/05/22 13:49:14 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/25 12:04:10 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	libft.a
 
 SRC			=	ft_atoi.c\
+				ft_atol.c\
 				ft_split.c\
 				ft_bzero.c\
 				ft_strchr.c\
