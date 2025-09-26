@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:07:52 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 17:44:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:52:25 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_lexer	*tokenize_char(t_lexer *lexer)
 			return (free_tokens(&(lexer->list)), free_lexer(lexer), NULL);
 	}
 	lexer->buffer[lexer->j] = '\0';
+	lexer->quote = verify_quotes(lexer->string[lexer->i]);
 	return (lexer);
 }
 
@@ -56,6 +57,7 @@ t_lexer	*tokenize_space(t_lexer *lexer)
 		lexer->buffer = tokenize_buffer(lexer->buffer,
 				lexer->new_token, &(lexer->list));
 	lexer->i++;
+	lexer->quote = verify_quotes(lexer->string[lexer->i]);
 	return (lexer);
 }
 
@@ -74,6 +76,7 @@ t_lexer	*tokenize_pipe(t_lexer *lexer)
 	lexer->new_token = lstnew_token("|", PIPE, lexer->quote);
 	lstaddback_token(&(lexer->list), lexer->new_token);
 	lexer->i++;
+	lexer->quote = verify_quotes(lexer->string[lexer->i]);
 	return (lexer);
 }
 
@@ -108,6 +111,7 @@ t_lexer	*tokenize_input(t_lexer *lexer)
 		lstaddback_token(&(lexer->list), lexer->new_token);
 		lexer->i++;
 	}
+	lexer->quote = verify_quotes(lexer->string[lexer->i]);
 	return (lexer);
 }
 
@@ -142,5 +146,6 @@ t_lexer	*tokenize_output(t_lexer *lexer)
 		lstaddback_token(&(lexer->list), lexer->new_token);
 		lexer->i++;
 	}
+	lexer->quote = verify_quotes(lexer->string[lexer->i]);
 	return (lexer);
 }

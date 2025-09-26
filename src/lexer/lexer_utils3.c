@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:45:46 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 17:31:19 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:58:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,39 @@ char	*tokenize_buffer(char *buffer, t_token *new_token, t_token **list)
 	free(buffer);
 	buffer = NULL;
 	return (buffer);
+}
+
+/**
+ * @brief Allocates and initializes the lexer's word accumulation buffer.
+ * This functions serves as the constructor for the dynamic buffer used to
+ * build a word token char-by-char.
+ * @param lexer A pointer to the 't_lexer' state structure.
+ * @returns The updated 't_lexer' state structure with a newly allocated buffer.
+ * Returns NULL if memory allocations fails.
+ */
+t_lexer	*init_lexer_buffer(t_lexer *lexer)
+{
+	lexer->buffer = ft_calloc(lexer->buffer_size, sizeof(char));
+	if (!lexer->buffer)
+		return (NULL);
+	lexer->j = 0;
+	return (lexer);
+}
+
+/**
+ * @brief Checks if the current character is a regular word character.
+ * This function evaluates the character at the lexer's current position
+ * (lexer->i) to see if it is a character that should be included in
+ * a word token.
+ * @param lexer A pointer to the 't_lexer' state structure, containing the
+ * input string and the current position.
+ * @return true if the character is a word character.
+ * @return false if it is a metacharacter or a whitespace.
+ */
+bool	is_char(t_lexer *lexer)
+{
+	if (lexer->string[lexer->i] != 32 && lexer->string[lexer->i] != '|'
+		&& lexer->string[lexer->i] != '<' && lexer->string[lexer->i] != '>')
+		return (true);
+	return (false);
 }

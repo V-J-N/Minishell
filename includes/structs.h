@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 12:29:49 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:12:08 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ typedef struct s_lexer
 	t_token			*list;
 	t_token			*new_token;
 	t_token_quote	quote;
+	bool			is_open;
 	char			*buffer;
 	char			*string;
 	size_t			i;
