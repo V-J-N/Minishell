@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/24 11:32:13 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/09/26 12:29:49 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,17 @@ typedef enum e_token_type
 	UNKNOWN,		/**< Represents a invalid command. */
 }			t_token_type;
 
+/**
+ * @enum e_token_quote
+ * @brief Enumeration for the different types of quotes.
+ * This enum tracks whether the lexer is currently inside single quotes,
+ * double quotes, or outside any quotes.
+ */
 typedef enum e_token_quote
 {
-	NONE,
-	SINGLE,
-	DOUBLE,
+	NONE,			/**< Outside any quoted context. */
+	SINGLE,			/**< Inside single quotes. */
+	DOUBLE,			/**< Inside double quotes */
 }			t_token_quote;
 
 /**
