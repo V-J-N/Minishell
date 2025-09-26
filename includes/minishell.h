@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/25 13:42:50 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/26 10:12:07 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_lexer			*tokenize_space(t_lexer *lexer);
 t_lexer			*tokenize_pipe(t_lexer *lexer);
 t_lexer			*tokenize_input(t_lexer *lexer);
 t_lexer			*tokenize_output(t_lexer *lexer);
+void			free_lexer(t_lexer *lexer);
 
 //LEXER_TEST:
 void			print_list(t_token *list);

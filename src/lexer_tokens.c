@@ -3,13 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/25 11:04:16 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/26 10:13:10 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file lexer_tokens.c
+ * @brief Core logic for the character-by-character tokenization.
+ */
 #include "minishell.h"
 
 t_lexer	*init_lexer(char *str)
@@ -30,30 +34,26 @@ t_lexer	*init_lexer(char *str)
 	return (lexer);
 }
 
-/* t_token	*advance_tokenizer(char *str)
-{
-	t_lexer	*lexer;
-
-	lexer = init_lexer(str);
-	lexer = lexer_loop(lexer);
-	if (lexer->buffer && *lexer->buffer != '\0')
-		lexer->buffer = tokenize_buffer(lexer->buffer,
-				lexer->new_token, &(lexer->list));
-	return (lexer->list);
-} */
-//He encontrado un leak por aquí, así que me he puesto a arreglarlo
-//en un momento con ayuda de la IA. Te he comentado la función original
-//para que no se pierda, y hemos añadido una función helper.
-
-void	free_lexer(t_lexer *lexer)
-{
-	if (!lexer)
-		return ;
-	if (lexer->buffer)
-		free(lexer->buffer);
-	free(lexer);
-}
-
+/**
+ * @brief Performs char-by-char tokenization for the input string.
+ * This function implements the core lexing algorithm. It converts th raw
+ * input string into a structured linked list of tokens in three steps.
+ * 1 - State Initialization: It calls 'init_lexer' to allocate and initialize
+ * the 't_lexer' state structure. This structure holds all necessary parsing
+ * metadata.
+ * 2 - Iterative Scanning: It calls 'lexer_loop' to perform the main character
+ * scanning. This loop typically acts as a state machine, reading chars,
+ * accumulating a word buffer, handling quotes, and identifying metacharacters
+ * to build partial tokens.
+ * 3 - Final Tokenization: After the loops finishes, it checks if the buffer
+ * still holds data and append it as the final token to the list.
+ * @param str The raw command-line string received from 'tokenizer'.
+ * @return A pointer to the head of the newly created 't_token' linked list.
+ * Returns NULL if initialization fails or if a memory allocation fails.
+ * @note This function ist desing using a dedicated state structure 't_lexer'
+ * simplifies the passing state information between different processing
+ * functions.
+ */
 t_token	*advance_tokenizer(char *str)
 {
 	t_lexer	*lexer;
