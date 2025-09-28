@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins_utils.c                                  :+:      :+:    :+:   */
+/*   environment_utils3.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/24 12:34:38 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/25 12:47:48 by vjan-nie         ###   ########.fr       */
+/*   Created: 2025/09/28 11:55:04 by vjan-nie          #+#    #+#             */
+/*   Updated: 2025/09/28 11:56:11 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,74 +78,3 @@ void	delete_env_key(t_env **env, const char *key)
 	}
 	return ;
 }
-
-bool	is_built_in(char *cmd)
-{
-	return (!ft_strncmp(cmd, "cd", 3) || !ft_strncmp(cmd, "export", 7) ||
-			!ft_strncmp(cmd, "unset", 6) || !ft_strncmp(cmd, "exit", 5) ||
-			!ft_strncmp(cmd, "echo", 5) || !ft_strncmp(cmd, "pwd", 4) ||
-			!ft_strncmp(cmd, "env", 4));
-}
-
-bool	is_parent_built_in(char *cmd)
-{
-	return (!ft_strncmp(cmd, "cd", 3) || !ft_strncmp(cmd, "export", 7) ||
-			!ft_strncmp(cmd, "unset", 6) || !ft_strncmp(cmd, "exit", 5));
-}
-
-char	**args_to_array(t_arg *args)
-{
-	size_t	count = 0;
-	t_arg	*tmp = args;
-	char	**arr;
-
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	arr = ft_calloc(count + 1, sizeof(char *));
-	if (!arr)
-		return NULL;
-	tmp = args;
-	for (size_t i = 0; i < count; i++)
-	{
-		arr[i] = ft_strdup(tmp->value);
-		if (!arr[i])
-			return (ft_free_array(arr), NULL);
-		tmp = tmp->next;
-	}
-	return arr;
-}
-
-/* void	update_env_value(t_env **env, const char *key, const char *value)
-{
-	t_env	*node;
-	char	*new_full;
-
-	node = find_node_by_key(*env, key);
-	new_full = ft_strjoin(key, "=");
-	new_full = ft_strjoin_free(new_full, value); // une key= + value y libera
-
-	if (node)
-	{
-		free(node->value);
-		free(node->full_env);
-		node->value = ft_strdup(value);
-		node->full_env = ft_strdup(new_full);
-	}
-	else
-	{
-		t_env *new_node = ft_lstnew_mini_env(ft_strdup(key), ft_strdup(value), ft_strdup(new_full));
-		ft_addback_mini_env(env, new_node);
-	}
-	free(new_full);
-}
-
-char *ft_strjoin_free(char *s1, const char *s2)
-{
-	char *joined;
-	joined = ft_strjoin(s1, s2);
-	free(s1);
-	return (joined);
-} */
