@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/28 20:35:52 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/28 20:44:05 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int				execute_builtin(char *cmd, t_env *env, t_command *cmd_lst);
 //BI_CHILD:
 
 int				ft_pwd(t_env *env);
-int				ft_env(t_env *env);
+int				ft_env(t_env *env, t_command *cmd_lst);
 int				ft_echo(t_command *cmd);
 
 //BI_PARENT:

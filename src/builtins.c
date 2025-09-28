@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/25 13:36:44 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/28 20:49:54 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute_builtin(char *cmd, t_env *env, t_command *cmd_lst)
 	else if (!(ft_strncmp(cmd, "pwd", 4)))
 		return (ft_pwd(env));
 	else if (!(ft_strncmp(cmd, "env", 4)))
-		return (ft_env(env));
+		return (ft_env(env, cmd_lst));
 	else if (!(ft_strncmp(cmd, "exit", 5)))
 		return (ft_exit(cmd_lst));
 	else if (!(ft_strncmp(cmd, "unset", 6)))
@@ -94,12 +94,21 @@ int	ft_pwd(t_env *env)
 /** @brief Shows in terminal the environment variables
  * stored in the t_env list.
  */
-int	ft_env(t_env *env)
+int	ft_env(t_env *env, t_command *cmd_lst)
 {
 	t_env	*temp;
 
 	if (!env)
-		return (perror("env error"), EXIT_FAILURE);
+	{
+		ft_putstr_fd("env error\n", 2);
+		return (EXIT_FAILURE);
+	}
+		
+	if (cmd_lst->cmd_argc > 1)
+	{
+		ft_putstr_fd("env: too many arguments\n", 2);
+		return (EXIT_FAILURE);
+	}
 	temp = env;
 	while (temp)
 	{
