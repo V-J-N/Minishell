@@ -1,0 +1,12 @@
+total 164
+-rwxrwxr-x 1 vado vado  15968 sep 28 20:12 a.out
+drwxrwxr-x 4 vado vado   4096 ago 25 13:29 documents
+drwxrwxr-x 2 vado vado   4096 sep 28 11:30 includes
+-rw-rw-r-- 1 vado vado     52 sep 28 20:12 infile
+drwxrwxr-x 5 vado vado   4096 sep 28 20:30 libft
+-rw-rw-r-- 1 vado vado   2784 sep 28 11:58 Makefile
+-rwxrwxr-x 1 vado vado 116232 sep 28 20:30 minishell
+drwxrwxr-x 2 vado vado   4096 sep 28 20:30 obj
+-rw-r--r-- 1 vado vado      0 sep 28 20:30 outfile
+-rw-rw-r-- 1 vado vado     37 ago 25 13:29 README.md
+drwxrwxr-x 2 vado vado   4096 sep 28 11:59 src

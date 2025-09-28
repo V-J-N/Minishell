@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/28 11:58:52 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/28 20:36:10 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC		=	$(SRC_DIR)/minishell.c\
 			$(SRC_DIR)/builtins_echo.c\
 			$(SRC_DIR)/builtins_cd.c\
 			$(SRC_DIR)/builtins_export.c\
+			$(SRC_DIR)/builtins_export_utils.c\
 			$(SRC_DIR)/pipes.c\
 			$(SRC_DIR)/pipes_utils.c
 
