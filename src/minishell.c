@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/24 11:34:36 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/09/29 05:03:21 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /// @brief Main function containing our Read Evaluate Print(Execute) Loop
 /// @param envp data is saved as a linked list in 'environment'
@@ -32,6 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	parse_state = NULL;
 	if (!get_environment(envp, &environment))
 		return (free_environment(&environment), perror("envp copy failed"), 1);
+	setup_signals();
 	while (1)
 	{
 		exit_signal = 0;

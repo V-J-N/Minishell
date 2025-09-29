@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/28 20:44:05 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 05:04:27 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,9 @@ t_env			*find_node_by_key(t_env *env_list, const char *key);
 char			*get_value_by_key(t_env *env_list, const char *key);
 char			**args_to_array(t_arg *args);
 void			delete_env_key(t_env **env, const char *key);
+
+//SIGNALS:
+void			sigint_handler(int signum);
+void			setup_signals(void);
 
 #endif
