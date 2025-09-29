@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:36:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/28 12:33:25 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 10:39:31 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	*set_key(char *str)
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (str[i] && str[i] != '=')//he cambiado las condiciones por un segfault desde mi export()
+	while (str[i] && str[i] != '=')
 		i++;
 	key = ft_calloc(i + 1, sizeof(char));
 	if (!key)

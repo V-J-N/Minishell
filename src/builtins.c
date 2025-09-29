@@ -6,15 +6,18 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 06:55:27 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:04:10 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** 
+ * @brief Checks which built_in to call
+ * and returns an int as an exit signal.
+ *  */
 int	execute_builtin(char *cmd, t_env *env, t_command *cmd_lst)
 {
-	
 	if (!(ft_strncmp(cmd, "echo", 5)))
 		return (ft_echo(cmd_lst));
 	else if (!(ft_strncmp(cmd, "pwd", 4)))
@@ -32,10 +35,14 @@ int	execute_builtin(char *cmd, t_env *env, t_command *cmd_lst)
 	return (-1);
 }
 
-int	built_in(char *cmd, t_env *env, t_command *cmd_lst)
+/**
+ * @brief Checks if the execution should be done
+ * in a child process or in the main one, and 
+ * returns an int as an exit signal.
+ */
+int	built_in(char *cmd, t_env *env, t_command *cmd_lst, int exit_return)
 {
 	pid_t	pid;
-	int		exit_return;
 
 	if (is_parent_built_in(cmd))
 		return (execute_builtin(cmd, env, cmd_lst));
@@ -58,7 +65,6 @@ int	built_in(char *cmd, t_env *env, t_command *cmd_lst)
 			signal(SIGINT, SIG_DFL);
 			return (exit_return);
 		}
-			
 	}
 	return (-1);
 }
@@ -76,7 +82,7 @@ int	ft_pwd(t_env *env)
 	if (!env)
 		return (perror("env error"), EXIT_FAILURE);
 	value = get_value_by_key(env, "PWD");
-	if (value && *value && access(value, F_OK) == 0) //si archivo o directorio existe
+	if (value && *value && access(value, F_OK) == 0)
 	{
 		ft_printf("%s\n", value);
 		free(value);
@@ -103,7 +109,6 @@ int	ft_env(t_env *env, t_command *cmd_lst)
 		ft_putstr_fd("env error\n", 2);
 		return (EXIT_FAILURE);
 	}
-		
 	if (cmd_lst->cmd_argc > 1)
 	{
 		ft_putstr_fd("env: too many arguments\n", 2);

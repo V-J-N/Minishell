@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:34:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 07:20:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:33:50 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ static int	update_pwd(t_env **env)
 	return (0);
 }
 
+/**
+ * @brief Changes current directory to the one given.
+ * If doing so, it updates the new PWD and the OLDPWD.
+ */
 int	ft_cd(t_command *cmd, t_env **env)
 {
 	char	cwd[4096];

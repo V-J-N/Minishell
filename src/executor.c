@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/25 11:35:46 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 11:58:50 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ static void	exec_child_process(t_command *command, t_env **env, int in, int out)
 }
 
 /** 
- * @brief A child process is started to execute a given command,
+ * @brief Unless a built_in function is called, 
+ * a child process is started to execute a given command,
  * handling existing redirections.
 */
 int	command_in(t_command *command, t_env **environment, int in, int out)
@@ -88,7 +89,7 @@ int	command_in(t_command *command, t_env **environment, int in, int out)
 	if (!command || !environment)
 		return (perror("No data"), EXIT_FAILURE);
 	if (is_built_in(command->args->value))
-		return (built_in(command->args->value, *environment, command));
+		return (built_in(command->args->value, *environment, command, -1));
 	pid = fork();
 	if (pid < 0)
 		return (perror("Fork"), EXIT_FAILURE);

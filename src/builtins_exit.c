@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:09:17 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 06:09:47 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:30:32 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_exit(t_command *cmd_lst)
 	long	code;
 
 	if (!cmd_lst || !cmd_lst->args)
-		exit(0); // Just "exit" with no arguments
+		exit(0);
 	args = args_to_array(cmd_lst->args);
 	if (!args)
 		exit(1);

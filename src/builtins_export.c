@@ -6,13 +6,13 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:08:49 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 07:18:08 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:29:51 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_assignation(char *key, char *new_value, t_env **env, char *full_var)
+static void	ft_assignation(char *key, char *new_v, t_env **env, char *full_var)
 {
 	t_env	*node;
 	t_env	*new_node;
@@ -21,13 +21,13 @@ static void	ft_assignation(char *key, char *new_value, t_env **env, char *full_v
 	if (node)
 	{
 		free(node->value);
-		node->value = ft_strdup(new_value);
+		node->value = ft_strdup(new_v);
 		free(node->full_env);
 		node->full_env = ft_strdup(full_var);
 	}
 	else
 	{
-		new_node = ft_lstnew_mini_env(key, new_value, full_var);
+		new_node = ft_lstnew_mini_env(key, new_v, full_var);
 		if (new_node)
 			ft_addback_mini_env(env, new_node);
 	}
@@ -38,7 +38,6 @@ int	ft_assign_in(char *full_var, t_env **env)
 {
 	char	*key;
 	char	*value;
-	
 
 	key = set_key(full_var);
 	if (!key)
@@ -70,6 +69,12 @@ static void	ft_no_assignation(char *key, t_env **env)
 	return ;
 }
 
+/**
+ * @brief Checks if we're given the right format.
+ * If there's an assignation, it creates or overwrites
+ * an env variable.
+ * If there's no assignation, an empty key is created.
+ */
 static int	navigate_args(char **args, t_env **env)
 {
 	int	i;
@@ -95,6 +100,11 @@ static int	navigate_args(char **args, t_env **env)
 	return (0);
 }
 
+/**
+ * @brief Creates or redefines env variables.
+ * If no parameters are given, it shows exported
+ * env variables.
+ */
 int	ft_export(t_command *cmd, t_env **env)
 {
 	char	**args_arr;
