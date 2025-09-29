@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/25 13:18:09 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/09/28 20:52:37 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -168,4 +168,66 @@ unset USER
 (unset algo sin key no dice nada ni da error)
 
 export USER=veid
+
+
+echo hola mundo           # hola mundo\n
+echo -n hola mundo        # hola mundo
+echo                      # \n
+echo -n                   # (no newline)
+echo -nnnn hola           # hola   (el comportamiento esperado en bash es tratar todos los -n como válidos)
+
+echo -n -n -n hola        # hola (bash imprime sin salto de línea)
+echo -n -e hola           # -e hola (bash NO interpreta -e si -n ya fue activado)
+echo -- hola              # -- hola (debería imprimir tal cual, "--" no es opción)
+
+cd /tmp                   # Cambia a /tmp
+cd ..                     # Sube un directorio
+cd ../otro                # Sube y entra en "otro"
+cd                        # No permitido en minishell (no hay HOME), debe fallar
+
+cd ruta/inexistente       # Debería imprimir un error
+cd ""                     # no hacer nada
+cd .                      # No cambia de directorio
+cd /                      # Va al root
+
+
+pwd                       # Debería imprimir la ruta actual
+pwd -L                    # Error o ignorar (no se debe aceptar opciones)
+pwd -P                    # Idem
+
+env                       # Lista todas las variables exportadas con valor
+
+env ls                    # Error, minishell no debe permitir esto
+env -i                    # No permitido, debe dar error
+env VAR=VAL               # No permitido
+
+export VAR=valor          # Crea o modifica una variable
+export VAR                # Marca la variable como exportada (sin valor)
+export VAR=               # Exporta con valor vacío
+export _VAR=ok            # Válido
+export VAR=123
+env | grep VAR
+
+
+export 1VAR=valor         # Error: nombre inválido (debe comenzar con letra o _)
+export VAR-OTRO=valor     # Error
+export VAR=valor extra    # Todo después del = se considera parte del valor
+export                    # Lista las variables exportadas en formato declare -x
+
+
+unset VAR                 # Elimina VAR del entorno
+unset _VAR                # Elimina _VAR
+env | grep VAR
+
+unset 1VAR                # Si no existe, bash no dice nada ni da error
+unset                     # No hace nada
+unset VAR1 VAR2 VAR3      # Debe eliminar todas
+
+exit                      # Sale con código 0
+
+exit 42                   # No permitido (debe ignorar o error)
+exit hola                 # No permitido
+exit 999999999999999999   # No permitido
+exit ""                   # No permitido (mi bash sale en todos estos casos!)
+
 

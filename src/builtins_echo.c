@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   builtins_echo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:11 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/25 12:27:35 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:31:13 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	echo_print(t_arg *args)
 int	ft_echo(t_command *cmd)
 {
 	bool	newline;
-	t_arg 	*temp;
+	t_arg	*temp;
 	int		i;
 
 	if (!cmd || ft_strncmp(cmd->args->value, "echo", 5))
@@ -43,7 +43,7 @@ int	ft_echo(t_command *cmd)
 		while (temp->value[i] == 'n')
 			i++;
 		if (temp->value[i] != '\0')
-			break;
+			break ;
 		newline = false;
 		temp = temp->next;
 	}

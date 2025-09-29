@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/12 10:57:13 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 05:54:59 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,22 @@ void	ft_free_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	sigint_handler(int signum)
+{
+	g_last_signal = signum;
+	//la variable global recoge la señal para consultar en cada loop
+	ft_putstr_fd("\n", 1);
+	rl_on_new_line();//avisa a readline que empezamos nueva línea
+	rl_replace_line("", 0);//borra el contenido actual de la línea comenzada
+	rl_redisplay();//vuelve a mostrar prompt limpio
+	return ;
+}
+
+void	setup_signals(void)
+{
+	signal(SIGINT, sigint_handler); // Ctrl-C (no llamo a la fc, sino que asigno su dirección)
+	signal(SIGQUIT, SIG_IGN);// Ctrl-\ (captura pero ignoramos)
+	return ;
 }

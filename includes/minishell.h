@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/25 13:42:50 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 11:58:14 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
+
+extern volatile sig_atomic_t g_last_signal;
+//extern: se usa para declarar una variable global que está definida en otro archivo
+//sig_atomic: Es un tipo especial definido por la librería <signal.h>
+//Atómico: el sistema puede leer/escribir su valor en una sola operación, sin riesgo de corrupción.
+//Ideal para variables compartidas entre el programa normal y los signal handlers.
+//Le dice al compilador que el valor de esa variable puede cambiar en cualquier momento,
+//fuera del control del programa.
+//En este caso, la variable puede cambiar cuando llega una señal, incluso en medio de otra función.
+//Sin volatile, el compilador podría optimizar el acceso a la variable
+//(por ejemplo, guardarla en un registro), y no notar que cambió su valor. Eso es peligroso cuando trabajas con señales.
 
 //MINISHELL UTILS:
 void			ft_free_array(char **array);
@@ -68,6 +79,7 @@ void			ft_close_three(int fd1, int fd2, int fd3);
 t_pipe			*init_pipe_data(t_command *command, t_env **env_list,
 					size_t nbr_of_commands);
 void			free_pipe_data(t_pipe *pipe_data);
+void			p_child_process(t_pipe *pipe_data, int prev, int *pipe_fd);
 
 //INPUT_OUTPUT:
 int			  get_inputfile_fd(char *infile);
@@ -133,19 +145,23 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 void			print_commands(t_parse_state *commands);
 
 //BUILT_INS:
-int				built_in(char *cmd, t_env *env, t_command *cmd_lst);
+int				built_in(char *cmd, t_env *env, t_command *cmd_lst, int exit_return);
 int				execute_builtin(char *cmd, t_env *env, t_command *cmd_lst);
 
 //BI_CHILD:
 
 int				ft_pwd(t_env *env);
-int				ft_env(t_env *env);
+int				ft_env(t_env *env, t_command *cmd_lst);
 int				ft_echo(t_command *cmd);
 
 //BI_PARENT:
 int				ft_exit(t_command *cmd_lst);
 int				ft_unset(t_command *cmd_lst, t_env **env);
 int				ft_export(t_command *cmd, t_env **env);
+int				ft_assign_in(char *full_var, t_env **env);
+void			ft_not_valid(char *var);
+void			print_sorted_env(t_env *env);
+bool			is_valid_identifier(const char *var);
 int				ft_cd(t_command *cmd, t_env **env);
 
 
@@ -156,5 +172,9 @@ t_env			*find_node_by_key(t_env *env_list, const char *key);
 char			*get_value_by_key(t_env *env_list, const char *key);
 char			**args_to_array(t_arg *args);
 void			delete_env_key(t_env **env, const char *key);
+
+//SIGNALS:
+void			sigint_handler(int signum);
+void			setup_signals(void);
 
 #endif
