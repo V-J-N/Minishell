@@ -6,7 +6,7 @@
 #    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/26 18:03:24 by serjimen         ###   ########.fr        #
+#    Updated: 2025/09/27 11:57:09 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,16 +85,13 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 
 OBJ		= 	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-OBJ_DIRS = \
-	obj/core\
-	obj/env\
-	obj/lexer\
-	obj/parser\
-	obj/executor\
-	obj/builtins\
-
-create_obj_dirs:
-	mkdir -p $(OBJ_DIRS)
+OBJ_DIRS = $(OBJ_DIR)\
+	$(OBJ_DIR)/core\
+	$(OBJ_DIR)/env\
+	$(OBJ_DIR)/lexer\
+	$(OBJ_DIR)/parser\
+	$(OBJ_DIR)/executor\
+	$(OBJ_DIR)/builtins\
 
 # Compiling rules
 
@@ -116,14 +113,14 @@ $(NAME): $(OBJ) $(LIBFT)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | create_obj_dirs
+$(OBJ_DIRS):
+	@mkdir -p $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIRS)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
 clean:
-	rm -f $(OBJ)
+	rm -rf $(OBJ_DIRS)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
@@ -132,4 +129,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re create_obj_dirs
+.PHONY: all clean fclean re
