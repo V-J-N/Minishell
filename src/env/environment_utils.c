@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:36:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/08/21 18:06:25 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 10:39:31 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,36 @@ t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 		return (NULL);
+	if (key)
+		new_node->key = ft_strdup(key);
+	else
+		new_node->key = NULL;
+	if (value)
+		new_node->value = ft_strdup(value);
+	else
+		new_node->value = NULL;
+	if (full)
+		new_node->full_env = ft_strdup(full);
+	else
+		new_node->full_env = NULL;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+// He agregado comprobaciones extra por un segfault en el que caí mi ft_export()
+/* t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
+{
+	t_env	*new_node;
+
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
 	new_node->key = ft_strdup(key);
 	new_node->value = ft_strdup(value);
 	new_node->full_env = ft_strdup(full);
 	new_node->next = NULL;
 	return (new_node);
-}
+} */
 
 /**
  * @brief Extracts and allocates a deep copy of the key from an environment
@@ -92,14 +116,16 @@ char	*set_key(char *str)
 	int		i;
 	char	*key;
 
+	if (!str)
+		return (NULL);
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
 	key = ft_calloc(i + 1, sizeof(char));
 	if (!key)
 		return (NULL);
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 	{
 		key[i] = str[i];
 		i++;

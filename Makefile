@@ -6,7 +6,7 @@
 #    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/29 20:31:47 by serjimen         ###   ########.fr        #
+#    Updated: 2025/09/29 20:38:14 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,9 +45,11 @@ LIBFT_INCLUDE	= -I$(LIBFT_DIR)/include
 
 SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(CORE_DIR)/minishell_utils.c\
+			$(SRC_DIR)/$(CORE_DIR)/global.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment_utils.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment_utils2.c\
+			$(SRC_DIR)/$(ENV_DIR)/environment_utils3.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer_tokens.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer_tokens2.c\
@@ -73,9 +75,15 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes.c\
+			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes_utils.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/built_ins.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/built_ins_utils.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_utils.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_exit.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_echo.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_cd.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export_utils.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/exit.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/echo.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/cd.c\
