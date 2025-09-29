@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/28 20:49:54 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 06:55:27 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_pwd(t_env *env)
 	if (!env)
 		return (perror("env error"), EXIT_FAILURE);
 	value = get_value_by_key(env, "PWD");
-	if (value && access(value, F_OK) == 0) //si archivo o directorio existe
+	if (value && *value && access(value, F_OK) == 0) //si archivo o directorio existe
 	{
 		ft_printf("%s\n", value);
 		free(value);

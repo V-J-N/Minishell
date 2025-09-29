@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:08:49 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/28 20:35:00 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 07:18:08 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	ft_assignation(char *key, char *new_value, t_env **env, char *full_v
 	return ;
 }
 
-static int	ft_assign_in(char *full_var, t_env **env)
+int	ft_assign_in(char *full_var, t_env **env)
 {
 	char	*key;
 	char	*value;

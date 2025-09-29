@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 05:25:14 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 07:18:33 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int				ft_echo(t_command *cmd);
 int				ft_exit(t_command *cmd_lst);
 int				ft_unset(t_command *cmd_lst, t_env **env);
 int				ft_export(t_command *cmd, t_env **env);
+int				ft_assign_in(char *full_var, t_env **env);
 void			ft_not_valid(char *var);
 void			print_sorted_env(t_env *env);
 bool			is_valid_identifier(const char *var);
