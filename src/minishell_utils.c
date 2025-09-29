@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/29 05:03:33 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 05:45:05 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_free_array(char **array)
 
 void	sigint_handler(int signum)
 {
-	(void)signum;//signal requiere esta variable
+	g_last_signal = signum;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();//avisa a readline que empezamos nueva línea
 	rl_replace_line("", 0);//borra el contenido actual de la línea comenzada

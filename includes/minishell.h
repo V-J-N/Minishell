@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 05:04:27 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 05:25:14 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
+
+extern volatile sig_atomic_t g_last_signal;
+//extern: se usa para declarar una variable global que está definida en otro archivo
+//sig_atomic: Es un tipo especial definido por la librería <signal.h>
+//Atómico: el sistema puede leer/escribir su valor en una sola operación, sin riesgo de corrupción.
+//Ideal para variables compartidas entre el programa normal y los signal handlers.
+//Le dice al compilador que el valor de esa variable puede cambiar en cualquier momento,
+//fuera del control del programa.
+//En este caso, la variable puede cambiar cuando llega una señal, incluso en medio de otra función.
+//Sin volatile, el compilador podría optimizar el acceso a la variable
+//(por ejemplo, guardarla en un registro), y no notar que cambió su valor. Eso es peligroso cuando trabajas con señales.
 
 //MINISHELL UTILS:
 void			ft_free_array(char **array);

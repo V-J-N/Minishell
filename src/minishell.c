@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 05:03:21 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/29 05:48:39 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token			*tokenlist;
 	//PARSER:
 	t_parse_state	*parse_state;
-
+	
 	(void)argc;
 	(void)argv;
 	environment = NULL;
@@ -32,9 +32,19 @@ int	main(int argc, char **argv, char **envp)
 	if (!get_environment(envp, &environment))
 		return (free_environment(&environment), perror("envp copy failed"), 1);
 	setup_signals();
+	exit_signal = 0;
 	while (1)
 	{
-		exit_signal = 0;
+		if (g_last_signal == SIGINT)
+		{
+			exit_signal = 130;
+			g_last_signal = 0;
+		}
+		else if (g_last_signal == SIGQUIT)
+		{
+			exit_signal = 131;
+			g_last_signal = 0;
+		}
 		input = readline("$> ");
 		if (!input)
 		{
@@ -61,5 +71,5 @@ int	main(int argc, char **argv, char **envp)
 	}
 	free_environment(&environment);
 	rl_clear_history();
-	return (0);
+	return (exit_signal);
 }
