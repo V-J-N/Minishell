@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/29 20:38:14 by serjimen         ###   ########.fr        #
+#    Updated: 2025/09/30 10:37:38 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,11 +83,7 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_echo.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_cd.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export_utils.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/exit.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/echo.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/cd.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/export.c
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export_utils.c
 
 # Objects
 
