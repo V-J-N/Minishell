@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:08:49 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 12:29:51 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/09/30 10:41:07 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,18 @@ static int	navigate_args(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_identifier(args[i]))//si no usa formato correcto
+		if (!is_valid_identifier(args[i]))
 		{
 			ft_not_valid(args[i]);
 			i ++;
 			continue ;
 		}
-		if (ft_strchr(args[i], '='))//si hay asignación correcta
+		if (ft_strchr(args[i], '='))
 		{
 			if (ft_assign_in(args[i], env) == 1)
 				return (1);
 		}
-		else//no hay asignación, pero creamos nodo con value NULL: es correcto en bash?
+		else
 			ft_no_assignation(args[i], env);
 		i++;
 	}
@@ -115,7 +115,7 @@ int	ft_export(t_command *cmd, t_env **env)
 	args_arr = args_to_array(cmd->args);
 	if (!args_arr)
 		return (1);
-	if (!args_arr[1])//si es export sin más, nos imprime env
+	if (!args_arr[1])
 	{
 		print_sorted_env(*env);
 		ft_free_array(args_arr);
