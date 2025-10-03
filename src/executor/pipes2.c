@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:33:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 11:59:18 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:01:35 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,20 @@ static int	get_new_out(t_pipe *pipe_data, int *pipe_fd)
 
 static void	exec_child(t_pipe *pipe_data, int new_in, int new_out, int *pipe_fd)
 {
+	t_command *cmd;
+
 	handle_in_out_fds(new_in, new_out);
 	ft_close_three(pipe_data->in, pipe_data->out, new_in);
 	if (pipe_data->index < pipe_data->command_count - 1)
 		ft_close_two(pipe_fd[0], pipe_fd[1]);
-	if (pipe_data->commands && pipe_data->commands->args
-		&& pipe_data->commands->args->value
-		&& is_built_in(pipe_data->commands->args->value))
-		exit(built_in(pipe_data->commands->args->value,
-				*pipe_data->env_list, pipe_data->commands, -1));
-	execute_command(pipe_data->commands, pipe_data->env_list);
+	cmd = pipe_data->commands;
+	if ((!cmd->args || !cmd->args->value) && has_redirs(cmd))
+		exit(EXIT_SUCCESS);
+	if (cmd->args && cmd->args->value && is_built_in(cmd->args->value))
+		exit(built_in(cmd->args->value,
+				*pipe_data->env_list, cmd, -1));
+	if (cmd->args && cmd->args->value)
+		execute_command(pipe_data->commands, pipe_data->env_list);
 	exit(EXIT_FAILURE);
 }
 

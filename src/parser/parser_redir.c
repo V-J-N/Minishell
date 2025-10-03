@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/16 13:42:45 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:38:22 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ t_redir	*create_redir(t_token *tokens)
 	redir->file = ft_strdup(temp->next->value);
 	if (!redir->file)
 		return (free_redirs(redir), NULL);
+	redir->heredoc_fd = -1;
 	return (redir);
 }

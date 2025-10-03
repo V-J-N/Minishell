@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 12:32:09 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/22 14:21:39 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:00:52 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	get_inputfile_fd(char *infile)
 
 	fd = open(infile, O_RDONLY);
 	if (fd < 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
 		return (perror(infile), -1);
+	}
 	return (fd);
 }
 
@@ -56,7 +59,10 @@ int	get_outputfile_fd(char *outfile)
 
 	fd = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
 		return (perror(outfile), -1);
+	}
 	return (fd);
 }
 

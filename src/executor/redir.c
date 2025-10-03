@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/22 14:42:36 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:38:16 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	redirect_in(t_command *command_list, int in_fd)
 {
 	t_redir	*temp;
 	int		new_fd;
+	int		last_fd;
 
 	temp = command_list->redirs;
 	new_fd = in_fd;
+	last_fd = -1;
 	while (temp)
 	{
 		if (temp->type == REDIR_IN)
@@ -44,6 +46,9 @@ int	redirect_in(t_command *command_list, int in_fd)
 			if (new_fd != STDIN_FILENO)
 				close(new_fd);
 			new_fd = temp->heredoc_fd;
+			if (last_fd != -1 && last_fd != new_fd)
+				close(last_fd);
+			last_fd = new_fd;
 		}
 		temp = temp->next;
 	}
@@ -117,7 +122,7 @@ int	redirection_only(t_command *cmd, int in, int out)
 	if (pid == 0)
 		redirection_only_child_process(cmd, in, out);
 	signal(SIGINT, SIG_IGN);
-	waitpid(pid, &status, 0);
+	status = ft_wait_and_exit(pid);
 	signal(SIGINT, SIG_DFL);
-	return (ft_wait_and_exit(status));
+	return (status);
 }
