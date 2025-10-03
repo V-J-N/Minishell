@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:32:04 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 12:30:05 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:03:19 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	print_sorted_env(t_env *env)
 	while (env)
 	{
 		if (env->value)
-			printf("declare -x %s=\"%s\"\n", env->key, env->value);
+			ft_printf("declare -x %s=\"%s\"\n", env->key, env->value);
 		else
-			printf("declare -x %s\n", env->key);
+			ft_printf("declare -x %s\n", env->key);
 		env = env->next;
 	}
 	return ;

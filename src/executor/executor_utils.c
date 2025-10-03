@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:09:35 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/30 10:43:04 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:55:56 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	cmd_not_found(char *cmd, char **env_arr, char **args)
 {
 	if (ft_strchr(cmd, '/'))
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		ft_free_array(args);
@@ -26,7 +27,7 @@ void	cmd_not_found(char *cmd, char **env_arr, char **args)
 	}
 	else
 	{
-		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd("\n", 2);
 		ft_free_array(args);

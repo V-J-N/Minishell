@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 11:48:16 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:02:50 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	pipes(t_pipe *pipe_data)
 			return (perror("fork"), EXIT_FAILURE);
 		if (pid == 0)
 			p_child_process(pipe_data, prev_pipe, pipe_fd);
-		last_pid = pid;
+		if (pipe_data->index == pipe_data->command_count - 1)
+			last_pid = pid;
 		safe_close(prev_pipe);
 		next_pipe(pipe_data, pipe_fd, &prev_pipe);
 		if (pipe_data->commands)

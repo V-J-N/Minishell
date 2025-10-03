@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/28 20:52:37 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/03 14:29:49 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,10 +121,9 @@ ls >outfile1 >>outfile2 >>outfile3
 
 < infile >outfile cat
 
-<< stop >outfile cat (leaks!!)
+<< stop >outfile cat
 
 < infile <outfile cat
-bash: outfile: No existe el archivo o el directorio
 
 ls >outfile1 >>outfile2 >outfile3 | cat >outfile4 >>outfile5 >outfile6
 (bash, no escribe nada en los últimos, porque la redirección ya la ha recibido outfile3)
@@ -231,3 +230,7 @@ exit 999999999999999999   # No permitido
 exit ""                   # No permitido (mi bash sale en todos estos casos!)
 
 
+sleep 2 | sleep 2 | sleep 2
+
+<< cat | << stop | << hey
+funciona bien, pero sale con exit_signal: 1

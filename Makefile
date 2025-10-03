@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/09/30 10:37:38 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/03 12:18:02 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ OBJ_DIRS = $(OBJ_DIR)\
 
 CC		= 	cc
 
-CFLAGS	= 	-Wall -Wextra -Werror -g
+CFLAGS	= 	-Wall -Wextra -Werror
 
 # Includes
 
