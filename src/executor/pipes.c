@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/03 14:02:50 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:14:11 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,11 @@ static int	pipes_return(t_pipe *pipe_data, pid_t last_pid)
  * @brief Pipe manager. Starts child processes in each block
  * of commands, piping them and closing non-used read-write ends.
  */
-int	pipes(t_pipe *pipe_data)
+int	pipes(t_pipe *pipe_data, int prev_pipe, pid_t last_pid)
 {
 	int		pipe_fd[2];
-	int		prev_pipe;
 	pid_t	pid;
-	pid_t	last_pid;
 
-	prev_pipe = -1;
-	last_pid = -1;
 	while (pipe_data->index < pipe_data->command_count)
 	{
 		if (pipe_data->index < pipe_data->command_count - 1 \

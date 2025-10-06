@@ -6,53 +6,41 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/03 13:38:16 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:08:32 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	has_redirs(t_command *cmd)
-{
-	return (cmd && cmd->redirs != NULL);
-}
 
 /** @brief Iterates through redirs in the command_list
  * and opens FDs according to files to be used as input
  * instead of STDIN. If there are multiple redirs, the 
  * last one prevails closing the previous ones, as in bash.
  */
-int	redirect_in(t_command *command_list, int in_fd)
+int	redirect_in(t_command *cmd, int in_fd)
 {
 	t_redir	*temp;
-	int		new_fd;
+	int		fd;
 	int		last_fd;
 
-	temp = command_list->redirs;
-	new_fd = in_fd;
+	fd = in_fd;
 	last_fd = -1;
+	temp = cmd->redirs;
 	while (temp)
 	{
 		if (temp->type == REDIR_IN)
 		{
-			if (new_fd != STDIN_FILENO)
-				close(new_fd);
-			new_fd = get_inputfile_fd(temp->file);
-			if (new_fd == -1)
+			if (manage_in_redir(temp->file, &fd, &last_fd) == -1)
 				return (-1);
 		}
 		else if (temp->type == HEREDOC)
 		{
-			if (new_fd != STDIN_FILENO)
-				close(new_fd);
-			new_fd = temp->heredoc_fd;
-			if (last_fd != -1 && last_fd != new_fd)
-				close(last_fd);
-			last_fd = new_fd;
+			if (manage_heredoc(temp->heredoc_fd, &fd, &last_fd) == -1)
+				return (-1);
 		}
 		temp = temp->next;
 	}
-	return (new_fd);
+	return (fd);
 }
 
 /** @brief Iterates through redirs in the command_list
@@ -60,29 +48,25 @@ int	redirect_in(t_command *command_list, int in_fd)
  * instead of STDOUT. If there are multiple redirs, the 
  * last one prevails closing the previous ones, as in bash.
  */
-int	redirect_out(t_command *command_list, int out_fd)
+int	redirect_out(t_command *cmd, int out_fd)
 {
 	t_redir	*temp;
-	int		new_fd;
+	int		fd;
+	int		last_fd;
 
-	temp = command_list->redirs;
-	new_fd = out_fd;
+	fd = out_fd;
+	last_fd = -1;
+	temp = cmd->redirs;
 	while (temp)
 	{
 		if (temp->type == REDIR_OUT || temp->type == APPEND)
 		{
-			if (new_fd != STDOUT_FILENO)
-				close(new_fd);
-			if (temp->type == REDIR_OUT)
-				new_fd = get_outputfile_fd(temp->file);
-			else
-				new_fd = get_append_fd(temp->file);
-			if (new_fd == -1)
+			if (manage_out_redir(temp, &fd, &last_fd) == -1)
 				return (-1);
 		}
 		temp = temp->next;
 	}
-	return (new_fd);
+	return (fd);
 }
 
 static void	redirection_only_child_process(t_command *cmd, int in, int out)

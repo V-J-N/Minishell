@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/03 14:29:49 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/06 13:17:22 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,10 @@ Pruebas locas:
 
 < infile ls -l | wc -l | << stop | < infile cat | cat > outfile2
 
+< infile ls -l | wc -l | << stop | < infile echo | cat > outfile2
+
+< infile ls -l | wc -l | << stop | pwd | cat > outfile2
+
 Múltiples redirecciones en un comando:
 
 ls >outfile1 >outfile2 >outfile3
@@ -179,6 +183,8 @@ echo -n -n -n hola        # hola (bash imprime sin salto de línea)
 echo -n -e hola           # -e hola (bash NO interpreta -e si -n ya fue activado)
 echo -- hola              # -- hola (debería imprimir tal cual, "--" no es opción)
 
+echo hola > out1 > out2 > out3
+
 cd /tmp                   # Cambia a /tmp
 cd ..                     # Sube un directorio
 cd ../otro                # Sube y entra en "otro"
@@ -233,4 +239,20 @@ exit ""                   # No permitido (mi bash sale en todos estos casos!)
 sleep 2 | sleep 2 | sleep 2
 
 << cat | << stop | << hey
-funciona bien, pero sale con exit_signal: 1
+
+<< cat  << stop  << hey
+
+COMILLAS:
+
+| Comando                           | Salida esperada            | Explicación                                    |
+| --------------------------------- | -------------------------- | ---------------------------------------------- |
+| `echo hola`                       | `hola`                     | Sin comillas                                   |
+| `echo "hola mundo"`               | `hola mundo`               | Comillas dobles: texto tal cual                |
+| `echo 'hola mundo'`               | `hola mundo`               | Comillas simples: texto tal cual               |
+| `echo "$USER"`                    | `username`                 | Comillas dobles: se expande `$USER`            |
+| `echo '$USER'`                    | `$USER`                    | Comillas simples: no se expande                |
+| `echo "Texto con ; punto y coma"` | `Texto con ; punto y coma` | `;` no actúa como separador dentro de comillas |
+| `echo hola\ mundo`                | `hola\ mundo` o error      | No interpretar `\` como escape                 |
+| `echo "Un texto sin cerrar`       | Error o espera             | Comillas dobles sin cerrar                     |
+| `echo 'Un texto sin cerrar`       | Error o espera             | Comillas simples sin cerrar                    |
+
