@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 20:40:00 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:13:47 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int				command_in(t_command *command, t_env **environment,
 void			execute_command(t_command *command, t_env **envlist);
 
 //PIPES:
-int				pipes(t_pipe *pipe_data);
+int				pipes(t_pipe *pipe_data, int prev_pipe, pid_t last_pid);
 void			safe_close(int fd);
 void			ft_close_two(int fd1, int fd2);
 void			ft_close_three(int fd1, int fd2, int fd3);
@@ -82,18 +82,21 @@ void			free_pipe_data(t_pipe *pipe_data);
 void			p_child_process(t_pipe *pipe_data, int prev, int *pipe_fd);
 
 //INPUT_OUTPUT:
-int			  get_inputfile_fd(char *infile);
-int			  get_outputfile_fd(char *outfile);
-int			  get_append_fd(char *outfile);
-int			  get_heredoc_fd(char *limiter);
-int			  redirect_in(t_command *command_list, int in_fd);
-int			  redirect_out(t_command *command_list, int out_fd);
-bool		  prepare_heredocs(t_command *cmd);
-bool		  prepare_all_heredocs(t_command *cmd_list);
-int			  redirection_only(t_command *cmd, int in, int out);
-bool		  has_redirs(t_command *cmd);
-bool		  has_input_redir(t_command *cmd);
-bool		  has_output_redir(t_command *cmd);
+int				get_inputfile_fd(char *infile);
+int				get_outputfile_fd(char *outfile);
+int				get_append_fd(char *outfile);
+int				get_heredoc_fd(char *limiter);
+int				redirect_in(t_command *command_list, int in_fd);
+int				redirect_out(t_command *command_list, int out_fd);
+bool			prepare_heredocs(t_command *cmd);
+bool			prepare_all_heredocs(t_command *cmd_list);
+int				redirection_only(t_command *cmd, int in, int out);
+bool			has_redirs(t_command *cmd);
+bool			has_input_redir(t_command *cmd);
+bool			has_output_redir(t_command *cmd);
+int				manage_in_redir(char *file, int *fd, int *last_fd);
+int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
+int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
 
 //LEXER
 t_token			*tokenizer(char *str);

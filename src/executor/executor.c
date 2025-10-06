@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 11:58:50 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:14:34 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	execute_all(t_command *commands, t_env **environment)
 	pipe_data = init_pipe_data(commands, environment, command_count);
 	if (!pipe_data)
 		return (perror("pipe_data error"), EXIT_FAILURE);
-	exit_signal = pipes(pipe_data);
+	exit_signal = pipes(pipe_data, -1, -1);
 	free_pipe_data(pipe_data);
 	return (exit_signal);
 }

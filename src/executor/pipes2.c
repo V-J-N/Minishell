@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:33:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/03 14:01:35 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/06 10:51:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	get_new_out(t_pipe *pipe_data, int *pipe_fd)
 
 static void	exec_child(t_pipe *pipe_data, int new_in, int new_out, int *pipe_fd)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	handle_in_out_fds(new_in, new_out);
 	ft_close_three(pipe_data->in, pipe_data->out, new_in);

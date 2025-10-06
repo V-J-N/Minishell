@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/03 12:18:02 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/06 13:07:00 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/executor_utils2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/redir.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils.c\
+			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes2.c\
@@ -83,6 +84,7 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_echo.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_cd.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export.c\
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_unset_pwd_env.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export_utils.c
 
 # Objects
