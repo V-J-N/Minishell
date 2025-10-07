@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/26 18:24:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:21:33 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_token	*advance_tokenizer(char *str)
 		lexer->buffer = tokenize_buffer(lexer->buffer,
 				lexer->new_token, &(lexer->list));
 	if (lexer->is_open == true)
-			return (NULL); // gestionar error de comillas abiertas
+			return (free_lexer(lexer), NULL); // gestionar error de comillas abiertas
 	tokens = lexer->list;
 	free_lexer(lexer);
 	return (tokens);

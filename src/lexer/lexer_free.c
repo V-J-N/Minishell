@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 10:09:48 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 12:13:49 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:24:13 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	free_lexer(t_lexer *lexer)
 {
 	if (!lexer)
 		return ;
+	if (lexer->list)
+		free_tokens(&(lexer->list));
 	if (lexer->buffer)
 		free(lexer->buffer);
 	free(lexer);
