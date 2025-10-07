@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/07 13:04:33 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:10:08 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_lexer	*lexer_loop(t_lexer *lexer)
 	while (lexer->string[lexer->i])
 	{
 		lexer->quote = verify_quotes(lexer->string[lexer->i]);
-		set_state(lexer->quote, lexer->state);
+		lexer->state = set_state(lexer->quote, lexer->state);
 		if (lexer->state == OUT)
 		{
 			lexer = check_none(lexer);
