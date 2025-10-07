@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/07 11:21:33 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:30:57 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_lexer	*init_lexer(char *str)
 	lexer->i = 0;
 	lexer->j = 0;
 	lexer->buffer_size = 16;
-	lexer->is_open = false;
+	lexer->state = OUT;
 	return (lexer);
 }
 
@@ -71,6 +71,7 @@ t_token	*advance_tokenizer(char *str)
 	t_lexer	*lexer;
 	t_token	*tokens;
 
+	tokens = NULL;
 	lexer = init_lexer(str);
 	if (!lexer)
 		return (NULL);
@@ -80,8 +81,8 @@ t_token	*advance_tokenizer(char *str)
 	if (lexer->buffer && *lexer->buffer != '\0')
 		lexer->buffer = tokenize_buffer(lexer->buffer,
 				lexer->new_token, &(lexer->list));
-	if (lexer->is_open == true)
-			return (free_lexer(lexer), NULL); // gestionar error de comillas abiertas
+	if (lexer->state != OUT)
+			return (free_tokens(&(lexer->list)), free_lexer(lexer), NULL);
 	tokens = lexer->list;
 	free_lexer(lexer);
 	return (tokens);

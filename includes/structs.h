@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 18:12:08 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:52:13 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ typedef enum e_token_quote
 	SINGLE,			/**< Inside single quotes. */
 	DOUBLE,			/**< Inside double quotes */
 }			t_token_quote;
+
+typedef enum e_token_state
+{
+	OUT,
+	IN_SINGLE,
+	IN_DOUBLE,
+}			t_token_state;
 
 /**
  * @struct t_token
@@ -193,7 +200,7 @@ typedef struct s_lexer
 	t_token			*list;
 	t_token			*new_token;
 	t_token_quote	quote;
-	bool			is_open;
+	t_token_state	state;
 	char			*buffer;
 	char			*string;
 	size_t			i;

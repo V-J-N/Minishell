@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/06 13:13:47 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:18:00 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void			free_lexer(t_lexer *lexer);
 t_lexer			*init_lexer_buffer(t_lexer *lexer);
 bool			is_char(t_lexer *lexer);
 t_lexer			*check_single(t_lexer *lexer);
+t_token_state	set_state(t_token_quote quote, t_token_state state);
 
 //LEXER_TEST:
 void			print_list(t_token *list);
