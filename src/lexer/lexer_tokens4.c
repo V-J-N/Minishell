@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:55:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 18:34:01 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:49:46 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@
  */
 t_lexer	*check_none(t_lexer *lexer)
 {
+	if (lexer->string[lexer->i] == 39)
+	{
+		if (lexer->string[lexer->i+1] == 39)
+		{
+			lexer->i++;
+			return (lexer);
+		}
+		lexer->buffer = tokenize_buffer(lexer->buffer,
+				lexer->new_token, &(lexer->list));
+		lexer->i++;
+	}
 	if (lexer->buffer == NULL)
 	{
 		lexer = init_lexer_buffer(lexer);
@@ -61,11 +72,13 @@ t_lexer	*check_single(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	if (ft_isprint(lexer->string[lexer->i]) == 1)
+	if (ft_isprint(lexer->string[lexer->i]))
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)
 			return NULL;
 	}
+	if (!lexer)
+		return NULL;
 	return (lexer);
 }

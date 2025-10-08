@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:33:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 10:06:34 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:28:15 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ t_token	*tokenizer(char *str)
 	if (!str || !*str)
 		return (NULL);
 	tokens_list = advance_tokenizer(str);
+	if (!tokens_list)
+		return (NULL);
 	return (tokens_list);
 }

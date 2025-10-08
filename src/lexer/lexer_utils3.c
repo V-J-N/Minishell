@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:45:46 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/26 17:58:55 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:25:32 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
  */
 t_token_quote	verify_quotes(char c)
 {
-	t_token_quote	state;
+	t_token_quote	quote;
 
-	state = NONE;
+	quote = NONE;
 	if (c == 34)
-		return (state = DOUBLE);
+		return (quote = DOUBLE);
 	else if (c == 39)
-		return (state = SINGLE);
-	return (state);
+		return (quote = SINGLE);
+	return (quote);
 }
 
 /**
