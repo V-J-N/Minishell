@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/09 10:11:32 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:17:35 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
 int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
 
 //LEXER
-t_token			*tokenizer(char *str);
+t_token			*tokenizer(char *str, t_env *env);
 t_lexer			*init_lexer(char *str);
-t_token			*advance_tokenizer(char *str);
-t_lexer			*lexer_loop(t_lexer *lexer);
+t_token			*advance_tokenizer(char *str, t_env *env);
+t_lexer			*lexer_loop(t_lexer *lexer, t_env *env);
 void			free_tokens(t_token **tokens);
 void			lstaddback_token(t_token **head, t_token *new_node);
 t_token			*lstnew_token(char *value, t_token_type type,
@@ -114,7 +114,7 @@ char			*tokenize_buffer(char *buffer, t_token *new_token,
 					t_token **list);
 t_lexer			*check_none(t_lexer *lexer);
 t_lexer			*check_single(t_lexer *lexer);
-t_lexer			*check_double(t_lexer *lexer);
+t_lexer			*check_double(t_lexer *lexer, t_env *env);
 t_lexer			*tokenize_char(t_lexer *lexer);
 t_lexer			*tokenize_space(t_lexer *lexer);
 t_lexer			*tokenize_pipe(t_lexer *lexer);
@@ -124,6 +124,7 @@ void			free_lexer(t_lexer *lexer);
 t_lexer			*init_lexer_buffer(t_lexer *lexer);
 bool			is_char(t_lexer *lexer);
 t_token_state	set_state(t_token_quote quote, t_token_state state);
+t_lexer			*tokenize_env(t_lexer *lexer);
 
 //LEXER_TEST:
 void			print_list(t_token *list);

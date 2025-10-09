@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/09 10:04:36 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:14:07 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @note This loop is the state machine's heart. Its primary responsibility
  * is to determine the context (quoted or unquoted).
  */
-t_lexer	*lexer_loop(t_lexer *lexer)
+t_lexer	*lexer_loop(t_lexer *lexer, t_env *env)
 {
 	if (!lexer)
 		return (NULL);
@@ -44,7 +44,7 @@ t_lexer	*lexer_loop(t_lexer *lexer)
 		}
 		else if (lexer->state == IN_DOUBLE)
 		{
-			lexer = check_double(lexer);
+			lexer = check_double(lexer, env);
 			if (!lexer)
 				return (NULL);
 		}

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/07 13:30:57 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:13:39 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_lexer	*init_lexer(char *str)
  * simplifies the passing state information between different processing
  * functions.
  */
-t_token	*advance_tokenizer(char *str)
+t_token	*advance_tokenizer(char *str, t_env *env)
 {
 	t_lexer	*lexer;
 	t_token	*tokens;
@@ -75,7 +75,7 @@ t_token	*advance_tokenizer(char *str)
 	lexer = init_lexer(str);
 	if (!lexer)
 		return (NULL);
-	lexer = lexer_loop(lexer);
+	lexer = lexer_loop(lexer, env);
 	if (!lexer)
 		return (NULL);
 	if (lexer->buffer && *lexer->buffer != '\0')

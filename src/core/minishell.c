@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/07 18:39:07 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:12:41 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 		{
 			add_history(input);
-			tokenlist = tokenizer(input);
+			tokenlist = tokenizer(input, environment);
 			// print_list(tokenlist);
 			if (!tokenlist)
 			{
