@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/08 11:25:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:11:32 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ t_token_quote	verify_quotes(char c);
 char			*tokenize_buffer(char *buffer, t_token *new_token,
 					t_token **list);
 t_lexer			*check_none(t_lexer *lexer);
+t_lexer			*check_single(t_lexer *lexer);
+t_lexer			*check_double(t_lexer *lexer);
 t_lexer			*tokenize_char(t_lexer *lexer);
 t_lexer			*tokenize_space(t_lexer *lexer);
 t_lexer			*tokenize_pipe(t_lexer *lexer);
@@ -121,7 +123,6 @@ t_lexer			*tokenize_output(t_lexer *lexer);
 void			free_lexer(t_lexer *lexer);
 t_lexer			*init_lexer_buffer(t_lexer *lexer);
 bool			is_char(t_lexer *lexer);
-t_lexer			*check_single(t_lexer *lexer);
 t_token_state	set_state(t_token_quote quote, t_token_state state);
 
 //LEXER_TEST:

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/07 19:10:08 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:04:36 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ t_lexer	*lexer_loop(t_lexer *lexer)
 		else if (lexer->state == IN_SINGLE)
 		{
 			lexer = check_single(lexer);
+			if (!lexer)
+				return (NULL);
+		}
+		else if (lexer->state == IN_DOUBLE)
+		{
+			lexer = check_double(lexer);
 			if (!lexer)
 				return (NULL);
 		}

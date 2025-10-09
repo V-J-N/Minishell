@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:04:32 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/07 18:57:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:02:51 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ t_token_state	set_state(t_token_quote quote, t_token_state state)
 	if (state == OUT && quote == SINGLE)
 		state = IN_SINGLE;
 	else if (state == IN_SINGLE && quote == SINGLE)
+		state = OUT;
+	else if (state == OUT && quote == DOUBLE)
+		state = IN_DOUBLE;
+	else if (state == IN_DOUBLE && quote == DOUBLE)
 		state = OUT;
 	return (state);
 }
