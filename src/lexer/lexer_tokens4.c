@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:55:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/10 12:14:47 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:15:14 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_lexer	*check_none(t_lexer *lexer)
 		else
 		{
 			lexer->buffer = tokenize_buffer(lexer->buffer,
-				lexer->new_token, &(lexer->list));
+				lexer->new_token, &(lexer->list), SINGLE);
 				lexer->i++;
 		}
 	}
@@ -61,7 +61,7 @@ t_lexer	*check_none(t_lexer *lexer)
 		else
 		{
 			lexer->buffer = tokenize_buffer(lexer->buffer,
-				lexer->new_token, &(lexer->list));
+				lexer->new_token, &(lexer->list), DOUBLE);
 				lexer->i++;
 		}
 	}
@@ -143,19 +143,6 @@ t_lexer	*check_double(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-/* 	if (lexer->string[lexer->i] == '$')
-	{
-		lexer = tokenize_env(lexer);
-		// environment = get_value_by_key(env, lexer->buffer);
-		// lexer->buffer = environment;
-		if (lexer->buffer && *lexer->buffer != '\0')
-		{
-			lexer->new_token = lstnew_token(lexer->buffer, WORD, lexer->quote);
-			lstaddback_token(&(lexer->list), lexer->new_token);
-		}
-		lexer->buffer = NULL;
-		return (lexer);
-	} */
 	if (ft_isprint(lexer->string[lexer->i]))
 	{
 		lexer = tokenize_char(lexer);

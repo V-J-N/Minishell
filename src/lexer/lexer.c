@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:33:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/09 12:12:49 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:45:02 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@
  * @note This function maintains a clean interface, focusing solely on receiving
  * the raw input and returning the final structured token list.
  */
-t_token	*tokenizer(char *str, t_env *env)
+t_token	*tokenizer(char *str)
 {
 	t_token	*tokens_list;
 
 	tokens_list = NULL;
 	if (!str || !*str)
 		return (NULL);
-	tokens_list = advance_tokenizer(str, env);
+	tokens_list = advance_tokenizer(str);
 	if (!tokens_list)
 		return (NULL);
 	return (tokens_list);
