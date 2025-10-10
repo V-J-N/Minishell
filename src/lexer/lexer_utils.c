@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:03:18 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/18 12:34:32 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/10 12:09:28 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
