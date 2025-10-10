@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/09 12:17:35 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:02:27 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char			*tokenize_buffer(char *buffer, t_token *new_token,
 					t_token **list);
 t_lexer			*check_none(t_lexer *lexer);
 t_lexer			*check_single(t_lexer *lexer);
-t_lexer			*check_double(t_lexer *lexer, t_env *env);
+t_lexer			*check_double(t_lexer *lexer);
 t_lexer			*tokenize_char(t_lexer *lexer);
 t_lexer			*tokenize_space(t_lexer *lexer);
 t_lexer			*tokenize_pipe(t_lexer *lexer);

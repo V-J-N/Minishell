@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:04:32 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/09 12:41:14 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:03:49 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_token_state	set_state(t_token_quote quote, t_token_state state)
  */
 t_lexer	*tokenize_env(t_lexer *lexer)
 {
-	lexer->i++;
 	while (1)
 	{
 		lexer->buffer[lexer->j] = lexer->string[lexer->i];
@@ -57,7 +56,7 @@ t_lexer	*tokenize_env(t_lexer *lexer)
 				return (free_tokens(&(lexer->list)), free_lexer(lexer), NULL);
 		}
 		lexer->buffer[lexer->j] = '\0';
-		if (lexer->string[lexer->i] == 32)
+		if (lexer->string[lexer->i] == 32 || lexer->string[lexer->i] == 34)
 			break ;
 	}
 	return (lexer);

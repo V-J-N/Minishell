@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:55:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/09 13:01:00 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:14:47 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,8 @@ t_lexer	*check_single(t_lexer *lexer)
 /**
  * 
  */
-t_lexer	*check_double(t_lexer *lexer, t_env *env)
+t_lexer	*check_double(t_lexer *lexer)
 {
-	char	*environment;
-
 	if (lexer->string[lexer->i] == 34)
 	{
 		lexer->i++;
@@ -145,11 +143,11 @@ t_lexer	*check_double(t_lexer *lexer, t_env *env)
 		if (!lexer)
 			return (NULL);
 	}
-	if (lexer->string[lexer->i] == '$')
+/* 	if (lexer->string[lexer->i] == '$')
 	{
 		lexer = tokenize_env(lexer);
-		environment = get_value_by_key(env, lexer->buffer);
-		lexer->buffer = environment;
+		// environment = get_value_by_key(env, lexer->buffer);
+		// lexer->buffer = environment;
 		if (lexer->buffer && *lexer->buffer != '\0')
 		{
 			lexer->new_token = lstnew_token(lexer->buffer, WORD, lexer->quote);
@@ -157,8 +155,8 @@ t_lexer	*check_double(t_lexer *lexer, t_env *env)
 		}
 		lexer->buffer = NULL;
 		return (lexer);
-	}
-	else if (ft_isprint(lexer->string[lexer->i]))
+	} */
+	if (ft_isprint(lexer->string[lexer->i]))
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)
