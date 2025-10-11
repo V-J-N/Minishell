@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/11 11:49:40 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:32:01 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ t_token			*lstnew_token(char *value, t_token_type type,
 char			**tokenlist_to_arr(t_token *tokenlist);
 char			*ft_realloc(char *buffer, size_t capacity);
 t_token_quote	verify_quotes(char c);
-char			*tokenize_buffer(char *buffer, t_token *new_token,
-					t_token **list, t_token_quote quote, bool has_quotes);
+char			*tokenize_buffer(t_lexer *lexer);
 t_lexer			*check_none(t_lexer *lexer);
 t_lexer			*check_single(t_lexer *lexer);
 t_lexer			*check_double(t_lexer *lexer);

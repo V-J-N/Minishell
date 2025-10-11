@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:45:46 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 11:49:49 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:39:30 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ t_token_quote	verify_quotes(char c)
  * allowing the function to append the new token.
  * @return NULL the value of the now-freed and nulled buffer pointer.
  */
-char	*tokenize_buffer(char *buffer, t_token *new_token,
-	t_token **list, t_token_quote quote, bool has_quotes)
+char	*tokenize_buffer(t_lexer *lexer)
 {
-	new_token = lstnew_token(buffer, WORD, quote, has_quotes);
-	if (!new_token)
+	lexer->new_token = lstnew_token(lexer->buffer, WORD, lexer->quote,
+			lexer->has_quotes);
+	if (!lexer->new_token)
 		return (NULL);
-	lstaddback_token(list, new_token);
-	free(buffer);
-	buffer = NULL;
-	return (buffer);
+	lstaddback_token(&(lexer->list), lexer->new_token);
+	free(lexer->buffer);
+	lexer->buffer = NULL;
+	return (lexer->buffer);
 }
 
 /**

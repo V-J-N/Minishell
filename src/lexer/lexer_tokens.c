@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/11 11:31:34 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:35:29 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,8 @@ t_token	*advance_tokenizer(char *str)
 	if (lexer->buffer && *lexer->buffer != '\0')
 	{
 		if (lexer->i > 0)
-			lexer->quote = verify_quotes(lexer->string[lexer->i-1]);
-		lexer->buffer = tokenize_buffer(lexer->buffer,
-				lexer->new_token, &(lexer->list), lexer->quote,
-					lexer->has_quotes);
+			lexer->quote = verify_quotes(lexer->string[lexer->i - 1]);
+		lexer->buffer = tokenize_buffer(lexer);
 	}
 	if (lexer->state != OUT)
 		return (free_tokens(&(lexer->list)), free_lexer(lexer), NULL);
