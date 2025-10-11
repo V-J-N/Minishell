@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:03:18 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/10 12:09:28 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:24:51 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	lstaddback_token(t_token **head, t_token *new_node)
  * Returns NULL if the input 'value' is 'NULL' or if mempry alocation
  * fails at any point.
  */
-t_token	*lstnew_token(char *value, t_token_type type, t_token_quote quote)
+t_token	*lstnew_token(char *value, t_token_type type,
+	t_token_quote quote, bool has_quotes)
 {
 	t_token	*node;
 
@@ -90,6 +91,7 @@ t_token	*lstnew_token(char *value, t_token_type type, t_token_quote quote)
 		node->is_expanded = false;
 	else
 		node->is_expanded = true;
+	node->has_quotes = has_quotes;
 	node->next = NULL;
 	return (node);
 }

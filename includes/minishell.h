@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/10 14:14:30 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:49:40 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,16 @@ t_token			*tokenizer(char *str);
 t_lexer			*init_lexer(char *str);
 t_token			*advance_tokenizer(char *str);
 t_lexer			*lexer_loop(t_lexer *lexer);
+t_lexer			*lexer_selector(t_lexer *lexer);
 void			free_tokens(t_token **tokens);
 void			lstaddback_token(t_token **head, t_token *new_node);
 t_token			*lstnew_token(char *value, t_token_type type,
-					t_token_quote quote);
+					t_token_quote quote, bool has_quote);
 char			**tokenlist_to_arr(t_token *tokenlist);
 char			*ft_realloc(char *buffer, size_t capacity);
 t_token_quote	verify_quotes(char c);
 char			*tokenize_buffer(char *buffer, t_token *new_token,
-					t_token **list, t_token_quote quote);
+					t_token **list, t_token_quote quote, bool has_quotes);
 t_lexer			*check_none(t_lexer *lexer);
 t_lexer			*check_single(t_lexer *lexer);
 t_lexer			*check_double(t_lexer *lexer);

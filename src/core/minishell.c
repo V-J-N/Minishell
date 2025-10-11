@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/10 12:45:16 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:48:16 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			tokenlist = tokenizer(input);
-			print_list(tokenlist);
+			// print_list(tokenlist);
 			if (!tokenlist)
 			{
 				printf("Syntax Error\n");

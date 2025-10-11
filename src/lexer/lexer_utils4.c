@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:04:32 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/10 12:03:49 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 09:27:34 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * 
  */
-bool ft_isupper(char c)
+bool	ft_isupper(char c)
 {
 	if (c <= 'A' && c >= 'Z')
 		return (false);
