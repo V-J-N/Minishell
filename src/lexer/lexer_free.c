@@ -6,10 +6,14 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 10:09:48 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/07 13:29:42 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 17:38:45 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file lexer_free.c
+ * @brief Memory deallocation routines for the lexer state structure.
+ */
 #include "minishell.h"
 
 /**

@@ -6,20 +6,22 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:07:52 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 13:40:35 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 17:16:22 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * 
+ * @file lexer_tokens3.c
+ * @brief Tokenization functions for character types, spaces, and
+ * metacharacters.
  */
 #include "minishell.h"
 
 /**
  * @brief Adds the current character to the lexer's word buffer and manages
  * dynamic resizing.
- * This function is called when 'check_none' identifies the current character
- * as part of a regular word.
+ * This function is the core accumulation routine, identifies the current
+ * character as part of a regular word.
  * It checks if the next character would exceed the currently allocated buffer
  * size, if resizing is necessary, it doubles the buffer size and calls
  * 'ft_realloc' to safely expand the memory block.
@@ -46,6 +48,8 @@ t_lexer	*tokenize_char(t_lexer *lexer)
 /**
  * @brief Finalizes the current word token upon encountering a space and
  * advances the input index.
+ * This function handles the space delimiter in the unquoted state. Its main
+ * responsibility is to finalize any accumulated word before skipping the space.
  * @param lexer A pointer to the 't_lexer' state structure.
  * @return The updated 't_lexer' state structure.
  * Returns NULL if 'tokenize_buffer' fails due to a memory allocation error.
@@ -62,6 +66,7 @@ t_lexer	*tokenize_space(t_lexer *lexer)
 
 /**
  * @brief Finalizes the current word (if any) and creates a new PIPE token.
+ * This function is called when the pipe metacharacter '|' is encountered.
  * @param lexer A pointer to the 't_lexer' state structure.
  * @return The updated 't_lexer' state structure.
  * Returns NULL if memory allocation fails during token creation or word

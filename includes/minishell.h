@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/11 13:32:01 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 20:16:18 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #  define PATH_MAX 4096
 # endif
 
-extern volatile sig_atomic_t g_last_signal;
+extern volatile sig_atomic_t	g_last_signal;
 //extern: se usa para declarar una variable global que está definida en otro archivo
 //sig_atomic: Es un tipo especial definido por la librería <signal.h>
 //Atómico: el sistema puede leer/escribir su valor en una sola operación, sin riesgo de corrupción.
@@ -124,7 +124,6 @@ void			free_lexer(t_lexer *lexer);
 t_lexer			*init_lexer_buffer(t_lexer *lexer);
 bool			is_char(t_lexer *lexer);
 t_token_state	set_state(t_token_quote quote, t_token_state state);
-t_lexer			*tokenize_env(t_lexer *lexer);
 
 //LEXER_TEST:
 void			print_list(t_token *list);
@@ -156,7 +155,8 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 void			print_commands(t_parse_state *commands);
 
 //BUILT_INS:
-int				built_in(char *cmd, t_env *env, t_command *cmd_lst, int exit_return);
+int				built_in(char *cmd, t_env *env, t_command *cmd_lst,
+					int exit_return);
 int				execute_builtin(char *cmd, t_env *env, t_command *cmd_lst);
 
 //BI_CHILD:
@@ -174,7 +174,6 @@ void			ft_not_valid(char *var);
 void			print_sorted_env(t_env *env);
 bool			is_valid_identifier(const char *var);
 int				ft_cd(t_command *cmd, t_env **env);
-
 
 //BUILT_IN_UTILS:
 bool			is_built_in(char *cmd);

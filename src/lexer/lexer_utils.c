@@ -6,10 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:03:18 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/11 11:24:51 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 17:29:44 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file lexer_utils.c
+ * @brief Utility functions for memory management and list manipulation of
+ * tokens.
+ */
 #include "minishell.h"
 
 /**
@@ -17,6 +22,9 @@
  * It correctly deallocates the deep copies of the token values and the nodes
  * themselves.
  * @param tokens A double pointer to the head of the 't_token' list.
+ * @note Correctly freeing both the internal string value and the node
+ * structure is mandatory for a clean execution environment. The null check
+ * at the begining ensures safe handling of empty or 'NULL' lists.
  */
 void	free_tokens(t_token **tokens)
 {
@@ -38,6 +46,9 @@ void	free_tokens(t_token **tokens)
 
 /**
  * @brief Adds a new token node to the end of the token linked list.
+ * This function handles the logic for appending a newly created token
+ * to the existing list, maintaining the correct sequence of tokens
+ * reads from the input.
  * @param head A pointer to a pointer of the first node in the list.
  * @param new_node A pointer to the new 't_token' node.
  * @note This function does not return a value. It is responsible for
@@ -63,13 +74,17 @@ void	lstaddback_token(t_token **head, t_token *new_node)
 
 /**
  * @brief Creates a new token for the lexer's linked list.
- * This function allocates and initialize a new 't_token' node.
- * It takes the string value and the token type as input.
- * The 'type' is directly assigned as it is an enum.
+ * This function serves as the constructor for the 't_token' structure.
+ * It handles memory allocation and initialization of all fields, including
+ * the crucial deep copy of the token value.
  * @param value The string that represents the token's literal value.
  * @param type The enumerated type of the token.
- * @return t_token* A pointer to tghe newly created 't_token' node.
- * Returns NULL if the input 'value' is 'NULL' or if mempry alocation
+ * @param quote The final quoting status of the token's value.
+ * @param has_quotes A boolean indicating whether the accumulated word
+ * originally contained any quotes.
+ * @return t_token* A pointer to the newly created and intialized
+ * 't_token' node.
+ * Returns NULL if the input 'value' is 'NULL' or if memory allocation
  * fails at any point.
  */
 t_token	*lstnew_token(char *value, t_token_type type,

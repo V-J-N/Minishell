@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 11:24:39 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:24:10 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,28 @@ typedef enum e_token_type
 
 /**
  * @enum e_token_quote
- * @brief Enumeration for the different types of quotes.
- * This enum tracks whether the lexer is currently inside single quotes,
- * double quotes, or outside any quotes.
+ * @brief Tracks the quoting status associated with a token's value
+ * This enum determines wheter a token's content should be expanded during
+ * the expasion phase.
  */
 typedef enum e_token_quote
 {
-	NONE,			/**< Outside any quoted context. */
-	SINGLE,			/**< Inside single quotes. */
-	DOUBLE,			/**< Inside double quotes */
+	NONE,			/**< The token value was unquoted. */
+	SINGLE,			/**< The token value was enclosed in single quotes. */
+	DOUBLE,			/**< The token value was enclosed in double quotes */
 }			t_token_quote;
 
+/**
+ * @enum e_token_state
+ * @brief Defines the current state of the lexer's character processing loop.
+ * Used internally by the lexer to determine how to process the next character
+ * based on whether it is inside or outside quotes.
+ */
 typedef enum e_token_state
 {
-	OUT,
-	IN_SINGLE,
-	IN_DOUBLE,
+	OUT,			/**< Outside any quoted context. */
+	IN_SINGLE,		/**< Inside single quotes. */
+	IN_DOUBLE,		/**< Inside double quotes. */
 }			t_token_state;
 
 /**
@@ -88,6 +94,10 @@ typedef enum e_token_state
  * literal value.
  * @param type The classified type of the token, as defined by the
  * 'e_token_type'.
+ * @param quote The type of quote that ultimately wrapped the token's value.
+ * @param is_expanded Boolean flag: true if variables should be expanded.
+ * @param has_quotes Boolean flag: true if the token value originally contained
+ * any quotes, used for expasion/removal logic.
  * @param next A pointer to the next token in the list. A NULL value
  * indicates the end of the token stream.
  */
@@ -109,6 +119,8 @@ typedef struct s_token
  * @param type Type of redirection.
  * @param file Dynamically allocated string for target filename or
  * heredoc delimiter.
+ * @param heredoc_fd File descriptor for the temporary file created for
+ * a HEREDOC, if appplicable (or -1);
  * @param next Pointer to the next redirection in the list.
  */
 typedef struct s_redir
@@ -196,6 +208,23 @@ typedef struct s_pipe
 	int			index;
 }				t_pipe;
 
+/**
+ * @struct t_lexer
+ * @brief State structure for the lexer.
+ * This structure holds the entire state required to convert the input string
+ * into a stream of tokens character by character.
+ * @param list Head of the 't_token' list being constructed.
+ * @param new_token Pointer to the token currnetly being finalized.
+ * @param quote Tracks the last quote type encountered.
+ * @param state Tracks the current quoting state.
+ * @param buffer Dynamically growing string buffer used to accumulated
+ * character for a new token.
+ * @param string The original input command line string.
+ * @param i Index tracking the current position in the input 'string'.
+ * @param j Index tracking the current position in the 'buffer'.
+ * @param has_quotes Boolean flag: true if the current word being built contained
+ * any quotes.
+ */
 typedef struct s_lexer
 {
 	t_token			*list;

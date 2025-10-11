@@ -3,13 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:36:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/29 10:39:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:17:16 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file environment_utils.c
+ * @brief Utilities for environment list manipulation and variable parsing.
+ */
 #include "minishell.h"
 
 /**
@@ -44,19 +48,18 @@ void	ft_addback_mini_env(t_env **head, t_env *new_node)
 
 /**
  * @brief Creates a new node for the environment linked list.
- * This function allocates and initializes a new 't_env' node.
- * It takes ownership of the provided 'key', 'value' and 'full' strings by
- * performing a deep copy of each using 'ft_strdup'. The new node is
- * self-contained and independent of the original string data passed to
- * the function.
- * This desing ensures that the data within the list is robust and its lifecycle
- * is managed entirely by the list itself, preventing issues related to external
- * memory deallocation.
+ * This function is the constructor fot he 't_env' node. It allocates
+ * memory for the node structure and performs a deep copy of the 'key',
+ * 'value', and 'full' strings using 'ft_strdup'.
  * @param key The key (name) of the environment variable.
  * @param value The value of the environment variable.
  * @param full The full "KEY=value" string.
- * @return A pointer to the newly created 't_env' node. Returns NULL if memory
- * allocation fails for the node or any of its internal strings.
+ * @return A pointer to the newly created 't_env' node.
+ * Returns NULL if memory allocation fails for the node or any of
+ * its internal strings.
+ * @note The deep copy ensures that the data within the list is
+ * self-contained and independent of the temporary strings used during
+ * environment parsing.
  */
 t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
 {
@@ -81,21 +84,6 @@ t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
 	return (new_node);
 }
 
-// He agregado comprobaciones extra por un segfault en el que caí mi ft_export()
-/* t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
-{
-	t_env	*new_node;
-
-	new_node = malloc(sizeof(t_env));
-	if (!new_node)
-		return (NULL);
-	new_node->key = ft_strdup(key);
-	new_node->value = ft_strdup(value);
-	new_node->full_env = ft_strdup(full);
-	new_node->next = NULL;
-	return (new_node);
-} */
-
 /**
  * @brief Extracts and allocates a deep copy of the key from an environment
  * string.
@@ -108,8 +96,6 @@ t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
  * @param str The source string containing the environment variable.
  * @return A new dynamically allocated string containing the extracted key.
  * Returns NULL if memory allocation fails.
- * @note The use of 'ft_calloc' guarantees that the allocated memory is
- * null-initialized, this removes the need for an explicit 'key[i] = '0\';'.
  */
 char	*set_key(char *str)
 {
@@ -145,8 +131,6 @@ char	*set_key(char *str)
  * @param str The source string containing the environment variable.
  * @return A new dynamically allocated string containing the extracted value.
  * Returns NULL if memory allocation fails.
- * @note The use of 'ft_calloc' guarantees that the allocated memory is
- * null-initialized, removing the need for an explicit asigment.
  */
 char	*set_value(char *str)
 {

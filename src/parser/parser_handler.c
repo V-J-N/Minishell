@@ -3,15 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   parser_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 11:33:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/15 17:23:12 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/11 20:55:40 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file parser_handler.c
+ * @brief Token handling routines that manage the state transitions and command
+ * block construction during the parsing phase.
+ */
 #include "minishell.h"
 
+/**
+ * @brief Handles the PIPE token, finalizing the current command block and
+ * preparing for the next one.
+ * This function is responsible for structuring the command pipeline. When
+ * a PIPE token is encountered, it signifies the end of the currnet command
+ * block and the beginning of the next.
+ * @param tokens A pointer to the current PIPE 't_token' node.
+ * @param p_struct A pointer to the 't_parse_state' structure.
+ * @return true on success indicating the pipe was structurally correct and
+ * the command was finalized.
+ * @return false on a syntax error.
+ */
 bool	handle_pipe(t_token *tokens, t_parse_state *p_struct)
 {
 	if (!p_struct->cmd_node)
@@ -48,6 +65,8 @@ bool	handle_redir(t_token *tokens, t_parse_state *p_struct)
 /**
  * @brief Processes and incorporates a WORD token into the current command
  * block.
+ * This is the most complex handler as it is responsible for three distinct
+ * actions, depending on the current state of 'p_struct->cmd_node'.
  * @param tokens A pointer to the current 't_token' node to be processed.
  * @param p_struct A pointer to the 't_parse_state' structure that holds the
  * parser's current state.

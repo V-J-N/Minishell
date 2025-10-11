@@ -6,14 +6,25 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 11:11:43 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:09:37 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file lexer_tokens2.c
+ * @brief Dispatcher for the lexing state machine.
+ */
 #include "minishell.h"
 
 /**
- *
+ * @brief Dispatches character proccessing based on the lexer's current state.
+ * This function is the core decision-maker, invoked during each iteration of
+ * the 'lexer_loop'. It directs the flow to the appropiate handler routine
+ * based on whether the lexer is outside of quotes or inside single or
+ * double quotes.
+ * @param lexer A pointer to the 't_lexer' state structure.
+ * @return The updates 't_lexer' state structure. Returns NULL if a fatal error
+ * occurs in any of the delegated handler functions.
  */
 t_lexer	*lexer_selector(t_lexer *lexer)
 {
@@ -48,7 +59,8 @@ t_lexer	*lexer_selector(t_lexer *lexer)
  * the loop. Returns NULL if the input state was invalid or if a fatal
  * error occurred during processing.
  * @note This loop is the state machine's heart. Its primary responsibility
- * is to determine the context (quoted or unquoted).
+ * is to manage the state transitions and delegate the complex character
+ * handling logic to maintain modularity.
  */
 t_lexer	*lexer_loop(t_lexer *lexer)
 {

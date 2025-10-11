@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:38:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/03 14:07:46 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/11 20:13:05 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	free_parser(t_parse_state **parse_struct)
 		return ;
 	if ((*parse_struct)->cmd_list)
 		free_commands(&(*parse_struct)->cmd_list);
-	// Solo liberar cmd_node si NO está ya en la lista, actualizado a "else if"
 	else if ((*parse_struct)->cmd_node)
 		free_commands(&(*parse_struct)->cmd_node);
 	free(*parse_struct);

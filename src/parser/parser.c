@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/15 11:37:10 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/11 20:44:46 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file parser.c
- * @brief Main function for parsing a command token stream.
+ * @brief Main logic and orchestation for converting a token stream into an
+ * executable command pipeline.
  */
 #include "minishell.h"
 
@@ -37,6 +38,17 @@ static t_parse_state	*init_parser(void)
 	return (parser);
 }
 
+/**
+ * @brief Main dispatcher loop that processes the token stream based on the
+ * token type.
+ * This function drives the state machine of the parser. It iterates through
+ * the token list and delegates the processing of each token type to
+ * dedicated handler functions.
+ * @param tokens The current head of the 't_token' list segment to be processed.
+ * @param p_struct A pointer to the central 't_parse_state' structure.
+ * @return true If the entire token stream was processed successfully.
+ * @return false If a syntax error or fatal allocation error occurred.
+ */
 static bool	handle_tokens(t_token *tokens, t_parse_state *p_struct)
 {
 	while (tokens)
@@ -44,19 +56,22 @@ static bool	handle_tokens(t_token *tokens, t_parse_state *p_struct)
 		if (tokens->type == WORD)
 		{
 			if (!handle_word(tokens, p_struct))
-				return (free_tokens(&tokens), parse_error("minishell: WORD parse error", p_struct), NULL);
+				return (free_tokens(&tokens),
+					parse_error("minishell:WORD parse error", p_struct), NULL);
 			tokens = tokens->next;
 		}
 		else if (tokens->type == PIPE)
 		{
 			if (!handle_pipe(tokens, p_struct))
-				return (free_tokens(&tokens), parse_error("minishell: PIPE parse error", p_struct), NULL);
+				return (free_tokens(&tokens),
+					parse_error("minishell:PIPE parse error", p_struct), NULL);
 			tokens = tokens->next;
 		}
 		else if (is_redir(tokens))
 		{
 			if (!handle_redir(tokens, p_struct))
-				return (free_tokens(&tokens), parse_error("minishell: REDIR parse error", p_struct), NULL);
+				return (free_tokens(&tokens),
+					parse_error("minishell:REDIR parse error", p_struct), NULL);
 			tokens = tokens->next->next;
 		}
 	}
@@ -65,14 +80,13 @@ static bool	handle_tokens(t_token *tokens, t_parse_state *p_struct)
 
 /**
  * @brief Parses a token stream to create a command block list.
- * This function orchestates the entire parsing process. It initializes a
- * 't_parse_state' structure to manage the parsing state, the iterates through
- * the token stream to identify and process different token types.
+ * This function is the main public interface for the parsing phase. It
+ * orchestates the entire process from initialization to final list asembly.
  * @param tokens A pointer to the head of the 't_token' linked list, which
  * represents the command line to be parsed.
  * @return t_parse_state* A pointer to the fully populated 't_parse_state'
- * structure, which contains the parsed command list. Returns 'NULL' if the
- * input is invalid or if a syntax or memory allocation failure occurs.
+ * structure contains the parsed command list. Returns NULL if the input is
+ * invalid or if a syntax or memory allocation failure occurs during parsing.
  */
 t_parse_state	*parse_command(t_token *tokens)
 {
