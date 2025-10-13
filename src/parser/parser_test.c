@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:55:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/11 20:13:29 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:01:39 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	print_commands(t_parse_state *commands)
 {
 	t_parse_state	*temp;
 	t_command		*list;
-	t_arg			*arg;
 	t_redir			*redir;
 	size_t			i;
 
@@ -36,10 +35,10 @@ void	print_commands(t_parse_state *commands)
 		}
 		if (list->cmd_argc > 0)
 		{
-			while (arg)
+			while (list->args)
 			{
-				printf("----> Arguments [%s]\n", arg->value);
-				arg = arg->next;
+				printf("----> Arguments [%s]\n", list->args->value);
+				list->args = list->args->next;
 			}
 		}
 		redir = list->redirs;
