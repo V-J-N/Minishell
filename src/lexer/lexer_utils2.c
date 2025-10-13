@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:10:15 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/19 14:24:10 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/11 17:36:34 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file lexer_utils2.c
- * @brief Utility functions for handling token lists as arrays.
+ * @brief Utility functions for handling token lists as arrays and memory
+ * management.
  */
 #include "minishell.h"
 
@@ -72,8 +73,13 @@ char	**tokenlist_to_arr(t_token *tokenlist)
 }
 
 /**
- * @brief 
- * 
+ * @brief Custom implementation of memory reallocation for string buffers.
+ * This function handles the dynamic resizing of the lexer's word accumulation
+ * buffer. It is called by 'tokenize_char' when the buffer capacity is reached.
+ * @param buffer The pointrer to the original memory block to be resized.
+ * @param capacity The new, larger size (in bytes) for the memory block.
+ * @return char* A pointer to the newly allocated and copied memory block.
+ * Returns NULL if memory allocation fails.
  */
 
 char	*ft_realloc(char *buffer, size_t capacity)

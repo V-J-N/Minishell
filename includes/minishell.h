@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/08 11:25:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 20:16:18 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #  define PATH_MAX 4096
 # endif
 
-extern volatile sig_atomic_t g_last_signal;
+extern volatile sig_atomic_t	g_last_signal;
 //extern: se usa para declarar una variable global que está definida en otro archivo
 //sig_atomic: Es un tipo especial definido por la librería <signal.h>
 //Atómico: el sistema puede leer/escribir su valor en una sola operación, sin riesgo de corrupción.
@@ -103,16 +103,18 @@ t_token			*tokenizer(char *str);
 t_lexer			*init_lexer(char *str);
 t_token			*advance_tokenizer(char *str);
 t_lexer			*lexer_loop(t_lexer *lexer);
+t_lexer			*lexer_selector(t_lexer *lexer);
 void			free_tokens(t_token **tokens);
 void			lstaddback_token(t_token **head, t_token *new_node);
 t_token			*lstnew_token(char *value, t_token_type type,
-					t_token_quote quote);
+					t_token_quote quote, bool has_quote);
 char			**tokenlist_to_arr(t_token *tokenlist);
 char			*ft_realloc(char *buffer, size_t capacity);
 t_token_quote	verify_quotes(char c);
-char			*tokenize_buffer(char *buffer, t_token *new_token,
-					t_token **list);
+char			*tokenize_buffer(t_lexer *lexer);
 t_lexer			*check_none(t_lexer *lexer);
+t_lexer			*check_single(t_lexer *lexer);
+t_lexer			*check_double(t_lexer *lexer);
 t_lexer			*tokenize_char(t_lexer *lexer);
 t_lexer			*tokenize_space(t_lexer *lexer);
 t_lexer			*tokenize_pipe(t_lexer *lexer);
@@ -121,7 +123,6 @@ t_lexer			*tokenize_output(t_lexer *lexer);
 void			free_lexer(t_lexer *lexer);
 t_lexer			*init_lexer_buffer(t_lexer *lexer);
 bool			is_char(t_lexer *lexer);
-t_lexer			*check_single(t_lexer *lexer);
 t_token_state	set_state(t_token_quote quote, t_token_state state);
 
 //LEXER_TEST:
@@ -154,7 +155,8 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 void			print_commands(t_parse_state *commands);
 
 //BUILT_INS:
-int				built_in(char *cmd, t_env *env, t_command *cmd_lst, int exit_return);
+int				built_in(char *cmd, t_env *env, t_command *cmd_lst,
+					int exit_return);
 int				execute_builtin(char *cmd, t_env *env, t_command *cmd_lst);
 
 //BI_CHILD:
@@ -172,7 +174,6 @@ void			ft_not_valid(char *var);
 void			print_sorted_env(t_env *env);
 bool			is_valid_identifier(const char *var);
 int				ft_cd(t_command *cmd, t_env **env);
-
 
 //BUILT_IN_UTILS:
 bool			is_built_in(char *cmd);

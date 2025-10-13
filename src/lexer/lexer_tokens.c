@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 10:24:32 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/07 13:30:57 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 14:53:11 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ t_lexer	*init_lexer(char *str)
 	lexer->j = 0;
 	lexer->buffer_size = 16;
 	lexer->state = OUT;
+	lexer->has_quotes = false;
 	return (lexer);
 }
 
 /**
  * @brief Performs char-by-char tokenization for the input string.
- * This function implements the core lexing algorithm. It converts th raw
+ * This function implements the core lexing algorithm. It converts the raw
  * input string into a structured linked list of tokens in four steps.
  * 1 - State Initialization: It calls 'init_lexer' to allocate and initialize
  * the 't_lexer' state structure. This structure holds all necessary parsing
@@ -77,12 +78,15 @@ t_token	*advance_tokenizer(char *str)
 		return (NULL);
 	lexer = lexer_loop(lexer);
 	if (!lexer)
-		return (NULL);
+		return (free_tokens(&(lexer->list)), free_lexer(lexer), NULL);
 	if (lexer->buffer && *lexer->buffer != '\0')
-		lexer->buffer = tokenize_buffer(lexer->buffer,
-				lexer->new_token, &(lexer->list));
+	{
+		if (lexer->i > 0)
+			lexer->quote = verify_quotes(lexer->string[lexer->i - 1]);
+		lexer->buffer = tokenize_buffer(lexer);
+	}
 	if (lexer->state != OUT)
-			return (free_tokens(&(lexer->list)), free_lexer(lexer), NULL);
+		return (free_tokens(&(lexer->list)), free_lexer(lexer), NULL);
 	tokens = lexer->list;
 	free_lexer(lexer);
 	return (tokens);

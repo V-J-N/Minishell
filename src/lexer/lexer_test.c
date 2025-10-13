@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 10:15:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/24 12:21:12 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/11 17:40:32 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void	print_list(t_token *list)
 	{
 		printf("Token [%s]\n", temp->value);
 		printf("Token Type [%d]\n", temp->type);
+		printf("Token Quote [%d]\n", temp->quote);
+		printf("Token Expand [%d]\n", temp->is_expanded);
+		printf("Token Has Quote [%d]\n", temp->has_quotes);
 		temp = temp->next;
 	}
 }
@@ -64,17 +67,3 @@ void	print_array(char **array)
 	}
 	return ;
 }
-
-/* int	main(int argc, char *argv[])
-{
-	t_token	*token_list;
-	char	*input;
-
-	token_list = NULL;
-	input = create_input(argc, argv);
-	token_list = tokenizer(input);
-	print_list(token_list);
-	free_tokens(&token_list);
-	free(input);
-	return (0);
-} */

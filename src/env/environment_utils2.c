@@ -3,13 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:37:53 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/24 12:22:47 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:32:16 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file environment_utils2.c
+ * @brief Environment list cleanup and array conversion utilities.
+ */
 #include "minishell.h"
 
 /**
@@ -44,7 +48,16 @@ void	free_environment(t_env **env)
 	*env = NULL;
 }
 
-/// @brief Search for the 'full_env' in the list, given a key
+/**
+ * @brief Searches for a specific environment variable by key and returns a
+ * deep copy of the full "KEY=value" string.
+ * This function is a utility for querying the environment list. It traverses
+ * the list and compares the 'key' field of each node with the target key.
+ * @param env_list The head of the 't_env' linked list.
+ * @param key The environment variable name (key) to search for.
+ * @return A new dynamically allocated string containing the full "KEY=value"
+ * format. Returns NULL if the key is not found iun the list.
+ */
 char	*get_full_env(t_env *env_list, const char *key)
 {
 	char	*full_env;
@@ -61,6 +74,11 @@ char	*get_full_env(t_env *env_list, const char *key)
 	return (NULL);
 }
 
+/**
+ * @brief Calculates the number of nodes in the environment linked list.
+ * @param lst A pointer to the head of the 't_env' list.
+ * @return int The number of nodes in the list.
+ */
 static int	ft_envlst_size(t_env *lst)
 {
 	int	counter;
@@ -75,10 +93,15 @@ static int	ft_envlst_size(t_env *lst)
 }
 
 /**
- * @brief Extracts the data from our
- * environment data structure list and returns
- * an array of strings that can be used by execve()
- * */
+ * @brief Converts the internal 't_env' linked list into a dynamicaly allocated
+ * NULL-terminated array of "KEY=value" strings.
+ * This function transforms the structured environment data back into the
+ * standard 'char **' array format required by the 'execve' system call
+ * for the executing external programs.
+ * @param envlist A pointer to a pointer to the head of the environment list.
+ * @return char** Returns a dynamically allocated, NULL-terminated array of
+ * environment strings. Returns NULL if memory allocation fails.
+ */
 char	**envlist_to_arr(t_env **envlist)
 {
 	int		count;
