@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:05:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/11 12:38:08 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/14 11:44:33 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ bool	add_args(t_token *tokens, t_command *cmd_node)
 	temp = cmd_node->args;
 	while (temp->next)
 		temp = temp->next;
+	temp->quote = tokens->quote;
+	temp->is_expanded = tokens->is_expanded;
+	temp->has_quotes = tokens->has_quotes;
 	temp->next = new_arg;
 	cmd_node->cmd_argc += 1;
 	return (true);
@@ -68,6 +71,9 @@ bool	update_empty_cmd(t_token *tokens, t_command *cmd_node)
 	if (!cmd_node->args->value)
 		return (false);
 	cmd_node->args->next = NULL;
+	cmd_node->args->quote = tokens->quote;
+	cmd_node->args->is_expanded = tokens->is_expanded;
+	cmd_node->args->has_quotes = tokens->has_quotes;
 	cmd_node->is_command = true;
 	cmd_node->cmd_argc = 1;
 	return (true);
@@ -125,6 +131,9 @@ t_command	*create_cmd(t_token *tokens)
 	node->args->value = ft_strdup(tokens->value);
 	if (!node->args->value)
 		return (free_commands(&node), NULL);
+	node->args->quote = tokens->quote;
+	node->args->is_expanded = tokens->is_expanded;
+	node->args->has_quotes = tokens->has_quotes;
 	node->args->next = NULL;
 	return (node);
 }

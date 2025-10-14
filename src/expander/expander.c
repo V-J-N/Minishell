@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:22:23 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/13 18:14:43 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/14 11:05:39 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /**
  * 
  */
-void	trim_quotes(t_lexer *tokenlist, t_command *commandlist)
+/* void	trim_quotes(t_lexer *tokenlist, t_command *commandlist)
 {
 	t_token		*temp;
 	t_command	*cmd;
@@ -39,12 +39,12 @@ void	trim_quotes(t_lexer *tokenlist, t_command *commandlist)
 		}
 		temp = temp->next;
 	}
-}
+} */
 
 /**
  * 
  */
-void	expander(t_lexer *tokenlist, t_command *commandlist)
+/* void	expander(t_lexer *tokenlist, t_command *commandlist)
 {
 	t_token	*temp;
 
@@ -57,4 +57,4 @@ void	expander(t_lexer *tokenlist, t_command *commandlist)
 		}
 		temp = temp->next;
 	}
-}
+} */
