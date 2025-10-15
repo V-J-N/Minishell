@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 15:09:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:09:02 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
  */
 t_lexer	*lexer_selector(t_lexer *lexer)
 {
-	if (lexer->state != OUT)
-		lexer->has_quotes = true;
 	if (lexer->state == OUT)
 	{
 		lexer = check_none(lexer);

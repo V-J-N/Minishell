@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/11 20:16:18 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:43:54 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,5 +186,8 @@ void			delete_env_key(t_env **env, const char *key);
 //SIGNALS:
 void			sigint_handler(int signum);
 void			setup_signals(void);
+
+//EXPANDER
+t_command		*expander(t_command *cmd_list);
 
 #endif

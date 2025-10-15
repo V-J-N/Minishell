@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/15 10:39:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:18:20 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 				printf("Syntax Error\n"); // Hay leaks que tb provienen del lexer
 				continue ;
 			}
+			parse_state->cmd_list = expander(parse_state->cmd_list);
 			exit_signal = execute_all(parse_state->cmd_list, &environment);
 			printf("exit status: %d\n", exit_signal);
 			free_tokens(&tokenlist);

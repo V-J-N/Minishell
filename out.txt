@@ -1,0 +1,15 @@
+total 188
+drwxrwxr-x  9 sergio-jimenez sergio-jimenez   4096 oct 15 12:41 .
+drwxrwxr-x 16 sergio-jimenez sergio-jimenez   4096 sep 20 18:26 ..
+drwxrwxr-x  4 sergio-jimenez sergio-jimenez   4096 ago 19 23:21 documents
+drwxrwxr-x  8 sergio-jimenez sergio-jimenez   4096 oct 15 12:41 .git
+-rw-rw-r--  1 sergio-jimenez sergio-jimenez     95 ago 19 23:21 .gitignore
+drwxrwxr-x  2 sergio-jimenez sergio-jimenez   4096 oct 15 10:38 includes
+drwxrwxr-x  5 sergio-jimenez sergio-jimenez   4096 oct 15 12:07 libft
+-rw-rw-r--  1 sergio-jimenez sergio-jimenez   4006 oct 14 11:57 Makefile
+-rwxrwxr-x  1 sergio-jimenez sergio-jimenez 142024 oct 15 12:36 minishell
+drwxrwxr-x  9 sergio-jimenez sergio-jimenez   4096 oct 15 12:07 obj
+-rw-r--r--  1 sergio-jimenez sergio-jimenez      0 oct 15 12:41 out.txt
+-rw-rw-r--  1 sergio-jimenez sergio-jimenez     37 ago 19 23:21 README.md
+drwxrwxr-x  9 sergio-jimenez sergio-jimenez   4096 oct 14 11:57 src
+drwxrwxr-x  2 sergio-jimenez sergio-jimenez   4096 oct 11 09:35 .vscode
