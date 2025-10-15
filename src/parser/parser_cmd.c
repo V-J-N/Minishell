@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:05:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/15 10:52:11 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:11:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ bool	add_args(t_token *tokens, t_command *cmd_node)
 	new_arg->quote = tokens->quote;
 	new_arg->has_quotes = tokens->has_quotes;
 	new_arg->is_expanded = tokens->is_expanded;
+	new_arg->exp_value = NULL;
 	new_arg->next = NULL;
 	temp = cmd_node->args;
 	while (temp->next)
@@ -134,6 +135,7 @@ t_command	*create_cmd(t_token *tokens)
 	node->args->quote = tokens->quote;
 	node->args->has_quotes = tokens->has_quotes;
 	node->args->is_expanded = tokens->is_expanded;
+	node->args->exp_value = NULL;
 	node->args->next = NULL;
 	return (node);
 }
