@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 21:24:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:51:44 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,12 @@ typedef struct s_token
  */
 typedef struct s_redir
 {
+	t_token_quote	quote;
 	t_token_type	type;
 	char			*file;
+	char			*exp_file;
+	bool			is_expanded;
+	bool			has_quotes;
 	int				heredoc_fd;
 	struct s_redir	*next;
 }					t_redir;
@@ -142,7 +146,10 @@ typedef struct s_redir
  */
 typedef struct s_arg
 {
+	t_token_quote	quote;
 	char			*value;
+	bool			is_expanded;
+	bool			has_quotes;
 	struct s_arg	*next;
 }					t_arg;
 
