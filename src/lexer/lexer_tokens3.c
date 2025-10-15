@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:07:52 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 17:16:22 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:12:17 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ t_lexer	*tokenize_pipe(t_lexer *lexer)
 		lexer->quote = verify_quotes(lexer->string[lexer->i - 1]);
 	if (lexer->buffer && *lexer->buffer != '\0')
 		lexer->buffer = tokenize_buffer(lexer);
-	lexer->new_token = lstnew_token("|", PIPE, lexer->quote,
-			lexer->has_quotes);
+	lexer->new_token = lstnew_token("|", PIPE, lexer->quote, false);
 	lstaddback_token(&(lexer->list), lexer->new_token);
 	lexer->i++;
 	return (lexer);
@@ -104,8 +103,7 @@ t_lexer	*tokenize_input(t_lexer *lexer)
 	{
 		if (lexer->buffer && *lexer->buffer != '\0')
 			lexer->buffer = tokenize_buffer(lexer);
-		lexer->new_token = lstnew_token("<<", HEREDOC, lexer->quote,
-				lexer->has_quotes);
+		lexer->new_token = lstnew_token("<<", HEREDOC, lexer->quote, false);
 		lstaddback_token(&(lexer->list), lexer->new_token);
 		lexer->i += 2;
 	}
@@ -113,8 +111,7 @@ t_lexer	*tokenize_input(t_lexer *lexer)
 	{
 		if (lexer->buffer && *lexer->buffer != '\0')
 			lexer->buffer = tokenize_buffer(lexer);
-		lexer->new_token = lstnew_token("<", REDIR_IN, lexer->quote,
-				lexer->has_quotes);
+		lexer->new_token = lstnew_token("<", REDIR_IN, lexer->quote, false);
 		lstaddback_token(&(lexer->list), lexer->new_token);
 		lexer->i++;
 	}
@@ -140,8 +137,7 @@ t_lexer	*tokenize_output(t_lexer *lexer)
 	{
 		if (lexer->buffer && *lexer->buffer != '\0')
 			lexer->buffer = tokenize_buffer(lexer);
-		lexer->new_token = lstnew_token(">>", APPEND, lexer->quote,
-				lexer->has_quotes);
+		lexer->new_token = lstnew_token(">>", APPEND, lexer->quote, false);
 		lstaddback_token(&(lexer->list), lexer->new_token);
 		lexer->i += 2;
 	}
@@ -149,8 +145,7 @@ t_lexer	*tokenize_output(t_lexer *lexer)
 	{
 		if (lexer->buffer && *lexer->buffer != '\0')
 			lexer->buffer = tokenize_buffer(lexer);
-		lexer->new_token = lstnew_token(">", REDIR_OUT, lexer->quote,
-				lexer->has_quotes);
+		lexer->new_token = lstnew_token(">", REDIR_OUT, lexer->quote, false);
 		lstaddback_token(&(lexer->list), lexer->new_token);
 		lexer->i++;
 	}
