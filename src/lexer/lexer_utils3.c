@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:45:46 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/15 19:08:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/17 18:29:54 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,4 @@ bool	is_char(t_lexer *lexer)
 		return (true);
 	return (false);
 }
+
