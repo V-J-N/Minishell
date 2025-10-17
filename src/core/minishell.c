@@ -3,48 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/11 13:16:26 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:10:59 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/// @brief Main function containing our Read Evaluate Print(Execute) Loop
-/// @param envp data is saved as a linked list in 'environment'
-int	main(int argc, char **argv, char **envp)
+static t_data	*init_data(char **envp)
 {
-	char			*input;
-	t_env			*environment;
-	int				exit_signal;
-	//LEXER:
-	t_token			*tokenlist;
-	//PARSER:
-	t_parse_state	*parse_state;
-	
-	(void)argc;
-	(void)argv;
-	environment = NULL;
-	tokenlist = NULL;
-	parse_state = NULL;
-	if (!get_environment(envp, &environment))
-		return (free_environment(&environment), perror("envp copy failed"), 1);
-	setup_signals();
-	exit_signal = 0;
+	t_data			*data;
+
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
+	data->env = NULL;
+	data->token = NULL;
+	data->parsed = NULL;
+	if (!get_environment(envp, &data->env))
+	{
+		perror("envp copy failed");
+		free(data);
+		return (NULL);
+	}
+	return (data);
+}
+
+static int	sigint_check(int exit_signal)
+{
+	if (g_sigint_status == SIGINT)
+	{
+		g_sigint_status = 0;
+		return (130);
+	}
+	else if (g_sigint_status == SIGQUIT)
+	{
+		g_sigint_status = 0;
+		return (131);
+	}
+	return (exit_signal);
+}
+
+static int	execute(t_data *data, int exit_signal, char *input)
+{
+	exit_signal = execute_all(data);
+	printf("exit status: %d\n", exit_signal); //borrar al final!
+	ft_cleanup_loop(data, input, 0);
+	return (exit_signal);
+}
+
+static int	rep_loop(t_data *data, int exit_signal, char *input)
+{
 	while (1)
 	{
-		if (g_last_signal == SIGINT)
-		{
-			exit_signal = 130;
-			g_last_signal = 0;
-		}
-		else if (g_last_signal == SIGQUIT)
-		{
-			exit_signal = 131;
-			g_last_signal = 0;
-		}
+		exit_signal = sigint_check(exit_signal);
 		input = readline("$> ");
 		if (!input)
 		{
@@ -54,28 +68,39 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 		{
 			add_history(input);
-			tokenlist = tokenizer(input);
-			// print_list(tokenlist);
-			if (!tokenlist)
+			data->token = tokenizer(input);
+			if (data->token)
+				data->parsed = parse_command(data->token);
+			if (!data->token || !data->parsed)
 			{
-				printf("Syntax Error\n");
+				ft_cleanup_loop(data, input, 1);
 				continue ;
 			}
-			parse_state = parse_command(tokenlist);
-			// print_commands(parse_state);
-			if (!parse_state)
-			{
-				printf("Syntax Error\n"); // Hay leaks que tb provienen del lexer
-				continue ;
-			}
-			exit_signal = execute_all(parse_state->cmd_list, &environment);
-			printf("exit status: %d\n", exit_signal);
-			free_tokens(&tokenlist);
-			free_parser(&parse_state);
+			exit_signal = execute(data, exit_signal, input);
 		}
-		free(input);
 	}
-	free_environment(&environment);
-	rl_clear_history();
+	return (exit_signal);
+}
+
+/// @brief Main function containing our Read Evaluate Print(Execute) Loop
+/// @param envp data is saved as a linked list in 'environment'
+int	main(int argc, char **argv, char **envp)
+{
+	char			*input;
+	int				exit_signal;
+	t_data			*data;
+
+	(void)argc;
+	(void)argv;
+	input = NULL;
+	data = init_data(envp);
+	if (!data)
+		return (1);
+	if (!shell_lvl_handler(data))
+		return (1);
+	setup_signals();
+	exit_signal = 0;
+	exit_signal = rep_loop(data, exit_signal, input);
+	ft_cleanup_end(data);
 	return (exit_signal);
 }

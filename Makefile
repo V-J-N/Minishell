@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/07 12:29:59 by serjimen         ###   ########.fr        #
+#    Updated: 2025/10/17 15:09:31 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment_utils.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment_utils2.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment_utils3.c\
+			$(SRC_DIR)/$(ENV_DIR)/environment_utils4.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer_tokens.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer_tokens2.c\

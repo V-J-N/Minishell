@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:09:35 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/03 11:55:56 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:09:29 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,10 @@ void	cmd_not_found(char *cmd, char **env_arr, char **args)
 int	is_directory(const char *path)
 {
 	struct stat	statbuf;
-	//Esta estructura contiene información sobre 
-	//un archivo o directorio, como permisos, tamaño, tipo, etc.
 
-	if (stat(path, &statbuf) != 0) //obtiene información del archivo o directorio apuntado por path y la guarda en statbuf
+	if (stat(path, &statbuf) != 0)
 		return (0);
 	return (S_ISDIR(statbuf.st_mode));
-	//statbuf.st_mode contiene los permisos y tipo de archivo.
-	//S_ISDIR(...) es un macro que devuelve true (distinto de 0) 
-	//si st_mode indica que es un directorio.
 }
 
 /**

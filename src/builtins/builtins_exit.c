@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:09:17 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 12:30:32 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:05:41 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,37 +30,52 @@ static bool	is_numeric(const char *str)
 	return (true);
 }
 
-static void	no_numeric_arg(char **args)
+static void	cleanup_and_exit(int exit_code, t_data *data, char **args)
+{
+	if (data)
+	{
+		if (data->token)
+			free_tokens(&data->token);
+		if (data->parsed)
+			free_parser(&data->parsed);
+		if (data->env)
+			free_environment(&data->env);
+		free(data);
+	}
+	if (args)
+		ft_free_array(args);
+	rl_clear_history();
+	exit(exit_code);
+}
+
+static void	no_numeric_arg(char **args, t_data *data)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(args[1], STDERR_FILENO);
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-	ft_free_array(args);
-	exit(2);
+	cleanup_and_exit(2, data, args);
 }
 
 /**
  * @brief Simulates the behavior of the bash `exit` builtin.
  * @return int Returns 1 if there is an error and shell should not exit.
  */
-int	ft_exit(t_command *cmd_lst)
+int	ft_exit(t_data *data)
 {
 	char	**args;
 	long	code;
 
-	if (!cmd_lst || !cmd_lst->args)
-		exit(0);
-	args = args_to_array(cmd_lst->args);
+	if (!data || !data->parsed || !data->parsed->cmd_list \
+	|| !data->parsed->cmd_list->args)
+		cleanup_and_exit(0, data, NULL);
+	args = args_to_array(data->parsed->cmd_list->args);
 	if (!args)
-		exit(1);
+		cleanup_and_exit(1, data, NULL);
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!args[1])
-	{
-		ft_free_array(args);
-		exit(0);
-	}
+		cleanup_and_exit(0, data, args);
 	if (!is_numeric(args[1]))
-		no_numeric_arg(args);
+		no_numeric_arg(args, data);
 	if (args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
@@ -68,6 +83,6 @@ int	ft_exit(t_command *cmd_lst)
 		return (1);
 	}
 	code = ft_atol(args[1]);
-	ft_free_array(args);
-	exit((unsigned char)code);
+	cleanup_and_exit((unsigned char)code, data, args);
+	return (0);
 }

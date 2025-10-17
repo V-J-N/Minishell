@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/06 13:14:34 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 12:57:46 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,20 @@ static void	exec_child_process(t_command *command, t_env **env, int in, int out)
  * a child process is started to execute a given command,
  * handling existing redirections.
 */
-int	command_in(t_command *command, t_env **environment, int in, int out)
+int	command_in(t_data *data, int in, int out)
 {
 	pid_t	pid;
 	int		status;
 
-	if (!command || !environment)
+	if (!data->parsed->cmd_list || !data->env)
 		return (perror("No data"), EXIT_FAILURE);
-	if (is_built_in(command->args->value))
-		return (built_in(command->args->value, *environment, command, -1));
+	if (is_built_in(data->parsed->cmd_list->args->value))
+		return (built_in(data->parsed->cmd_list->args->value, data, -1));
 	pid = fork();
 	if (pid < 0)
 		return (perror("Fork"), EXIT_FAILURE);
 	if (pid == 0)
-		exec_child_process(command, environment, in, out);
+		exec_child_process(data->parsed->cmd_list, &data->env, in, out);
 	signal(SIGINT, SIG_IGN);
 	status = ft_wait_and_exit(pid);
 	signal(SIGINT, SIG_DFL);
@@ -108,26 +108,27 @@ int	command_in(t_command *command, t_env **environment, int in, int out)
  * Prepares heredoc FDs before execution, and saves them in the
  * corresponding redir struct.
 */
-int	execute_all(t_command *commands, t_env **environment)
+int	execute_all(t_data *data)
 {
 	size_t	command_count;
 	t_pipe	*pipe_data;
 	int		exit_signal;
 
-	if (!commands || !environment)
+	if (!data->parsed->cmd_list || !data->env)
 		return (perror("Missing data structures"), EXIT_FAILURE);
-	if (!prepare_all_heredocs(commands))
+	if (!prepare_all_heredocs(data->parsed->cmd_list))
 		return (EXIT_FAILURE);
-	command_count = number_of_commands(commands);
+	command_count = number_of_commands(data->parsed->cmd_list);
 	if (command_count < 1)
 		return (perror("No command"), EXIT_FAILURE);
 	if (command_count == 1)
 	{
-		if (!commands->args && has_redirs(commands))
-			return (redirection_only(commands, STDIN_FILENO, STDOUT_FILENO));
-		return (command_in(commands, environment, STDIN_FILENO, STDOUT_FILENO));
+		if (!data->parsed->cmd_list->args && has_redirs(data->parsed->cmd_list))
+			return (redirection_only(data->parsed->cmd_list, \
+			STDIN_FILENO, STDOUT_FILENO));
+		return (command_in(data, STDIN_FILENO, STDOUT_FILENO));
 	}
-	pipe_data = init_pipe_data(commands, environment, command_count);
+	pipe_data = init_pipe_data(data, command_count);
 	if (!pipe_data)
 		return (perror("pipe_data error"), EXIT_FAILURE);
 	exit_signal = pipes(pipe_data, -1, -1);

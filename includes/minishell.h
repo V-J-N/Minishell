@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/11 20:16:18 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:09:01 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #  define PATH_MAX 4096
 # endif
 
-extern volatile sig_atomic_t	g_last_signal;
+extern volatile sig_atomic_t	g_sigint_status;
 //extern: se usa para declarar una variable global que está definida en otro archivo
 //sig_atomic: Es un tipo especial definido por la librería <signal.h>
 //Atómico: el sistema puede leer/escribir su valor en una sola operación, sin riesgo de corrupción.
@@ -43,7 +43,11 @@ extern volatile sig_atomic_t	g_last_signal;
 //(por ejemplo, guardarla en un registro), y no notar que cambió su valor. Eso es peligroso cuando trabajas con señales.
 
 //MINISHELL UTILS:
+void			sigint_handler(int signum);
+void			setup_signals(void);
 void			ft_free_array(char **array);
+void			ft_cleanup_loop(t_data *data, char *input, bool	error);
+void			ft_cleanup_end(t_data *data);
 
 //ENVIRONMENT:
 bool			get_environment(char *envp[], t_env **environment);
@@ -54,6 +58,7 @@ t_env			*ft_lstnew_mini_env(char *key, char *value, char *full);
 void			ft_addback_mini_env(t_env **head, t_env *new_node);
 char			*get_value_by_key(t_env *env_list, const char *key);
 char			*get_full_env(t_env *env_list, const char *key);
+bool			shell_lvl_handler(t_data *data);
 
 //EXECUTOR_UTILS:
 void			cmd_not_found(char *cmd, char **env_arr, char **args);
@@ -66,9 +71,8 @@ char			**command_to_arr(t_command *command);
 int				ft_wait_and_exit(pid_t last_pid);
 
 //EXECUTOR:
-int				execute_all(t_command *commands, t_env **environment);
-int				command_in(t_command *command, t_env **environment,
-					int in, int out);
+int				execute_all(t_data *data);
+int				command_in(t_data *data, int in, int out);
 void			execute_command(t_command *command, t_env **envlist);
 
 //PIPES:
@@ -76,8 +80,7 @@ int				pipes(t_pipe *pipe_data, int prev_pipe, pid_t last_pid);
 void			safe_close(int fd);
 void			ft_close_two(int fd1, int fd2);
 void			ft_close_three(int fd1, int fd2, int fd3);
-t_pipe			*init_pipe_data(t_command *command, t_env **env_list,
-					size_t nbr_of_commands);
+t_pipe			*init_pipe_data(t_data *data, size_t commands);
 void			free_pipe_data(t_pipe *pipe_data);
 void			p_child_process(t_pipe *pipe_data, int prev, int *pipe_fd);
 
@@ -155,9 +158,8 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 void			print_commands(t_parse_state *commands);
 
 //BUILT_INS:
-int				built_in(char *cmd, t_env *env, t_command *cmd_lst,
-					int exit_return);
-int				execute_builtin(char *cmd, t_env *env, t_command *cmd_lst);
+int				built_in(char *cmd, t_data *data, int exit_return);
+int				execute_builtin(char *cmd, t_data *data);
 
 //BI_CHILD:
 
@@ -166,7 +168,7 @@ int				ft_env(t_env *env, t_command *cmd_lst);
 int				ft_echo(t_command *cmd);
 
 //BI_PARENT:
-int				ft_exit(t_command *cmd_lst);
+int				ft_exit(t_data *data);
 int				ft_unset(t_command *cmd_lst, t_env **env);
 int				ft_export(t_command *cmd, t_env **env);
 int				ft_assign_in(char *full_var, t_env **env);
@@ -182,9 +184,5 @@ t_env			*find_node_by_key(t_env *env_list, const char *key);
 char			*get_value_by_key(t_env *env_list, const char *key);
 char			**args_to_array(t_arg *args);
 void			delete_env_key(t_env **env, const char *key);
-
-//SIGNALS:
-void			sigint_handler(int signum);
-void			setup_signals(void);
 
 #endif

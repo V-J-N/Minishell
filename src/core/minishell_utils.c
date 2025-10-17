@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/29 05:54:59 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:10:24 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,49 @@ void	ft_free_array(char **array)
 
 void	sigint_handler(int signum)
 {
-	g_last_signal = signum;
-	//la variable global recoge la señal para consultar en cada loop
+	g_sigint_status = signum;
 	ft_putstr_fd("\n", 1);
-	rl_on_new_line();//avisa a readline que empezamos nueva línea
-	rl_replace_line("", 0);//borra el contenido actual de la línea comenzada
-	rl_redisplay();//vuelve a mostrar prompt limpio
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 	return ;
 }
 
 void	setup_signals(void)
 {
-	signal(SIGINT, sigint_handler); // Ctrl-C (no llamo a la fc, sino que asigno su dirección)
-	signal(SIGQUIT, SIG_IGN);// Ctrl-\ (captura pero ignoramos)
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+	return ;
+}
+
+void	ft_cleanup_loop(t_data *data, char *input, bool	error)
+{
+	if (data)
+	{
+		if (data->token)
+			free_tokens(&data->token);
+		if (data->parsed)
+			free_parser(&data->parsed);
+	}
+	if (input)
+		free(input);
+	if (error)
+		printf("Syntax Error\n");
+	return ;
+}
+
+void	ft_cleanup_end(t_data *data)
+{
+	if (data)
+	{
+		if (data->token)
+			free_tokens(&data->token);
+		if (data->parsed)
+			free_parser(&data->parsed);
+		if (data->env)
+			free_environment(&data->env);
+		free(data);
+	}
+	rl_clear_history();
 	return ;
 }
