@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:22:23 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/15 19:29:24 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/17 10:44:32 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,28 @@ t_command *expander(t_command *cmd_list)
 			j = 0;
 			quotes = 0;
 			len = ft_strlen(temp->value);
+			if (temp->quote == NONE && temp->has_quotes == true)
+			{
+				while (temp->value[i])
+				{
+					if (temp->value[i] == 39)
+					{
+						temp->quote = SINGLE;
+						i = 0;
+						break ;
+					}
+					else if (temp->value[i] == 34)
+					{
+						temp->quote =  DOUBLE;
+						i = 0;
+						break ;
+					}
+					i++;
+				}
+			}
 			if (temp->has_quotes)
 			{
-				if (temp->quote == NONE || temp->quote == SINGLE)
+				if (temp->quote == SINGLE)
 				{
 					while (temp->value[i])
 					{
@@ -52,6 +71,32 @@ t_command *expander(t_command *cmd_list)
 					while (temp->value[i])
 					{
 						while (temp->value[i] == 39)
+						{
+							i++;
+							if (temp->value[i] == '\0')
+								break;
+						}
+						temp->exp_value[j] = temp->value[i];
+						i++;
+						j++;
+					}
+					temp->exp_value[j] = '\0';
+				}
+				else if (temp->quote == DOUBLE)
+				{
+					while (temp->value[i])
+					{
+						if (temp->value[i] == 34)
+						{
+							quotes++;
+						}
+						i++;
+					}
+					temp->exp_value = ft_calloc(1, (len - quotes + 1));
+					i = 0;
+					while (temp->value[i])
+					{
+						while (temp->value[i] == 34)
 						{
 							i++;
 							if (temp->value[i] == '\0')
@@ -82,7 +127,7 @@ t_command *expander(t_command *cmd_list)
 			len = ft_strlen(temp2->file);
 			if (temp2->has_quotes)
 			{
-				if (temp2->quote == NONE || temp2->quote == SINGLE)
+				if (temp2->quote == SINGLE)
 				{
 					while (temp2->file[i])
 					{
@@ -97,6 +142,32 @@ t_command *expander(t_command *cmd_list)
 					while (temp2->file[i])
 					{
 						while (temp2->file[i] == 39)
+						{
+							i++;
+							if (temp2->file[i] == '\0')
+								break;
+						}
+						temp2->exp_file[j] = temp2->file[i];
+						i++;
+						j++;
+					}
+					temp2->exp_file[j] = '\0';
+				}
+				if (temp2->quote == DOUBLE)
+				{
+					while (temp2->file[i])
+					{
+						if (temp2->file[i] == 34)
+						{
+							quotes++;
+						}
+						i++;
+					}
+					temp2->exp_file = ft_calloc(1, (len - quotes + 1));
+					i = 0;
+					while (temp2->file[i])
+					{
+						while (temp2->file[i] == 34)
 						{
 							i++;
 							if (temp2->file[i] == '\0')
