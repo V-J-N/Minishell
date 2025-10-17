@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 13:31:52 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:09:01 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_env			*ft_lstnew_mini_env(char *key, char *value, char *full);
 void			ft_addback_mini_env(t_env **head, t_env *new_node);
 char			*get_value_by_key(t_env *env_list, const char *key);
 char			*get_full_env(t_env *env_list, const char *key);
+bool			shell_lvl_handler(t_data *data);
 
 //EXECUTOR_UTILS:
 void			cmd_not_found(char *cmd, char **env_arr, char **args);

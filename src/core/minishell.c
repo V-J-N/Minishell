@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 13:43:12 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:10:59 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	main(int argc, char **argv, char **envp)
 	input = NULL;
 	data = init_data(envp);
 	if (!data)
+		return (1);
+	if (!shell_lvl_handler(data))
 		return (1);
 	setup_signals();
 	exit_signal = 0;
