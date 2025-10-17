@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:33:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/06 10:51:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:04:57 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ static void	exec_child(t_pipe *pipe_data, int new_in, int new_out, int *pipe_fd)
 	if ((!cmd->args || !cmd->args->value) && has_redirs(cmd))
 		exit(EXIT_SUCCESS);
 	if (cmd->args && cmd->args->value && is_built_in(cmd->args->value))
-		exit(built_in(cmd->args->value,
-				*pipe_data->env_list, cmd, -1));
+		exit(built_in(cmd->args->value, pipe_data->data, -1));
 	if (cmd->args && cmd->args->value)
 		execute_command(pipe_data->commands, pipe_data->env_list);
 	exit(EXIT_FAILURE);

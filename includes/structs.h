@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 21:24:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:11:46 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,13 @@ typedef struct s_parse_state
 	t_redir				*redir_node;
 }						t_parse_state;
 
+typedef struct s_data
+{
+	t_env			*env;
+	t_token			*token;
+	t_parse_state	*parsed;
+}					t_data;
+
 /**
  * @struct t_pipe
  * @brief Structure for pipeline execution context.
@@ -206,6 +213,7 @@ typedef struct s_pipe
 	int			in;
 	int			out;
 	int			index;
+	t_data		*data;
 }				t_pipe;
 
 /**

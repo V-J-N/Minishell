@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:23:06 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/22 14:56:50 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 12:57:27 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	free_pipe_data(t_pipe *pipe_data)
 		close(pipe_data->in);
 	if (pipe_data->out > 2)
 		close(pipe_data->out);
+	pipe_data->data = NULL;
 	free(pipe_data);
 }
 
@@ -49,18 +50,19 @@ void	free_pipe_data(t_pipe *pipe_data)
  * containing what we need in order to execute trhough
  * pipes.
 */
-t_pipe	*init_pipe_data(t_command *command, t_env **env_list, size_t commands)
+t_pipe	*init_pipe_data(t_data *data, size_t commands)
 {
 	t_pipe	*pipe_data;
 
 	pipe_data = malloc(sizeof(t_pipe));
 	if (!pipe_data)
 		return (NULL);
-	pipe_data->commands = command;
+	pipe_data->commands = data->parsed->cmd_list;
 	pipe_data->command_count = commands;
-	pipe_data->env_list = env_list;
+	pipe_data->env_list = &data->env;
 	pipe_data->in = STDIN_FILENO;
 	pipe_data->out = STDOUT_FILENO;
 	pipe_data->index = 0;
+	pipe_data->data = data;
 	return (pipe_data);
 }

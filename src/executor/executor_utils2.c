@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:25:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/09/24 11:03:38 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/17 12:50:28 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,17 @@ int	ft_wait_and_exit(pid_t last_pid)
 	int		status;
 	pid_t	pid;
 
-	while ((pid = wait(&status)) > 0) //esperamos a todos los hijos
+	pid = wait(&status);
+	while (pid > 0)
 	{
-		if (pid == last_pid) // pero sólo recuperamos el id del último
-		{// Ahora usamos macros para extraer el código de salida de un proceso hijo:
-			if (WIFEXITED(status))//el hijo ha salido con exit()?
-				return (WEXITSTATUS(status));//el valor que se paso a exit(x)
-			else if (WIFSIGNALED(status))//o se ha terminado con señal? (ej. Ctrl+C)
-				return (128 + WTERMSIG(status));//qué señal se ejecutó (ej. SIGINT = 2)
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				return (WEXITSTATUS(status));
+			else if (WIFSIGNALED(status))
+				return (128 + WTERMSIG(status));
 		}
+		pid = wait(&status);
 	}
-	return (EXIT_FAILURE); // Si no conseguimos capturar el último hijo por alguna razón
+	return (EXIT_FAILURE);
 }
