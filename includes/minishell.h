@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 12:01:22 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:32:16 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,12 +189,13 @@ void			sigint_handler(int signum);
 void			setup_signals(void);
 
 //EXPANDER
-t_command		*expander(t_command *cmd_list);
+t_command		*expander(t_command *cmd_list, t_env *env);
 t_arg			*check_singles_arg(t_arg *args);
 t_arg			*check_doubles_arg(t_arg *args);
 t_arg			*change_value(t_arg *args);
 t_redir			*check_singles_redir(t_redir *redirs);
 t_redir			*check_doubles_redir(t_redir *redirs);
 t_redir			*change_file(t_redir *redirs);
+bool			contains_dollar(char *str);
 
 #endif
