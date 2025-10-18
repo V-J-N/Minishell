@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 15:09:01 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:10:57 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 # include "structs.h"
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
+# endif
+# ifndef SHLVL_MAX
+#  define SHLVL_MAX 100
 # endif
 
 extern volatile sig_atomic_t	g_sigint_status;
