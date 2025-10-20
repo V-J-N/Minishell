@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:55:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 15:15:48 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:22:46 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_lexer	*check_double(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	if (lexer->string[lexer->i] != 39 && lexer->string[lexer->i] != '\0')
+	if (lexer->string[lexer->i] != 34 && lexer->string[lexer->i] != '\0')
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)
