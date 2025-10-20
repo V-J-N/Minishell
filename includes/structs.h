@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/17 13:11:46 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:08:49 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,13 @@ typedef struct s_token
  */
 typedef struct s_redir
 {
+	t_token_quote	quote;
 	t_token_type	type;
 	char			*file;
+	char			*env_file;
+	char			*exp_file;
+	bool			is_expanded;
+	bool			has_quotes;
 	int				heredoc_fd;
 	struct s_redir	*next;
 }					t_redir;
@@ -142,7 +147,12 @@ typedef struct s_redir
  */
 typedef struct s_arg
 {
+	t_token_quote	quote;
 	char			*value;
+	char			*env_value;
+	char			*exp_value;
+	bool			is_expanded;
+	bool			has_quotes;
 	struct s_arg	*next;
 }					t_arg;
 

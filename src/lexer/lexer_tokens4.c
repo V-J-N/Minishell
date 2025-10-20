@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokens4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:55:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 13:01:26 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/20 15:15:48 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_lexer	*check_single(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	if (ft_isprint(lexer->string[lexer->i]))
+	if (lexer->string[lexer->i] != 39 && lexer->string[lexer->i] != '\0')
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)
@@ -102,7 +102,7 @@ t_lexer	*check_double(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	if (ft_isprint(lexer->string[lexer->i]))
+	if (lexer->string[lexer->i] != 39 && lexer->string[lexer->i] != '\0')
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)

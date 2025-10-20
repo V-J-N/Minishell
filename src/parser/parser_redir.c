@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/03 12:38:22 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:33:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,12 @@ t_redir	*create_redir(t_token *tokens)
 	redir = ft_calloc(1, sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-	redir->type = temp->type;
+	redir->type = tokens->type;
+	redir->quote = temp->next->quote;
+	redir->has_quotes = temp->next->has_quotes;
+	redir->is_expanded = temp->next->is_expanded;
+	redir->exp_file = NULL;
+	redir->env_file = NULL;
 	redir->next = NULL;
 	redir->file = ft_strdup(temp->next->value);
 	if (!redir->file)

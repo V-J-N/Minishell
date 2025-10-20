@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
+#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/17 15:09:31 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/20 13:23:52 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ PARSER_DIR = parser
 EXECUTOR_DIR = executor
 
 BUILTINS_DIR = builtins
+
+EXPANDER_DIR = expander
 
 # Libft
 
@@ -87,7 +89,11 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_cd.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_unset_pwd_env.c\
-			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export_utils.c
+			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_export_utils.c\
+			$(SRC_DIR)/$(EXPANDER_DIR)/expander.c\
+			$(SRC_DIR)/$(EXPANDER_DIR)/expander_args.c\
+			$(SRC_DIR)/$(EXPANDER_DIR)/expander_redirs.c\
+			$(SRC_DIR)/$(EXPANDER_DIR)/expander_utils.c
 
 # Objects
 
@@ -100,6 +106,7 @@ OBJ_DIRS = $(OBJ_DIR)\
 	$(OBJ_DIR)/parser\
 	$(OBJ_DIR)/executor\
 	$(OBJ_DIR)/builtins\
+	$(OBJ_DIR)/expander\
 
 # Compiling rules
 

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:45:46 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 17:05:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:16:50 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
  */
 char	*tokenize_buffer(t_lexer *lexer)
 {
+	if (lexer->buffer)
+		lexer->has_quotes = check_quotes(lexer->buffer);
 	lexer->new_token = lstnew_token(lexer->buffer, WORD, lexer->quote,
 			lexer->has_quotes);
 	if (!lexer->new_token)
