@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/20 13:34:35 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:35:02 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void			print_array(char **array);
 
 size_t			number_of_commands(t_command *command_list);//nueva
 size_t			number_of_redirs(t_command *command_list);//nueva
-t_parse_state	*parse_command(t_token *tokens);
+t_parse_state	*parse_command(t_token **tokens);
 t_command		*create_cmd(t_token *tokens);
 t_command		*create_empty_cmd(void);
 bool			update_empty_cmd(t_token *tokens, t_command *cmd_node);
@@ -190,7 +190,7 @@ char			**args_to_array(t_arg *args);
 void			delete_env_key(t_env **env, const char *key);
 
 //EXPANDER
-t_command		*expander(t_command *cmd_list, t_env *env);
+t_command		*expander(t_command *cmd_list, t_env *env, int exit_signal);
 t_arg			*check_singles_arg(t_arg *args);
 t_arg			*check_doubles_arg(t_arg *args);
 t_arg			*change_value(t_arg *args);

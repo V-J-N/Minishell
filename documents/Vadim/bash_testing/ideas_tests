@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/17 13:12:51 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/20 20:38:21 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -258,3 +258,13 @@ COMILLAS:
 
 
 valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=valgrind.supp ./minishell
+
+TESTS SUELTOS A RESOLVER!
+
+| echo -n oui
+
+| test
+
+Tene que decir algo tipo: bash: error sintáctico cerca del elemento inesperado `|'
+
+>| echo sure
