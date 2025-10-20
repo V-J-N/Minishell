@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/20 20:34:42 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:58:34 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,32 @@ static t_parse_state	*init_parser(void)
 	return (parser);
 }
 
+static bool	handle_token_checks(t_token **tokens, t_token **current, t_parse_state *p_struct)
+{
+	if ((*current)->type == WORD)
+	{
+		if (!handle_word(*current, p_struct))
+			return (free_tokens(tokens),
+				parse_error("minishell: WORD parse error", p_struct), false);
+		*current = (*current)->next;
+	}
+	else if ((*current)->type == PIPE)
+	{
+		if (!handle_pipe(*current, p_struct))
+			return (free_tokens(tokens),
+				parse_error("minishell: PIPE parse error", p_struct), false);
+		*current = (*current)->next;
+	}
+	else if (is_redir(*current))
+	{
+		if (!handle_redir(*current, p_struct))
+			return (free_tokens(tokens),
+				parse_error("minishell: REDIR parse error", p_struct), false);
+		*current = (*current)->next->next;
+	}
+	return (true);
+}
+
 /**
  * @brief Main dispatcher loop that processes the token stream based on the
  * token type.
@@ -56,27 +82,8 @@ static bool	handle_tokens(t_token **tokens, t_parse_state *p_struct)
 	current = *tokens;
 	while (current)
 	{
-		if (current->type == WORD)
-		{
-			if (!handle_word(current, p_struct))
-				return (free_tokens(tokens),
-					parse_error("minishell:WORD parse error", p_struct), NULL);
-			current = current->next;
-		}
-		else if (current->type == PIPE)
-		{
-			if (!handle_pipe(current, p_struct))
-				return (free_tokens(tokens),
-					parse_error("minishell:PIPE parse error", p_struct), NULL);
-			current = current->next;
-		}
-		else if (is_redir(current))
-		{
-			if (!handle_redir(current, p_struct))
-				return (free_tokens(tokens),
-					parse_error("minishell:REDIR parse error", p_struct), NULL);
-			current = current->next->next;
-		}
+		if (!handle_token_checks(tokens, &current, p_struct))
+			return (false);
 	}
 	return (true);
 }
