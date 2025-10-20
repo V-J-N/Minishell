@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 11:55:04 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/11 20:11:33 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:36:54 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_value_by_key(t_env *env_list, const char *key)
 			return (ft_strdup(temp->value));
 		temp = temp->next;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 /**
