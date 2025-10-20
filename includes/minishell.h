@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/18 15:10:57 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:34:35 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void			free_lexer(t_lexer *lexer);
 t_lexer			*init_lexer_buffer(t_lexer *lexer);
 bool			is_char(t_lexer *lexer);
 t_token_state	set_state(t_token_quote quote, t_token_state state);
+bool			check_quotes(char *str);
 
 //LEXER_TEST:
 void			print_list(t_token *list);
@@ -187,5 +188,15 @@ t_env			*find_node_by_key(t_env *env_list, const char *key);
 char			*get_value_by_key(t_env *env_list, const char *key);
 char			**args_to_array(t_arg *args);
 void			delete_env_key(t_env **env, const char *key);
+
+//EXPANDER
+t_command		*expander(t_command *cmd_list, t_env *env);
+t_arg			*check_singles_arg(t_arg *args);
+t_arg			*check_doubles_arg(t_arg *args);
+t_arg			*change_value(t_arg *args);
+t_redir			*check_singles_redir(t_redir *redirs);
+t_redir			*check_doubles_redir(t_redir *redirs);
+t_redir			*change_file(t_redir *redirs);
+bool			contains_dollar(char *str);
 
 #endif

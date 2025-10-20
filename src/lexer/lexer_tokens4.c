@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:55:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 16:57:59 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:22:46 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_lexer	*check_none(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	else if (is_char(lexer))
+	if (is_char(lexer))
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)
@@ -72,12 +72,14 @@ t_lexer	*check_single(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	if (ft_isprint(lexer->string[lexer->i]))
+	if (lexer->string[lexer->i] != 39 && lexer->string[lexer->i] != '\0')
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)
 			return (NULL);
 	}
+	else
+		lexer->i++;
 	if (!lexer)
 		return (NULL);
 	return (lexer);
@@ -100,12 +102,14 @@ t_lexer	*check_double(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	if (ft_isprint(lexer->string[lexer->i]))
+	if (lexer->string[lexer->i] != 34 && lexer->string[lexer->i] != '\0')
 	{
 		lexer = tokenize_char(lexer);
 		if (!lexer)
 			return (NULL);
 	}
+	else
+		lexer->i++;
 	if (!lexer)
 		return (NULL);
 	return (lexer);

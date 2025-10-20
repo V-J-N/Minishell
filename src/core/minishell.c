@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 15:10:59 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:10:37 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static int	rep_loop(t_data *data, int exit_signal, char *input)
 				ft_cleanup_loop(data, input, 1);
 				continue ;
 			}
+			data->parsed->cmd_list = expander(data->parsed->cmd_list, data->env);
 			exit_signal = execute(data, exit_signal, input);
 		}
 	}

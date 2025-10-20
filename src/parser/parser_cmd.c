@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:05:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/11 12:38:08 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/20 15:31:41 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ bool	add_args(t_token *tokens, t_command *cmd_node)
 	new_arg->value = ft_strdup(tokens->value);
 	if (!new_arg->value)
 		return (false);
+	new_arg->quote = tokens->quote;
+	new_arg->has_quotes = tokens->has_quotes;
+	new_arg->is_expanded = tokens->is_expanded;
+	new_arg->exp_value = NULL;
+	new_arg->env_value = NULL;
 	new_arg->next = NULL;
 	temp = cmd_node->args;
 	while (temp->next)
@@ -67,6 +72,9 @@ bool	update_empty_cmd(t_token *tokens, t_command *cmd_node)
 	cmd_node->args->value = ft_strdup(tokens->value);
 	if (!cmd_node->args->value)
 		return (false);
+	cmd_node->args->quote = tokens->quote;
+	cmd_node->args->has_quotes = tokens->has_quotes;
+	cmd_node->args->is_expanded = tokens->is_expanded;
 	cmd_node->args->next = NULL;
 	cmd_node->is_command = true;
 	cmd_node->cmd_argc = 1;
@@ -125,6 +133,11 @@ t_command	*create_cmd(t_token *tokens)
 	node->args->value = ft_strdup(tokens->value);
 	if (!node->args->value)
 		return (free_commands(&node), NULL);
+	node->args->quote = tokens->quote;
+	node->args->has_quotes = tokens->has_quotes;
+	node->args->is_expanded = tokens->is_expanded;
+	node->args->exp_value = NULL;
+	node->args->env_value = NULL;
 	node->args->next = NULL;
 	return (node);
 }
