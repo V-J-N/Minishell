@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:24:54 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 15:11:54 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:47:50 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,69 +96,12 @@ t_command *expander(t_command *cmd_list, t_env *env)
 	t_command	*tmp;
 	t_arg		*temp;
 	t_redir		*temp2;
-	char		*env_key;
-	char		*variable;
-	size_t		i;
-	// size_t		j;
-	size_t		k;
-	size_t		len;
 
-	env_key = NULL;
-	variable = NULL;
+	(void)env;
 	tmp = cmd_list;
 	while (tmp)
 	{
 		temp = tmp->args;
-		while (temp)
-		{
-			if (temp->is_expanded && contains_dollar(temp->value))
-			{
-				i = 0;
-				// j = 0;
-				k = 0;
-				len = ft_strlen(temp->value);
-				temp->exp_value = ft_calloc(len + 1, sizeof(char));
-				if (!temp->exp_value)
-					return (NULL);
-				env_key = ft_calloc(len + 1, sizeof(char));
-				if (!env_key)
-					return (NULL);
-				while (temp->value)
-				{
-					if (temp->value[i] == 36)
-					{
-						i++;
-						if (temp->value[i] == 63)
-						{
-							temp->exp_value = ft_itoa(g_sigint_status);
-							temp->exp_value = '\0';
-							i++;
-							change_value(temp);
-							continue;
-						}
-						else if (ft_isdigit(temp->value[i]))
-						{
-							i++;
-							continue;
-						}
-						while (ft_isalnum(temp->value[i]) || temp->value[i] == '_')
-						{
-							env_key[k] = temp->value[i];
-							i++;
-							k++;
-						}
-						env_key[k] = '\0';
-						variable = get_value_by_key(env, env_key);
-						temp->exp_value = variable;
-						// free(variable);
-						change_value(temp);
-					}
-					break ;
-					// Seguir buscando chars
-				}
-			}
-			temp = temp->next;
-		}
 		check_arguments(temp);
 		temp2 = tmp->redirs;
 		check_redirs(temp2);
