@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/21 10:51:41 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/21 12:59:51 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,5 +198,10 @@ t_redir			*check_singles_redir(t_redir *redirs);
 t_redir			*check_doubles_redir(t_redir *redirs);
 t_redir			*change_file(t_redir *redirs);
 bool			contains_dollar(char *str);
+t_arg			*expand_args(t_arg *args, t_env *env, int exit);
+char			*append_value(t_arg *arg, size_t i);
+char			*append_environment(t_arg *arg, size_t i);
+char			*get_expand_env(t_arg *arg, t_env *env);
+char			*append_exit(t_arg *arg, int exit);
 
 #endif

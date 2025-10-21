@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:05:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/20 15:31:41 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:05:57 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ bool	add_args(t_token *tokens, t_command *cmd_node)
 	new_arg->quote = tokens->quote;
 	new_arg->has_quotes = tokens->has_quotes;
 	new_arg->is_expanded = tokens->is_expanded;
+	new_arg->i = 0;
 	new_arg->exp_value = NULL;
 	new_arg->env_value = NULL;
 	new_arg->next = NULL;
@@ -75,6 +76,7 @@ bool	update_empty_cmd(t_token *tokens, t_command *cmd_node)
 	cmd_node->args->quote = tokens->quote;
 	cmd_node->args->has_quotes = tokens->has_quotes;
 	cmd_node->args->is_expanded = tokens->is_expanded;
+	cmd_node->args->i = 0;
 	cmd_node->args->next = NULL;
 	cmd_node->is_command = true;
 	cmd_node->cmd_argc = 1;
@@ -138,6 +140,7 @@ t_command	*create_cmd(t_token *tokens)
 	node->args->is_expanded = tokens->is_expanded;
 	node->args->exp_value = NULL;
 	node->args->env_value = NULL;
+	node->args->i = 0;
 	node->args->next = NULL;
 	return (node);
 }
