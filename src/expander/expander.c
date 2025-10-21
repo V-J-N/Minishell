@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:24:54 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/21 10:21:28 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/21 12:00:17 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,13 @@ t_command *expander(t_command *cmd_list, t_env *env, int exit_signal)
 			if (temp->is_expanded && contains_dollar(temp->value))
 			{
 				size_t	i;
-				size_t	j;
-				size_t	k;
 
 				i = 0;
-				j = 0;
-				temp->exp_value = ft_calloc(128, sizeof(char));
+				temp->exp_value = ft_strdup("");
 				if (!temp->exp_value)
-				return (NULL);
+					return (NULL);
 				while (temp->value[i])
 				{
-					k = 0;
 					if (temp->value[i] == 36)
 					{
 						i++;
@@ -127,47 +123,64 @@ t_command *expander(t_command *cmd_list, t_env *env, int exit_signal)
 						{
 							char	*old;
 							char	*new;
-							size_t	len;
 							
 							old = temp->exp_value;
 							new = ft_strdup(ft_itoa(exit_signal));
-							len = ft_strlen(new);
 							temp->exp_value = ft_strjoin(old, new);
 							free(old);
+							old = NULL;
 							free(new);
+							new = NULL;
 							i++;
-							j += len;
 						}
-						temp->env_value = ft_calloc(128, sizeof(char));
+						temp->env_value = ft_strdup("");
 						if (!temp->env_value)
 							return (NULL);
 						while (ft_isalnum(temp->value[i]) || temp->value[i] == '_')
 						{
-							temp->env_value[k] = temp->value[i];
-							k++;
+							char	*old;
+							char	*new;
+
+							old = temp->env_value;
+							new = ft_calloc(2, sizeof(char));
+							new[0] = temp->value[i];
 							i++;
+							temp->env_value = ft_strjoin(old, new);
+							free(old);
+							old = NULL;
+							free(new);
+							new = NULL;
 						}
 						if (temp->env_value)
 						{
 							char	*old;
 							char	*new;
-							size_t	len;
 
 							old = temp->exp_value;
 							new = get_value_by_key(env, temp->env_value);
-							len = ft_strlen(new);
 							temp->exp_value = ft_strjoin(old, new);
 							free(old);
+							old = NULL;
 							free(new);
+							new = NULL;
 							free(temp->env_value);
-							j += len;
+							temp->env_value = NULL;
 						}
 					}
 					else
 					{
-						temp->exp_value[j] = temp->value[i];
-						j++;
+						char	*old;
+						char	*new;
+
+						old = temp->exp_value;
+						new = ft_calloc(2, sizeof(char));
+						new[0] = temp->value[i];
 						i++;
+						temp->exp_value = ft_strjoin(old, new);
+						free(old);
+						old = NULL;
+						free(new);
+						new = NULL;
 					}
 				}
 				temp->is_expanded = false;
