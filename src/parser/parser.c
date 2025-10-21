@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/11 20:44:46 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:58:34 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,32 @@ static t_parse_state	*init_parser(void)
 	return (parser);
 }
 
+static bool	handle_token_checks(t_token **tokens, t_token **current, t_parse_state *p_struct)
+{
+	if ((*current)->type == WORD)
+	{
+		if (!handle_word(*current, p_struct))
+			return (free_tokens(tokens),
+				parse_error("minishell: WORD parse error", p_struct), false);
+		*current = (*current)->next;
+	}
+	else if ((*current)->type == PIPE)
+	{
+		if (!handle_pipe(*current, p_struct))
+			return (free_tokens(tokens),
+				parse_error("minishell: PIPE parse error", p_struct), false);
+		*current = (*current)->next;
+	}
+	else if (is_redir(*current))
+	{
+		if (!handle_redir(*current, p_struct))
+			return (free_tokens(tokens),
+				parse_error("minishell: REDIR parse error", p_struct), false);
+		*current = (*current)->next->next;
+	}
+	return (true);
+}
+
 /**
  * @brief Main dispatcher loop that processes the token stream based on the
  * token type.
@@ -49,31 +75,15 @@ static t_parse_state	*init_parser(void)
  * @return true If the entire token stream was processed successfully.
  * @return false If a syntax error or fatal allocation error occurred.
  */
-static bool	handle_tokens(t_token *tokens, t_parse_state *p_struct)
+static bool	handle_tokens(t_token **tokens, t_parse_state *p_struct)
 {
-	while (tokens)
+	t_token	*current;
+
+	current = *tokens;
+	while (current)
 	{
-		if (tokens->type == WORD)
-		{
-			if (!handle_word(tokens, p_struct))
-				return (free_tokens(&tokens),
-					parse_error("minishell:WORD parse error", p_struct), NULL);
-			tokens = tokens->next;
-		}
-		else if (tokens->type == PIPE)
-		{
-			if (!handle_pipe(tokens, p_struct))
-				return (free_tokens(&tokens),
-					parse_error("minishell:PIPE parse error", p_struct), NULL);
-			tokens = tokens->next;
-		}
-		else if (is_redir(tokens))
-		{
-			if (!handle_redir(tokens, p_struct))
-				return (free_tokens(&tokens),
-					parse_error("minishell:REDIR parse error", p_struct), NULL);
-			tokens = tokens->next->next;
-		}
+		if (!handle_token_checks(tokens, &current, p_struct))
+			return (false);
 	}
 	return (true);
 }
@@ -88,16 +98,16 @@ static bool	handle_tokens(t_token *tokens, t_parse_state *p_struct)
  * structure contains the parsed command list. Returns NULL if the input is
  * invalid or if a syntax or memory allocation failure occurs during parsing.
  */
-t_parse_state	*parse_command(t_token *tokens)
+t_parse_state	*parse_command(t_token **tokens)
 {
 	t_parse_state	*parser;
 
 	parser = NULL;
-	if (!tokens)
-		return (printf("ERROR - Necesitamos Tokens\n"), NULL);
+	if (!tokens || !*tokens)
+		return (ft_printf("ERROR - Tokens needed\n"), NULL);
 	parser = init_parser();
 	if (!parser)
-		return (free_tokens(&tokens), NULL);
+		return (free_tokens(tokens), NULL);
 	if (!handle_tokens(tokens, parser))
 		return (NULL);
 	if (parser->cmd_node)

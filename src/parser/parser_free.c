@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:38:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/11 20:13:05 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:27:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	free_redirs(t_redir *redirs)
 		next = current->next;
 		if (current->type == HEREDOC && current->heredoc_fd > 2)
 			close(current->heredoc_fd);
-		free(current->file);
+		if(current->file)
+			free(current->file);
 		free(current);
 		current = next;
 	}
@@ -54,7 +55,8 @@ static void	free_args(t_arg *args)
 	while (current != NULL)
 	{
 		next = current->next;
-		free(current->value);
+		if(current->value)
+			free(current->value);
 		free(current);
 		current = next;
 	}
@@ -75,8 +77,10 @@ void	free_commands(t_command **commands)
 	while (current != NULL)
 	{
 		next = current->next;
-		free_args(current->args);
-		free_redirs(current->redirs);
+		if(current->args)
+			free_args(current->args);
+		if(current->redirs)
+			free_redirs(current->redirs);
 		free(current);
 		current = next;
 	}

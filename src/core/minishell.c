@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/20 15:10:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:36:04 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ static int	rep_loop(t_data *data, int exit_signal, char *input)
 			add_history(input);
 			data->token = tokenizer(input);
 			if (data->token)
-				data->parsed = parse_command(data->token);
+				data->parsed = parse_command(&data->token);
 			if (!data->token || !data->parsed)
 			{
 				ft_cleanup_loop(data, input, 1);
 				continue ;
 			}
-			data->parsed->cmd_list = expander(data->parsed->cmd_list, data->env);
+			data->parsed->cmd_list = expander(data->parsed->cmd_list, data->env, exit_signal);
 			exit_signal = execute(data, exit_signal, input);
 		}
 	}

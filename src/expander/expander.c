@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:24:54 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 17:52:21 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:21:00 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static t_redir	*check_redirs(t_redir *redirs)
 /**
  *
  */
-t_command *expander(t_command *cmd_list, t_env *env)
+t_command *expander(t_command *cmd_list, t_env *env, int exit_signal)
 {
 	t_command	*tmp;
 	t_arg		*temp;
@@ -130,7 +130,7 @@ t_command *expander(t_command *cmd_list, t_env *env)
 							size_t	len;
 							
 							old = temp->exp_value;
-							new = ft_strdup(ft_itoa(g_sigint_status));
+							new = ft_strdup(ft_itoa(exit_signal));
 							len = ft_strlen(new);
 							temp->exp_value = ft_strjoin(old, new);
 							free(old);

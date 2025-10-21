@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:30:44 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/11 14:03:52 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/10/20 20:58:39 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@
  */
 void	parse_error(const char *str, t_parse_state *parse_struct)
 {
-	perror(str);
+	ft_printf("%s: ",str);
 	free_parser(&parse_struct);
 }

@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/17 13:12:51 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/20 22:04:07 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,14 +154,6 @@ sh << stop | wc -l > outfile (biennnnn)
 
 ls | << stop cat | cat > outfile
 
-NUEVOS PROBLEMAS:
-
-< infile "./a.out" | cat > outfile (!!! para minishell lo acepta sin comillas, bash ambas)
-(por ahora se queda ejecutando, falta implementación de comillas)
-
-ls >outfile1 >outfile2 >outfile3 (nuestra minishell interpreta los outfiles como comandos!!, con espacio lo coge bien)
-
-
 BUILTINS:
 
 ls | exit (status: 0)
@@ -196,7 +188,7 @@ cd .                      # No cambia de directorio
 cd /                      # Va al root
 
 
-pwd                       # Debería imprimir la ruta actual
+env pwd                       # Debería imprimir la ruta actual
 pwd -L                    # Error o ignorar (no se debe aceptar opciones)
 pwd -P                    # Idem
 
@@ -258,3 +250,13 @@ COMILLAS:
 
 
 valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=valgrind.supp ./minishell
+
+TESTS SUELTOS A RESOLVER!
+
+< infile "./a.out" | cat > outfile (!!! para minishell lo acepta sin comillas, bash ambas)
+(impresión prueba en outfile, se ignora infile porque execve ha ejecutado correctamente a.out, 
+con lo que el proceso hijo es reemplazado por el ejecutable)
+
+
+echo "$USER" (errors con valgrind?? / cadena correcta?)
+
