@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:08:07 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/18 15:22:28 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:40:44 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	shell_lvl_handler(t_data *data)
 	int_value = ft_atoi(shl_lvl->value);
 	if (int_value >= SHLVL_MAX)
 	{
-		ft_printf("Minishell: SHLVL too high (%d), exiting last one\n", int_value);
+		ft_printf("Minishell: SHLVL too high (%d), close last\n", int_value);
 		ft_cleanup_end(data);
 		exit(1);
 	}

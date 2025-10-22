@@ -6,30 +6,11 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/22 14:09:17 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:41:56 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static t_data	*init_data(char **envp)
-{
-	t_data			*data;
-
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (NULL);
-	data->env = NULL;
-	data->token = NULL;
-	data->parsed = NULL;
-	if (!get_environment(envp, &data->env))
-	{
-		perror("envp copy failed");
-		free(data);
-		return (NULL);
-	}
-	return (data);
-}
 
 static int	sigint_check(int exit_signal)
 {
@@ -46,10 +27,20 @@ static int	sigint_check(int exit_signal)
 	return (exit_signal);
 }
 
-static int	execute(t_data *data, int exit_signal)
+static char	*read_input(int interactive)
 {
+	if (interactive)
+		return (readline("$> "));
+	return (get_next_line(STDIN_FILENO));
+}
+
+static int	expand_and_execute(t_data *data, char *input, int exit_signal)
+{
+	data->parsed->cmd_list = expander(data->parsed->cmd_list, \
+	data->env, exit_signal);
 	exit_signal = execute_all(data);
-	printf("exit status: %d\n", exit_signal); //borrar al final!
+	exit_signal = sigint_check(exit_signal);
+	ft_cleanup_loop(data, input, 0);
 	return (exit_signal);
 }
 
@@ -57,11 +48,7 @@ static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 {
 	while (1)
 	{
-		exit_signal = sigint_check(exit_signal);
-		if (inter)
-			input = readline("$> ");
-		else
-			input = get_next_line(STDIN_FILENO);
+		input = read_input(inter);
 		if (!input)
 		{
 			if (inter)
@@ -80,9 +67,7 @@ static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 				ft_cleanup_loop(data, input, 1);
 				continue ;
 			}
-			data->parsed->cmd_list = expander(data->parsed->cmd_list, data->env, exit_signal);
-			exit_signal = execute(data, exit_signal);
-			ft_cleanup_loop(data, input, 0);
+			exit_signal = expand_and_execute(data, input, exit_signal);
 		}
 	}
 	return (exit_signal);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokens2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 16:20:44 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:52:41 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ t_lexer	*lexer_loop(t_lexer *lexer)
 		return (NULL);
 	while (lexer->string[lexer->i])
 	{
-		if (((lexer->string[lexer->i] == 34 && lexer->string[lexer->i + 1] == 34))
-			|| ((lexer->string[lexer->i] == 39 && lexer->string[lexer->i + 1] == 39)))
+		if (((lexer->string[lexer->i] == 34 \
+			&& lexer->string[lexer->i + 1] == 34)) \
+			|| ((lexer->string[lexer->i] == 39 \
+			&& lexer->string[lexer->i + 1] == 39)))
 		{
 			lexer->i += 2;
 		}

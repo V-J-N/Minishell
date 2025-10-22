@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:03:18 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/22 10:46:14 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:51:35 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	free_tokens(t_token **tokens)
 	while (current != NULL)
 	{
 		next = current->next;
-		if(current->value)
+		if (current->value)
 			free(current->value);
 		free(current);
 		current = next;
