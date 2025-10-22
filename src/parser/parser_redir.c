@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/20 15:33:03 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:28:21 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ t_redir	*create_redir(t_token *tokens)
 	if (!redir->file)
 		return (free_redirs(redir), NULL);
 	redir->heredoc_fd = -1;
+	redir->i = 0;
 	return (redir);
 }
