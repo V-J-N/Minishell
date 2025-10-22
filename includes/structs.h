@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 15:08:49 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:03:21 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ typedef struct s_arg
 	char			*exp_value;
 	bool			is_expanded;
 	bool			has_quotes;
+	size_t			i;
 	struct s_arg	*next;
 }					t_arg;
 

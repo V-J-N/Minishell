@@ -6,7 +6,7 @@
 #    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/20 13:23:52 by serjimen         ###   ########.fr        #
+#    Updated: 2025/10/22 11:05:31 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,9 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(EXPANDER_DIR)/expander.c\
 			$(SRC_DIR)/$(EXPANDER_DIR)/expander_args.c\
 			$(SRC_DIR)/$(EXPANDER_DIR)/expander_redirs.c\
-			$(SRC_DIR)/$(EXPANDER_DIR)/expander_utils.c
+			$(SRC_DIR)/$(EXPANDER_DIR)/expander_utils.c\
+			$(SRC_DIR)/$(EXPANDER_DIR)/expander_args2.c\
+			$(SRC_DIR)/$(EXPANDER_DIR)/expander_utils2.c
 
 # Objects
 
