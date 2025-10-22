@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:25:56 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/21 13:17:31 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 11:27:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	append_dollar(t_arg *arg, t_env *env, int exit)
 			arg->i++;
 		else if (arg->value[arg->i] == 63)
 			append_exit(arg, exit);
+		else if (arg->value[arg->i] == 34)
+			append_literal(arg, arg->i);
 		arg->env_value = ft_strdup("");
 		if (!arg->env_value)
 			return ;
