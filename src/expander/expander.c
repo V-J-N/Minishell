@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:24:54 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/21 12:33:23 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:32:19 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ t_command *expander(t_command *cmd_list, t_env *env, int exit_signal)
 	{
 		temp = tmp->args;
 		expand_args(temp, env, exit_signal);
+		temp2 = tmp->redirs;
+		expand_redirs(temp2, env, exit_signal);
 		temp = tmp->args;
 		check_arguments(temp);
 		temp2 = tmp->redirs;
