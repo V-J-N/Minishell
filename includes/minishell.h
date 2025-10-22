@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/22 13:46:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:55:28 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,9 @@
 # endif
 
 extern volatile sig_atomic_t	g_sigint_status;
-//extern: se usa para declarar una variable global que está definida en otro archivo
-//sig_atomic: Es un tipo especial definido por la librería <signal.h>
-//Atómico: el sistema puede leer/escribir su valor en una sola operación, sin riesgo de corrupción.
-//Ideal para variables compartidas entre el programa normal y los signal handlers.
-//Le dice al compilador que el valor de esa variable puede cambiar en cualquier momento,
-//fuera del control del programa.
-//En este caso, la variable puede cambiar cuando llega una señal, incluso en medio de otra función.
-//Sin volatile, el compilador podría optimizar el acceso a la variable
-//(por ejemplo, guardarla en un registro), y no notar que cambió su valor. Eso es peligroso cuando trabajas con señales.
 
 //MINISHELL UTILS:
+t_data			*init_data(char **envp);
 void			sigint_handler(int signum);
 void			setup_signals(void);
 void			ft_free_array(char **array);

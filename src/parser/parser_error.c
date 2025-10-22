@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:30:44 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/20 20:58:39 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:45:03 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@
  */
 void	parse_error(const char *str, t_parse_state *parse_struct)
 {
-	ft_printf("%s: ",str);
+	ft_printf("%s: ", str);
 	free_parser(&parse_struct);
 }
