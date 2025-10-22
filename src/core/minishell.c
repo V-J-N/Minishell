@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/22 11:17:43 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:09:17 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,32 @@ static int	sigint_check(int exit_signal)
 	return (exit_signal);
 }
 
-static int	execute(t_data *data, int exit_signal, char *input)
+static int	execute(t_data *data, int exit_signal)
 {
 	exit_signal = execute_all(data);
 	printf("exit status: %d\n", exit_signal); //borrar al final!
-	ft_cleanup_loop(data, input, 0);
 	return (exit_signal);
 }
 
-static int	rep_loop(t_data *data, int exit_signal, char *input)
+static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 {
 	while (1)
 	{
 		exit_signal = sigint_check(exit_signal);
-		input = readline("$> ");
+		if (inter)
+			input = readline("$> ");
+		else
+			input = get_next_line(STDIN_FILENO);
 		if (!input)
 		{
-			printf("exit\n");
+			if (inter)
+				printf("exit\n");
 			break ;
 		}
 		if (*input)
 		{
-			add_history(input);
+			if (inter)
+				add_history(input);
 			data->token = tokenizer(input);
 			if (data->token)
 				data->parsed = parse_command(&data->token);
@@ -77,7 +81,8 @@ static int	rep_loop(t_data *data, int exit_signal, char *input)
 				continue ;
 			}
 			data->parsed->cmd_list = expander(data->parsed->cmd_list, data->env, exit_signal);
-			exit_signal = execute(data, exit_signal, input);
+			exit_signal = execute(data, exit_signal);
+			ft_cleanup_loop(data, input, 0);
 		}
 	}
 	return (exit_signal);
@@ -90,6 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	char			*input;
 	int				exit_signal;
 	t_data			*data;
+	int				interactive;
 
 	(void)argc;
 	(void)argv;
@@ -101,7 +107,8 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	setup_signals();
 	exit_signal = 0;
-	exit_signal = rep_loop(data, exit_signal, input);
+	interactive = isatty(STDIN_FILENO);
+	exit_signal = rep_loop(data, exit_signal, input, interactive);
 	ft_cleanup_end(data);
 	return (exit_signal);
 }
