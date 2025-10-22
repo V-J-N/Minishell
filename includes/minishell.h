@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/22 11:05:48 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:46:58 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,5 +204,11 @@ char			*append_environment(t_arg *arg, size_t i);
 char			*get_expand_env(t_arg *arg, t_env *env);
 char			*append_exit(t_arg *arg, int exit);
 char			*append_literal(t_arg *arg, size_t i);
+t_redir			*expand_redirs(t_redir *redir, t_env *env, int exit);
+char			*redir_literal(t_redir *redir, size_t i);
+char			*redir_exit(t_redir *redir, int exit);
+char			*redir_value(t_redir *redir, size_t i);
+char			*redir_environment(t_redir *redir, size_t i);
+char			*get_expand_redir(t_redir *redir, t_env *env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/21 13:03:21 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:27:21 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_redir
 	bool			is_expanded;
 	bool			has_quotes;
 	int				heredoc_fd;
+	size_t			i;
 	struct s_redir	*next;
 }					t_redir;
 
