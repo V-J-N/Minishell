@@ -3,15 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/23 07:10:35 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 01:33:52 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file minishell.c
+ * @brief Contains the main Read-Evaluate-Print Loop (REPL) and core logic
+ * for minishell execution flow.
+ */
 #include "minishell.h"
 
+/**
+ * @brief Checks the global signal status and converts it to a standard
+ * exit code.
+ * This function proceses the status set by the signal handler and resets the
+ * global variable.
+ * @param exit_signal The previous exit status of the last command.
+ * @return int The updated exit status.
+ */
 static int	sigint_check(int exit_signal)
 {
 	if (g_sigint_status == SIGINT)
@@ -27,6 +40,14 @@ static int	sigint_check(int exit_signal)
 	return (exit_signal);
 }
 
+/**
+ * @brief Reads the command line input from the user or a file descriptor.
+ * Uses readline for interactive mode (TTY) to provide history and editing,
+ * and get next line for non interactive mode.
+ * @param interactive Flag indicating if the shell is running in interactive
+ * mode.
+ * @return char The input string, or NULL on EOF.
+ */
 static char	*read_input(int interactive)
 {
 	if (interactive)
@@ -34,6 +55,16 @@ static char	*read_input(int interactive)
 	return (get_next_line(STDIN_FILENO));
 }
 
+/**
+ * @brief Executes the Expander and Executor phases.
+ * This function completes the Evaluate part of the REPL:
+ * expansion, execution, and signal status update.
+ * @param data The main data structure.
+ * @param input The command line input string.
+ * @param ex_sig The current exit signal to pass to the expander.
+ * @param inter Flag indicating interactive mode.
+ * @return int The exit status of the executed command.
+ */
 static int	expand_and_execute(t_data *data, char *input, int ex_sig, int inter)
 {
 	data->parsed->cmd_list = expander(data->parsed->cmd_list, \
@@ -45,6 +76,16 @@ static int	expand_and_execute(t_data *data, char *input, int ex_sig, int inter)
 	return (ex_sig);
 }
 
+/**
+ * @brief The core Read-Evaluate-Print Loop (REPL).
+ * This loop continuously reads input, tokenizes, parses, expands, and
+ * executes command until EOF or the exit builtin is encountered.
+ * @param data The main data structure.
+ * @param exit_signal The initial or previous exit status.
+ * @param input Pointer to the input string (used for readline or GNL).
+ * @param inter Flag indicating interactive mode.
+ * @return int The final exit status of the shell.
+ */
 static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 {
 	while (1)
@@ -74,8 +115,14 @@ static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 	return (exit_signal);
 }
 
-/// @brief Main function containing our Read Evaluate Print(Execute) Loop
-/// @param envp data is saved as a linked list in 'environment'
+/**
+ * @brief Main entry point for the minishell program.
+ * Initializes the environment, sets up signal handling, and starts the REPL.
+ * @param argc The number of command-line arguments.
+ * @param argv The array of command-line arguments.
+ * @param envp The environment array passed from the operating system.
+ * @return int The final exit status of the shell.
+ */
 int	main(int argc, char **argv, char **envp)
 {
 	char			*input;
@@ -85,16 +132,21 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	input = NULL;
-	data = init_data(envp);
-	if (!data)
-		return (1);
-	if (!shell_lvl_handler(data))
-		return (1);
-	setup_signals();
-	exit_signal = 0;
-	interactive = isatty(STDIN_FILENO);
-	exit_signal = rep_loop(data, exit_signal, input, interactive);
-	ft_cleanup_end(data);
+	if (argc != 1)
+		ft_putstr_fd("Usage ./minishell\n", STDERR_FILENO);
+	else
+	{
+		input = NULL;
+		data = init_data(envp);
+		if (!data)
+			return (1);
+		if (!shell_lvl_handler(data))
+			return (1);
+		setup_signals();
+		exit_signal = 0;
+		interactive = isatty(STDIN_FILENO);
+		exit_signal = rep_loop(data, exit_signal, input, interactive);
+		ft_cleanup_end(data);
+	}
 	return (exit_signal);
 }
