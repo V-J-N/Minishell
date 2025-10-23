@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:36:31 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 13:44:21 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:41:10 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*redir_environment(t_redir *redir, size_t i)
 	free(old);
 	free(new);
 	redir->i++;
-	return(redir->env_file);
+	return (redir->env_file);
 }
 
 char	*get_expand_redir(t_redir *redir, t_env *env)

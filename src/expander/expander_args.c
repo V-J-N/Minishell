@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:25:55 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 13:26:09 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:47:22 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /**
  * 
  */
-static void copy_value_double(t_arg *args)
+static void	copy_value_double(t_arg *args)
 {
 	t_arg	*temp;
 	size_t	i;
@@ -43,7 +43,7 @@ static void copy_value_double(t_arg *args)
 /**
  * 
  */
-static void copy_value_single(t_arg *args)
+static void	copy_value_single(t_arg *args)
 {
 	t_arg	*temp;
 	size_t	i;
@@ -68,9 +68,9 @@ static void copy_value_single(t_arg *args)
 /**
  *
  */
-t_arg *change_value(t_arg *args)
+t_arg	*change_value(t_arg *args)
 {
-	t_arg *temp;
+	t_arg	*temp;
 
 	temp = args;
 	free(temp->value);
@@ -83,12 +83,12 @@ t_arg *change_value(t_arg *args)
 /**
  *
  */
-t_arg *check_doubles_arg(t_arg *args)
+t_arg	*check_doubles_arg(t_arg *args)
 {
-	t_arg *temp;
-	size_t i;
-	size_t quotes;
-	size_t len;
+	t_arg	*temp;
+	size_t	i;
+	size_t	quotes;
+	size_t	len;
 
 	i = 0;
 	quotes = 0;
@@ -110,12 +110,12 @@ t_arg *check_doubles_arg(t_arg *args)
 /**
  *
  */
-t_arg *check_singles_arg(t_arg *args)
+t_arg	*check_singles_arg(t_arg *args)
 {
-	t_arg *temp;
-	size_t i;
-	size_t quotes;
-	size_t len;
+	t_arg	*temp;
+	size_t	i;
+	size_t	quotes;
+	size_t	len;
 
 	i = 0;
 	quotes = 0;

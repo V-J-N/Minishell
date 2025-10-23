@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 10:53:48 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 13:40:25 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:43:25 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*append_literal(t_arg *arg, size_t i)
 		append_value(arg, i);
 		i++;
 	}
-	return(arg->exp_value);
+	return (arg->exp_value);
 }
 
 char	*redir_literal(t_redir *redir, size_t i)
@@ -49,5 +49,5 @@ char	*redir_literal(t_redir *redir, size_t i)
 		redir_value(redir, i);
 		i++;
 	}
-	return(redir->exp_file);
+	return (redir->exp_file);
 }
