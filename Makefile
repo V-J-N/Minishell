@@ -3,46 +3,40 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
+#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/22 18:48:13 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/23 12:53:31 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# **************************************************************************** #
+# Project
 
-NAME	= 	minishell
+NAME	=		minishell
 
+# **************************************************************************** #
 # Paths
 
-SRC_DIR = src
+SRC_DIR =		src
+INCLUDE_DIR =	includes
+LIBFT_DIR =		libft
+OBJ_DIR =		obj
+CORE_DIR =		core
+ENV_DIR =		env
+LEXER_DIR =		lexer
+PARSER_DIR =	parser
+EXECUTOR_DIR =	executor
+BUILTINS_DIR =	builtins
+EXPANDER_DIR =	expander
 
-INCLUDE_DIR = includes
-
-LIBFT_DIR = libft
-
-OBJ_DIR = obj
-
-CORE_DIR = core
-
-ENV_DIR = env
-
-LEXER_DIR = lexer
-
-PARSER_DIR = parser
-
-EXECUTOR_DIR = executor
-
-BUILTINS_DIR = builtins
-
-EXPANDER_DIR = expander
-
+# **************************************************************************** #
 # Libft
 
-LIBFT	=	$(LIBFT_DIR)/libft.a
+LIBFT	=			$(LIBFT_DIR)/libft.a
+LIBFT_INCLUDE	=	-I$(LIBFT_DIR)/include
 
-LIBFT_INCLUDE	= -I$(LIBFT_DIR)/include
-
+# **************************************************************************** #
 # Source files
 
 SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
@@ -100,52 +94,78 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(EXPANDER_DIR)/expander_utils2.c\
 			$(SRC_DIR)/$(EXPANDER_DIR)/expander_utils3.c
 
+# **************************************************************************** #
 # Objects
 
 OBJ		= 	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJ_DIRS =	$(OBJ_DIR)\
+			$(OBJ_DIR)/core\
+			$(OBJ_DIR)/env\
+			$(OBJ_DIR)/lexer\
+			$(OBJ_DIR)/parser\
+			$(OBJ_DIR)/executor\
+			$(OBJ_DIR)/builtins\
+			$(OBJ_DIR)/expander\
 
-OBJ_DIRS = $(OBJ_DIR)\
-	$(OBJ_DIR)/core\
-	$(OBJ_DIR)/env\
-	$(OBJ_DIR)/lexer\
-	$(OBJ_DIR)/parser\
-	$(OBJ_DIR)/executor\
-	$(OBJ_DIR)/builtins\
-	$(OBJ_DIR)/expander\
-
+# **************************************************************************** #
 # Compiling rules
 
 CC		= 	cc
-
 CFLAGS	= 	-Wall -Wextra -Werror -g
 
+# **************************************************************************** #
 # Includes
 
-INCLUDES = -I$(INCLUDE_DIR) $(LIBFT_INCLUDE)
+INCLUDES =	-I$(INCLUDE_DIR) $(LIBFT_INCLUDE)
 
+# **************************************************************************** #
+# Colors
+
+GREEN	= \033[0;32m
+YELLOW	= \033[0;33m
+RED		= \033[0;31m
+BLUE	= \033[0;34m
+RESET	= \033[0m
+
+# **************************************************************************** #
+# Progress variables
+TOTAL_FILES := $(words $(SRC))
+COMPILED_FILES = 0
+
+# **************************************************************************** #
 # Building commands:
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
+	@echo "$(BLUE)Linking $(NAME)...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
+	@echo "$(GREEN)✓ $(NAME) compiled successfully!$(RESET)"
 
 $(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
+	@echo "$(YELLOW)Compiling libft...$(RESET)"
+	@$(MAKE) -s -C $(LIBFT_DIR)
+	@echo "$(GREEN)✓ libft compiled!$(RESET)"
 
 $(OBJ_DIRS):
 	@mkdir -p $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIRS)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(eval COMPILED_FILES=$(shell echo $$(($(COMPILED_FILES)+1))))
+	@printf "$(BLUE)[%2d/%2d]$(RESET) Compiling $<...\r" $(COMPILED_FILES) $(TOTAL_FILES)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIRS)
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	@echo "$(RED)Cleaning object files...$(RESET)"
+	@rm -rf $(OBJ_DIRS)
+	@$(MAKE) -s -C $(LIBFT_DIR) clean
+	@echo "$(GREEN)✓ Clean complete!$(RESET)"
 
 fclean: clean
-	rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo "$(YELLOW)Removing $(NAME)...$(RESET)"
+	@rm -f $(NAME)
+	@$(MAKE) -s -C $(LIBFT_DIR) fclean
+	@echo "$(GREEN)✓ Full clean complete!$(RESET)"
 
 re: fclean all
 

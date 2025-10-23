@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 13:27:21 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 12:07:54 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 /**
  * @struct t_env
  * @brief Node for the environment variable linked list.
- * This structure represents a single environment variable, storing its
+ * This structure represents a single environment variable, storing itsnor
  * components in a deep-copied format.
  * @param key A dynamically allocated string for the variable name.
  * @param value A dynamically allocated string for the variable value.
