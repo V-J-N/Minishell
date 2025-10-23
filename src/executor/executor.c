@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 12:57:46 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/23 09:50:44 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static void	exec_child_process(t_command *command, t_env **env, int in, int out)
 	int	new_out;
 
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	new_in = redirect_in(command, in);
 	new_out = redirect_out(command, out);
 	if (new_in == -1 || new_out == -1)

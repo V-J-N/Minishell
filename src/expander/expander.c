@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:24:54 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 13:32:19 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:43:44 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static t_redir	*check_redirs(t_redir *redirs)
 /**
  *
  */
-t_command *expander(t_command *cmd_list, t_env *env, int exit_signal)
+t_command	*expander(t_command *cmd_list, t_env *env, int exit_signal)
 {
 	t_command	*tmp;
 	t_arg		*temp;

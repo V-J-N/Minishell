@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/22 19:41:56 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/23 07:10:35 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ static char	*read_input(int interactive)
 	return (get_next_line(STDIN_FILENO));
 }
 
-static int	expand_and_execute(t_data *data, char *input, int exit_signal)
+static int	expand_and_execute(t_data *data, char *input, int ex_sig, int inter)
 {
 	data->parsed->cmd_list = expander(data->parsed->cmd_list, \
-	data->env, exit_signal);
-	exit_signal = execute_all(data);
-	exit_signal = sigint_check(exit_signal);
+	data->env, ex_sig);
+	ex_sig = execute_all(data);
+	if (inter)
+		ex_sig = sigint_check(ex_sig);
 	ft_cleanup_loop(data, input, 0);
-	return (exit_signal);
+	return (ex_sig);
 }
 
 static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
@@ -67,7 +68,7 @@ static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 				ft_cleanup_loop(data, input, 1);
 				continue ;
 			}
-			exit_signal = expand_and_execute(data, input, exit_signal);
+			exit_signal = expand_and_execute(data, input, exit_signal, inter);
 		}
 	}
 	return (exit_signal);

@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 12:13:18 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/23 09:53:16 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ int	execute_builtin(char *cmd, t_data *data)
 	return (-1);
 }
 
-static void	builtin_c_process(char *cmd, t_data *data)
+static void	builtin_c_process(char *cmd, t_data *data, int new_in, int new_out)
 {
-	int	new_in;
-	int	new_out;
 	int	exit_return;
 
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	exit_return = -1;
 	new_in = redirect_in(data->parsed->cmd_list, STDIN_FILENO);
 	new_out = redirect_out(data->parsed->cmd_list, STDOUT_FILENO);
@@ -79,7 +78,7 @@ int	built_in(char *cmd, t_data *data, int exit_return)
 	{
 		pid = fork();
 		if (pid == 0)
-			builtin_c_process(cmd, data);
+			builtin_c_process(cmd, data, -1, -1);
 		else
 		{
 			signal(SIGINT, SIG_IGN);

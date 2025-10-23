@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander_redirs2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:25:28 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 13:44:16 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:45:11 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static void	redir_dollar(t_redir *redir, t_env *env, int exit)
 {
@@ -27,7 +26,8 @@ static void	redir_dollar(t_redir *redir, t_env *env, int exit)
 		redir->env_file = ft_strdup("");
 		if (!redir->env_file)
 			return ;
-		while (ft_isalnum(redir->file[redir->i]) || redir->file[redir->i] == '_')
+		while (ft_isalnum(redir->file[redir->i]) \
+			|| redir->file[redir->i] == '_')
 			redir_environment(redir, redir->i);
 		if (redir->env_file)
 			get_expand_redir(redir, env);

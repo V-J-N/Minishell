@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander_redirs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:26:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 13:26:31 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:42:24 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void copy_file_double(t_redir *redirs)
+static void	copy_file_double(t_redir *redirs)
 {
 	t_redir	*temp;
 	size_t	i;
@@ -37,7 +37,7 @@ static void copy_file_double(t_redir *redirs)
 /**
  * 
  */
-static void copy_file_single(t_redir *redirs)
+static void	copy_file_single(t_redir *redirs)
 {
 	t_redir	*temp;
 	size_t	i;

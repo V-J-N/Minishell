@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:26:41 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 10:52:53 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:44:12 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*append_environment(t_arg *arg, size_t i)
 	free(old);
 	free(new);
 	arg->i++;
-	return(arg->env_value);
+	return (arg->env_value);
 }
 
 char	*get_expand_env(t_arg *arg, t_env *env)
@@ -72,16 +72,18 @@ char	*get_expand_env(t_arg *arg, t_env *env)
 	return (arg->exp_value);
 }
 
-char	*append_exit(t_arg *arg, int exit)
+char	*append_exit(t_arg *arg, int exit_code)
 {
 	char	*old;
 	char	*new;
+	char	*itoa_value;
 
 	old = arg->exp_value;
-	new = ft_strdup(ft_itoa(exit));
-	arg->exp_value = ft_strjoin(old, new);
+	itoa_value = ft_itoa(exit_code);
+	new = ft_strjoin(old, itoa_value);
 	free(old);
-	free(new);
+	free(itoa_value);
+	arg->exp_value = new;
 	arg->i++;
 	return (arg->exp_value);
 }
