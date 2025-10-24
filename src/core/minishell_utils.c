@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/24 01:28:34 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 07:53:31 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,34 @@
  * handling.
  */
 #include "minishell.h"
+
+/**
+ * @brief Initializes the main minishell data structure (t_data).
+ * Allocates memory for the t_data structure and initializes its core components
+ * to NULL. It then populates the internal environment list from the system's
+ * environment array.
+ * @param envp The environment array passed to main.
+ * @return t_data A pointer to the newly initialized data structure, or NULL
+ * on failure.
+ */
+t_data	*init_data(char **envp)
+{
+	t_data			*data;
+
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
+	data->env = NULL;
+	data->token = NULL;
+	data->parsed = NULL;
+	if (!get_environment(envp, &data->env))
+	{
+		ft_putstr_fd("envp copy failed", STDERR_FILENO);
+		free(data);
+		return (NULL);
+	}
+	return (data);
+}
 
 /**
  * @brief Frees a dynamically allocated NULL-terminated array of strings.
@@ -36,34 +64,6 @@ void	ft_free_array(char **array)
 		i++;
 	}
 	free(array);
-}
-
-/**
- * @brief Signal handler for SIGINT (Ctrl+C).
- * Sets the global status flag, writes a newline, and updates the readline
- * prompt to maintain proper terminal state after and interrupt.
- * @param signum The signal number received.
- */
-void	sigint_handler(int signum)
-{
-	g_sigint_status = signum;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	return ;
-}
-
-/**
- * @brief Sets up signal handling for the main shell process.
- * Configures the shell to use sigint_handler for SIGINT and ignores SIGQUIT
- * to prevent the shell from exiting and generating core dump files.
- */
-void	setup_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-	return ;
 }
 
 /**
