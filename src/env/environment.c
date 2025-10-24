@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:49:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/11 17:59:28 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 18:06:52 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ bool	get_environment(char *envp[], t_env **environment)
 			key = set_key(envp[i]);
 			value = set_value(envp[i]);
 			if (!verify_env(key, value))
-				return (false);
+				return (free_environment(environment), false);
 			new_node = ft_lstnew_mini_env(key, value, envp[i]);
 			if (!new_node)
-				return (free(key), free(value), false);
+				return (free(key), free(value), free_environment(environment), \
+				false);
 			ft_addback_mini_env(environment, new_node);
 			free(key);
 			free(value);
