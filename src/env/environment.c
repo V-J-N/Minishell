@@ -6,13 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 09:49:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/11 17:59:28 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:13:56 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file environment.c
  * @brief Functions for environment variable initialization and management.
+ * This file contains the logic to copy the system's environment array (envp)
+ * into the shell's mutable internal linked list (t_env).
  */
 #include "minishell.h"
 
@@ -43,7 +45,7 @@ static bool	verify_env(char *key, char *value)
 /**
  * @brief Initializes the internal environment linked list from the 'envp' array
  * This function iterates through the NULL-terminated 'envp' array provided
- * by the parent process. to construct the shell's internal 't_env' linked list.
+ * by the parent process to construct the shell's internal 't_env' linked list.
  * This internal list provides a mutable and structured representation of the
  * environment.
  * @param envp A NULL-terminated array of strings, where each string is an
@@ -71,10 +73,11 @@ bool	get_environment(char *envp[], t_env **environment)
 			key = set_key(envp[i]);
 			value = set_value(envp[i]);
 			if (!verify_env(key, value))
-				return (false);
+				return (free_environment(environment), false);
 			new_node = ft_lstnew_mini_env(key, value, envp[i]);
 			if (!new_node)
-				return (free(key), free(value), false);
+				return (free(key), free(value), free_environment(environment), \
+				false);
 			ft_addback_mini_env(environment, new_node);
 			free(key);
 			free(value);

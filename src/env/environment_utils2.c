@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:37:53 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 18:32:16 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 23:30:27 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 /**
  * @brief Deallocates all nodes and their contents in the environment
  * linked list.
- * This function iterates through the entire 't_env' linked list, starting from
- * the head. For each node, it performs a full cleanup by first deallocating
+ * This function iterates through the entire 't_env' linked list.
+ * For each node, it performs a full cleanup by first deallocating
  * the memory for the three strings it contains ('key', 'value', 'full_env')
  * and then freeing the memory for the node itself.
  * @param env A double pointer to the head of the 't_env' list.
@@ -51,8 +51,8 @@ void	free_environment(t_env **env)
 /**
  * @brief Searches for a specific environment variable by key and returns a
  * deep copy of the full "KEY=value" string.
- * This function is a utility for querying the environment list. It traverses
- * the list and compares the 'key' field of each node with the target key.
+ * This function traverses the list and compares the key field of each node
+ * with the target using safe comparison.
  * @param env_list The head of the 't_env' linked list.
  * @param key The environment variable name (key) to search for.
  * @return A new dynamically allocated string containing the full "KEY=value"
@@ -62,9 +62,12 @@ char	*get_full_env(t_env *env_list, const char *key)
 {
 	char	*full_env;
 
+	if (!key)
+		return (NULL);
 	while (env_list)
 	{
-		if (ft_strncmp(env_list->key, key, ft_strlen(key)) == 0)
+		if ((ft_strlen(env_list->key) == ft_strlen(key)) && \
+		(ft_strncmp(env_list->key, key, ft_strlen(key)) == 0))
 		{
 			full_env = ft_strdup(env_list->full_env);
 			return (full_env);

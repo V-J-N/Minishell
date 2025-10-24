@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 06:55:36 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:31:47 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ extern volatile sig_atomic_t	g_sigint_status;
 /* ************************************************************************** */
 /* Minishell Utils */
 t_data			*init_data(char **envp);
-void			sigint_handler(int signum);
-void			sigquit_handler(int signum);
 void			setup_signals(void);
 void			ft_free_array(char **array);
 void			ft_cleanup_loop(t_data *data, char *input, bool	error);

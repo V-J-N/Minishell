@@ -6,13 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:36:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 18:17:16 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:52:21 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file environment_utils.c
  * @brief Utilities for environment list manipulation and variable parsing.
+ * This file provides functions to build, navigatem and populate the internal
+ * envinronment linked list.
  */
 #include "minishell.h"
 
@@ -47,8 +49,44 @@ void	ft_addback_mini_env(t_env **head, t_env *new_node)
 }
 
 /**
+ * @brief Helper function for ft_lstnewmini_env to perform deep string copies.
+ * This auxiliary function handles the dynamic memory allocation and deep
+ * copying for the three strings. It includes detailed error handling to free
+ * memory allocated in previous steps if any subsequent allocation fails.
+ * @param key The key string to copy.
+ * @param value The value string to copy.
+ * @param full The full "KEY=value" string to copy.
+ * @param node The already allocated t_env structure.
+ * @return t_env* The populated node on success, or NULL on memory
+ * allocation failure.
+ */
+static t_env	*aux_lstnew(char *key, char *value, char *full, t_env *node)
+{
+	if (key)
+	{
+		node->key = ft_strdup(key);
+		if (!node->key)
+			return (free(node), NULL);
+	}
+	if (value)
+	{
+		node->value = ft_strdup(value);
+		if (!node->value)
+			return (free(node->key), free(node), NULL);
+	}
+	if (full)
+	{
+		node->full_env = ft_strdup(full);
+		if (!node->full_env)
+			return (free(node->key), free(node->value), \
+			free(node), NULL);
+	}
+	return (node);
+}
+
+/**
  * @brief Creates a new node for the environment linked list.
- * This function is the constructor fot he 't_env' node. It allocates
+ * This function is the constructor for the 't_env' node. It allocates
  * memory for the node structure and performs a deep copy of the 'key',
  * 'value', and 'full' strings using 'ft_strdup'.
  * @param key The key (name) of the environment variable.
@@ -68,19 +106,13 @@ t_env	*ft_lstnew_mini_env(char *key, char *value, char *full)
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 		return (NULL);
-	if (key)
-		new_node->key = ft_strdup(key);
-	else
-		new_node->key = NULL;
-	if (value)
-		new_node->value = ft_strdup(value);
-	else
-		new_node->value = NULL;
-	if (full)
-		new_node->full_env = ft_strdup(full);
-	else
-		new_node->full_env = NULL;
+	new_node->key = NULL;
+	new_node->value = NULL;
+	new_node->full_env = NULL;
 	new_node->next = NULL;
+	new_node = aux_lstnew(key, value, full, new_node);
+	if (!new_node)
+		return (NULL);
 	return (new_node);
 }
 

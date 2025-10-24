@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/22 19:48:13 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:17:10 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ static bool	t_checks(t_token **tokens, t_token **temp, t_parse_state *p_struct)
 	{
 		if (!handle_word(*temp, p_struct))
 			return (free_tokens(tokens),
-				parse_error("minishell: WORD parse error", p_struct), false);
+				parse_error("Minishell: ", p_struct), false);
 		*temp = (*temp)->next;
 	}
 	else if ((*temp)->type == PIPE)
 	{
 		if (!handle_pipe(*temp, p_struct))
 			return (free_tokens(tokens),
-				parse_error("minishell: PIPE parse error", p_struct), false);
+				parse_error("Minishell: ", p_struct), false);
 		*temp = (*temp)->next;
 	}
 	else if (is_redir(*temp))
 	{
 		if (!handle_redir(*temp, p_struct))
 			return (free_tokens(tokens),
-				parse_error("minishell: REDIR parse error", p_struct), false);
+				parse_error("Minishell: ", p_struct), false);
 		*temp = (*temp)->next->next;
 	}
 	return (true);
