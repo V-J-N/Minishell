@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 18:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 07:33:07 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 19:15:21 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	sigint_handler(int signum)
 void	sigquit_handler(int signum)
 {
 	g_sigint_status = signum;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 	return ;
 }
 
