@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:34:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 12:33:50 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 07:52:09 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*get_target_path(char **args, t_env *env)
 		home = find_node_by_key(env, "HOME");
 		if (!home || !home->value)
 		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
+			ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
 			return (NULL);
 		}
 		return (home->value);
@@ -53,7 +53,10 @@ static int	update_pwd(t_env **env)
 	char	*full;
 
 	if (!getcwd(cwd, sizeof(cwd)))
-		return (perror("cd: getcwd"), 1);
+	{
+		ft_putstr_fd("cd: getcwd", STDERR_FILENO);
+		return (1);
+	}
 	full = ft_strjoin("PWD=", cwd);
 	if (!full)
 		return (1);
