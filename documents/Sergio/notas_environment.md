@@ -16,9 +16,15 @@ He añadido alguna protecciones adicionales aqui por si algun ft_strdup falla
 
 ![alt text](<img/Captura desde 2025-10-24 20-48-29.png>)
 
-He añadido esta linea por si acaso variables parecidas daban falsos positivos
+Si en algun momento esto es temp->value es NULL, nos deberiamos proteger
+he modificado esto en la libft
 
-![alt text](<img/Captura desde 2025-10-24 21-05-20.png>)
+![alt text](<img/Captura desde 2025-10-24 23-41-58.png>)
 
-![alt text](<img/Captura desde 2025-10-24 21-07-59.png>)
+Aqui tenemos si temp->value NULL devolvemos NULL y si no se encuentra una cadena vacia, ya que luego en el expanser hacemos join, no quiero pasar hay un NULL.
+
+![alt text](<img/Captura desde 2025-10-24 23-40-31.png>)
+
+
+
 
