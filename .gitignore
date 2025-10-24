@@ -10,3 +10,6 @@ minishell
 obj/
 .vscode/
 *.dSYM/
+#other stuff
+Olivers_test.sh
+src/parser/parser_test.c

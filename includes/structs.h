@@ -6,12 +6,12 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 13:27:21 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/23 23:01:34 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file strutcs.h
+ * @file structs.h
  * @brief Header file for minishell data structures.
  * This file contains the definitions for all core data structures used
  * throughout the minishell project.
@@ -19,32 +19,15 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-/**
- * @struct t_env
- * @brief Node for the environment variable linked list.
- * This structure represents a single environment variable, storing its
- * components in a deep-copied format.
- * @param key A dynamically allocated string for the variable name.
- * @param value A dynamically allocated string for the variable value.
- * @param full_env A dynamically allocated string for the full
- * "KEY=value".
- * @param next A pointer to the next node in the linked list.
- */
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	char			*full_env;
-	struct s_env	*next;
-}					t_env;
+/* ************************************************************************** */
+/* Enumerations */
 
 /**
  * @enum e_token_type
- * @brief Enumeration for the different types of tokens.
- * This enum defines the possible categories a token can fall into.
- * The lexer will use these types to classify each word and operator from
- * the input string, which the parser will later use to build the command
- * execution tree.
+ * @brief Enumeration for the different types of tokens recognized for the
+ * lexer.
+ * This enum defines the possible categories a token can fall into, which
+ * the parser uses to build the command execution.
  */
 typedef enum e_token_type
 {
@@ -66,8 +49,10 @@ typedef enum e_token_type
 typedef enum e_token_quote
 {
 	NONE,			/**< The token value was unquoted. */
-	SINGLE,			/**< The token value was enclosed in single quotes. */
-	DOUBLE,			/**< The token value was enclosed in double quotes */
+	SINGLE,			/**< The token value was entirely or partially
+					enclosed in single quotes. */
+	DOUBLE,			/**< The token value was entirely or partially
+					enclosed in double quotes */
 }			t_token_quote;
 
 /**
@@ -83,13 +68,34 @@ typedef enum e_token_state
 	IN_DOUBLE,		/**< Inside double quotes. */
 }			t_token_state;
 
+/* ************************************************************************** */
+/* Core Structures */
+
+/**
+ * @struct t_env
+ * @brief Node for the environment variable linked list.
+ * This structure represents a single environment variable, storing its
+ * components in a deep-copied format to ensure independece from the original
+ * system environment.
+ * @param key A dynamically allocated string for the variable name.
+ * @param value A dynamically allocated string for the variable value.
+ * @param full_env A dynamically allocated string for the full
+ * "KEY=value" format.
+ * @param next A pointer to the next node in the linked list.
+ */
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	char			*full_env;
+	struct s_env	*next;
+}					t_env;
+
 /**
  * @struct t_token
- * @brief Structure for a single token in the command line.
- * This structure represents a single lexical token. It holds the string value
- * of the token, its classified type, and a pointer to the next token in the
- * sequence, forming a linked list. This linked list of token is the direct
- * output of the lexing phase and the primary input for the parsing phase.
+ * @brief Structure for a single lexical token from the input line.
+ * This linked list of tokens is the direct output of the lexing phase and the
+ * primary input for the parsing phase.
  * @param value A dynamically allocated string containing the token's
  * literal value.
  * @param type The classified type of the token, as defined by the
@@ -114,13 +120,24 @@ typedef struct s_token
 /**
  * @struct t_redir
  * @brief Structure for command redirection information.
- * This structure stores information about input/output redirections
- * identified during parsing.
- * @param type Type of redirection.
+ * This structure stores all details about input/output redirections
+ * for a command. The extra fields are used internally during the variable
+ * expasion phase.
+ * @param quote The final quoting context of the file field.
+ * @param type The type of redirection operator.
  * @param file Dynamically allocated string for target filename or
  * heredoc delimiter.
+ * @param env_file Reserved for storing the environment variable.
+ * @param exp_file Reserved for storing the string after environment
+ * variable expasion.
+ * @param is_expanded Boolean flag: true if environment variable expasion
+ * is allowed.
+ * @param has_quotes Boolean flag: true if the file name originally contained
+ * quotes.
  * @param heredoc_fd File descriptor for the temporary file created for
  * a HEREDOC, if appplicable (or -1);
+ * @param i Index used by the expander to track position within the file
+ * string.
  * @param next Pointer to the next redirection in the list.
  */
 typedef struct s_redir
@@ -142,8 +159,19 @@ typedef struct s_redir
  * @brief Node for a command argument list.
  * This structure holds a single command argument. The arguments for a command
  * are stored in a linked list. This design simplifies handling of variable
- * length argument lists during parsing.
- * @param arg A dynamically allocated string for the argument.
+ * length argument lists during parsing. The extra field are used internally
+ * during the variable expansion phase.
+ * @param quote The final quoting context of the argument's value.
+ * @param value Dynamically allocated string for the original argument.
+ * @param env_value Reserved for storing the environment variable.
+ * @param exp_value Reserved for storing the string after environment variable
+ * expasion.
+ * @param is_expanded Boolean flag: true if environment variable expasion
+ * is allowed.
+ * @param has_quotes Boolean flag: true if the argument originally contained
+ * quotes.
+ * @param i Index used by the expander to track position within the argument
+ * string.
  * @param next A pointer to the next argument in the list.
  */
 typedef struct s_arg
@@ -161,13 +189,15 @@ typedef struct s_arg
 /**
  * @struct t_command
  * @brief Structure for a parsed command unit.
- * This structure represents a single command identified by the parser.
- * @param args The head of a 't_arg' linked list containing all the
- * command's arguments.
+ * This structure represents one command, including its arguments and
+ * redirections, as identified by the parser.
+ * @param args The head of a 't_arg' linked list containing the command
+ * and all arguments.
  * @param cmd_argc The number of arguments in the 'args' list.
  * @param redirs The head of a 't_redir' linked list containing all
  * the commands redirections.
- * @param is_command Flag indicating if this an empty t_arg node.
+ * @param is_command Boolean Flag: true if the command name has been identified
+ * and stored; false if the node is only holding redirections.
  * @param next A pointer to the next command in the parsed command
  * stream.
  */
@@ -184,8 +214,8 @@ typedef struct s_command
  * @struct t_parse_state
  * @brief State structure for the parsing process.
  * This structure maintains the current state during the parsing phase,
- * providing convenient access to the currently building command and
- * redirection nodes.
+ * providing convenient access to the overall result and the nodes currently
+ * being built.
  * @param cmd_list Head of the complete command list being constructed.
  * @param cmd_node Pointer to the current command node being populated.
  * @param redir_node Pointer to the current redirection node being populated.
@@ -197,6 +227,14 @@ typedef struct s_parse_state
 	t_redir				*redir_node;
 }						t_parse_state;
 
+/**
+ * @struct
+ * @brief Global container for all main shell data structures.
+ * This acts as the central data object passed between major components.
+ * @param env Head of the environment variable list.
+ * @param token Head of the current token list.
+ * @param parsed The parser state structure, holding the command pipeline.
+ */
 typedef struct s_data
 {
 	t_env			*env;
@@ -216,6 +254,7 @@ typedef struct s_data
  * @param in Input file descriptor for the pipeline.
  * @param out Output file descriptor for the pipeline.
  * @param index Current position in the pipeline during execution.
+ * @param data Pointer to the main global data structure.
  */
 typedef struct s_pipe
 {
@@ -242,6 +281,7 @@ typedef struct s_pipe
  * @param string The original input command line string.
  * @param i Index tracking the current position in the input 'string'.
  * @param j Index tracking the current position in the 'buffer'.
+ * @param buffer_size The allocated size of the buffer.
  * @param has_quotes Boolean flag: true if the current word being built contained
  * any quotes.
  */
