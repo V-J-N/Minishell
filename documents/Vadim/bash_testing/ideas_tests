@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/22 19:57:44 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/24 06:45:44 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -251,4 +251,7 @@ COMILLAS:
 
 valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=valgrind.supp ./minishell
 
+Signals:
+
+pwd >out1 | sleep 15 | << stop | exit 42
 

@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/23 09:50:44 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 06:34:03 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ static void	exec_child_process(t_command *command, t_env **env, int in, int out)
 	int	new_in;
 	int	new_out;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	restore_child_signals();
 	new_in = redirect_in(command, in);
 	new_out = redirect_out(command, out);
 	if (new_in == -1 || new_out == -1)
@@ -96,9 +95,7 @@ int	command_in(t_data *data, int in, int out)
 		return (perror("Fork"), EXIT_FAILURE);
 	if (pid == 0)
 		exec_child_process(data->parsed->cmd_list, &data->env, in, out);
-	signal(SIGINT, SIG_IGN);
 	status = ft_wait_and_exit(pid);
-	signal(SIGINT, SIG_DFL);
 	return (status);
 }
 

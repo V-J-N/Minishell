@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 18:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 01:37:51 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 07:06:51 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,48 @@
 #include "minishell.h"
 
 /**
- * @brief Initializes the main minishell data structure (t_data).
- * Allocates memory for the t_data structure and initializes its core components
- * to NULL. It then populates the internal environment list from the system's
- * environment array.
- * @param envp The environment array passed to main.
- * @return t_data A pointer to the newly initialized data structure, or NULL
- * on failure.
+ * @brief Signal handler for SIGINT (Ctrl+C).
+ * Sets the global status flag, writes a newline, and updates the readline
+ * prompt to maintain proper terminal state after and interrupt.
+ * @param signum The signal number received.
  */
-t_data	*init_data(char **envp)
+void	sigint_handler(int signum)
 {
-	t_data			*data;
+	g_sigint_status = signum;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	return ;
+}
 
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (NULL);
-	data->env = NULL;
-	data->token = NULL;
-	data->parsed = NULL;
-	if (!get_environment(envp, &data->env))
-	{
-		perror("envp copy failed");
-		free(data);
-		return (NULL);
-	}
-	return (data);
+void	sigquit_handler(int signum)
+{
+	g_sigint_status = signum;
+	write(1, "Quit: 3\n", 8);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	return ;
+}
+
+/**
+ * @brief Sets up signal handling for the main shell process.
+ * Configures the shell to use sigint_handler for SIGINT and ignores SIGQUIT
+ * to prevent the shell from exiting and generating core dump files.
+ */
+void	setup_signals(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	sa_int.sa_handler = sigint_handler;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+	sa_quit.sa_handler = sigquit_handler;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa_quit, NULL);
+	return ;
 }

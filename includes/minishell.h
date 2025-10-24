@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/23 22:30:15 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 06:55:36 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 
 # include <stdlib.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <stdbool.h>
-# include <signal.h>
 # include <errno.h>
 # include <limits.h>
 
@@ -76,6 +76,7 @@ extern volatile sig_atomic_t	g_sigint_status;
 /* Minishell Utils */
 t_data			*init_data(char **envp);
 void			sigint_handler(int signum);
+void			sigquit_handler(int signum);
 void			setup_signals(void);
 void			ft_free_array(char **array);
 void			ft_cleanup_loop(t_data *data, char *input, bool	error);
@@ -102,6 +103,7 @@ char			*ft_check_path(char *command, char **envp);
 char			**envlist_to_arr(t_env **envlist);
 char			**command_to_arr(t_command *command);
 int				ft_wait_and_exit(pid_t last_pid);
+void			restore_child_signals(void);
 
 /* ************************************************************************** */
 /* Executor */

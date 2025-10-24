@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:50:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/23 07:21:38 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 06:40:07 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	redirection_only_child_process(t_command *cmd, int in, int out)
 	int	new_in;
 	int	new_out;
 
-	signal(SIGINT, SIG_DFL);
+	restore_child_signals();
 	new_in = redirect_in(cmd, in);
 	new_out = redirect_out(cmd, out);
 	if (new_in == -1 || new_out == -1)
@@ -105,8 +105,6 @@ int	redirection_only(t_command *cmd, int in, int out)
 		return (perror("Fork"), EXIT_FAILURE);
 	if (pid == 0)
 		redirection_only_child_process(cmd, in, out);
-	signal(SIGINT, SIG_IGN);
 	status = ft_wait_and_exit(pid);
-	signal(SIGINT, SIG_DFL);
 	return (status);
 }

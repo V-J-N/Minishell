@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/06 13:14:11 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 06:38:31 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ static int	pipes_return(t_pipe *pipe_data, pid_t last_pid)
 {
 	int	status;
 
-	signal(SIGINT, SIG_IGN);
 	ft_close_two(pipe_data->in, pipe_data->out);
 	status = ft_wait_and_exit(last_pid);
-	signal(SIGINT, SIG_DFL);
 	return (status);
 }
 
