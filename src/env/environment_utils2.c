@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:37:53 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/11 18:32:16 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 21:07:05 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,12 @@ char	*get_full_env(t_env *env_list, const char *key)
 {
 	char	*full_env;
 
+	if (!key)
+		return (NULL);
 	while (env_list)
 	{
-		if (ft_strncmp(env_list->key, key, ft_strlen(key)) == 0)
+		if ((ft_strlen(env_list->key) == ft_strlen(key)) && \
+		(ft_strncmp(env_list->key, key, ft_strlen(key)) == 0))
 		{
 			full_env = ft_strdup(env_list->full_env);
 			return (full_env);

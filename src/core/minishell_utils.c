@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/24 07:53:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 19:52:47 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_data	*init_data(char **envp)
 	data->parsed = NULL;
 	if (!get_environment(envp, &data->env))
 	{
-		ft_putstr_fd("envp copy failed", STDERR_FILENO);
+		ft_putstr_fd("Minishell: envp copy failed\n", STDERR_FILENO);
 		free(data);
 		return (NULL);
 	}

@@ -157,5 +157,5 @@ El core de tu minishell se divide en cuatro pilares:
 
 ---
 
-![alt text](deepseek_mermaid_20251024_e55cfc.svg)
+![alt text](img/deepseek_mermaid_20251024_e55cfc.svg)
 
