@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 07:28:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/24 14:36:52 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,16 @@ static int	sigint_check(int exit_signal)
  */
 static char	*read_input(int interactive)
 {
+	char	*input;
+
 	if (interactive)
 		return (readline("$> "));
-	return (get_next_line(STDIN_FILENO));
+	*input = get_next_line(STDIN_FILENO);
+	if (input && input[ft_strlen(input) - 1] == '\n')
+	{
+		input[ft_strlen(input) - 1] = '\0';
+	}
+	return (input);
 }
 
 /**
