@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 12:02:07 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:39:57 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void			ft_free_array(char **array);
 void			ft_cleanup_loop(t_data *data, char *input, bool	error);
 void			ft_cleanup_end(t_data *data);
 void			sigint_handler(int signum);
+int				sigint_check(int exit_code);
 
 /* ************************************************************************** */
 /* Environment */
@@ -193,7 +194,8 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 
 /* ************************************************************************** */
 /* Builtin In */
-int				built_in(t_command *cmd_list, t_data *data, int exit_return, bool pipe);
+int				built_in(t_command *cmd_list, t_data *data,
+					int exit_return, bool pipe);
 int				execute_builtin(char *cmd, t_command *cmd_list, t_data *data);
 
 /* ************************************************************************** */

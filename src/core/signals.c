@@ -6,11 +6,29 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 07:54:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 11:50:03 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 19:33:46 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Checks the global signal status and converts it to a standard
+ * exit code.
+ * This function proceses the status set by the signal handler and resets the
+ * global variable.
+ * @param exit_code The previous exit status of the last command.
+ * @return int The updated exit status.
+ */
+int	sigint_check(int exit_code)
+{
+	if (g_exit_code == SIGINT || g_exit_code == 130)
+	{
+		g_exit_code = 0;
+		return (130);
+	}
+	return (exit_code);
+}
 
 /**
  * @brief Signal handler for SIGINT (Ctrl+C).
