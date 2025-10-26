@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 09:51:20 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 11:49:04 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ static char	*read_input(int interactive)
  * @param inter Flag indicating interactive mode.
  * @return int The exit status of the executed command.
  */
-static int	expand_and_execute(t_data *data, char *input, int ex_code, int inter)
+static int	expand_and_execute(t_data *data, char *input, int excode, int inter)
 {
 	data->parsed->cmd_list = expander(data->parsed->cmd_list, \
-	data->env, ex_code);
-	ex_code = execute_all(data);
+	data->env, excode);
+	excode = execute_all(data);
 	if (inter)
-		ex_code = sigint_check(ex_code);
+		excode = sigint_check(excode);
 	ft_cleanup_loop(data, input, 0);
-	return (ex_code);
+	return (excode);
 }
 
 /**

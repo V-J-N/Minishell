@@ -6,11 +6,9 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 07:54:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 09:10:05 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 11:50:03 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 #include "minishell.h"
 
@@ -54,11 +52,3 @@ void	setup_signals(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 	return ;
 }
-
-
-/* void	setup_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-	return ;
-} */

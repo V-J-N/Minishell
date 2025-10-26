@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 09:50:57 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 12:02:07 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int				manage_in_redir(char *file, int *fd, int *last_fd);
 int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
 int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
 void			heredoc_sigint_handler(int sign);
+int				heredoc_end(int status, int pipe_fd_readend);
 
 /* ************************************************************************** */
 /* Lexer */
@@ -192,8 +193,8 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 
 /* ************************************************************************** */
 /* Builtin In */
-int				built_in(char *cmd, t_data *data, int exit_return);
-int				execute_builtin(char *cmd, t_data *data);
+int				built_in(t_command *cmd_list, t_data *data, int exit_return, bool pipe);
+int				execute_builtin(char *cmd, t_command *cmd_list, t_data *data);
 
 /* ************************************************************************** */
 /* Bi Child */
@@ -203,7 +204,7 @@ int				ft_echo(t_command *cmd);
 
 /* ************************************************************************** */
 /* Bi Parent */
-int				ft_exit(t_data *data);
+int				ft_exit(t_data *data, t_command *cmd_list);
 int				ft_unset(t_command *cmd_lst, t_env **env);
 int				ft_export(t_command *cmd, t_env **env);
 int				ft_assign_in(char *full_var, t_env **env);

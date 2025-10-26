@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:11:34 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 08:42:30 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 12:03:43 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,5 @@ int	get_heredoc_fd(char *limiter)
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	setup_signals();
-	if (WIFEXITED(status))
-	{
-	    int code = WEXITSTATUS(status);
-	    if (code == 130)
-	    {
-	        g_exit_code = 130;
-	        close(pipe_fd[0]);
-	        return (-1);
-	    }
-	}
-	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-	    g_exit_code = 130;
-	    close(pipe_fd[0]);
-	    return (-1);
-	}
-	return (pipe_fd[0]);
+	return (heredoc_end(status, pipe_fd[0]));
 }

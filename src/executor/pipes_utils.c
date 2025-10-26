@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:23:06 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 12:57:27 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 10:47:16 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_pipe	*init_pipe_data(t_data *data, size_t commands)
 	if (!pipe_data)
 		return (NULL);
 	pipe_data->commands = data->parsed->cmd_list;
+	pipe_data->current_command = pipe_data->commands;
 	pipe_data->command_count = commands;
 	pipe_data->env_list = &data->env;
 	pipe_data->in = STDIN_FILENO;

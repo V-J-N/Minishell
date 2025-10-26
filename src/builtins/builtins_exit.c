@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:09:17 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/17 13:05:41 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 11:44:59 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	no_numeric_arg(char **args, t_data *data)
  * @brief Simulates the behavior of the bash `exit` builtin.
  * @return int Returns 1 if there is an error and shell should not exit.
  */
-int	ft_exit(t_data *data)
+int	ft_exit(t_data *data, t_command *cmd_list)
 {
 	char	**args;
 	long	code;
@@ -68,7 +68,7 @@ int	ft_exit(t_data *data)
 	if (!data || !data->parsed || !data->parsed->cmd_list \
 	|| !data->parsed->cmd_list->args)
 		cleanup_and_exit(0, data, NULL);
-	args = args_to_array(data->parsed->cmd_list->args);
+	args = args_to_array(cmd_list->args);
 	if (!args)
 		cleanup_and_exit(1, data, NULL);
 	ft_putstr_fd("exit\n", STDERR_FILENO);

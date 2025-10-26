@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/26 08:44:46 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/10/26 11:50:37 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,6 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer_utils3.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer_utils4.c\
 			$(SRC_DIR)/$(LEXER_DIR)/lexer_free.c\
-			$(SRC_DIR)/$(LEXER_DIR)/lexer_test.c\
 			$(SRC_DIR)/$(PARSER_DIR)/parser.c\
 			$(SRC_DIR)/$(PARSER_DIR)/parser_utils.c\
 			$(SRC_DIR)/$(PARSER_DIR)/parser_cmd.c\
@@ -66,7 +65,6 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(PARSER_DIR)/parser_free.c\
 			$(SRC_DIR)/$(PARSER_DIR)/parser_error.c\
 			$(SRC_DIR)/$(PARSER_DIR)/parser_handler.c\
-			$(SRC_DIR)/$(PARSER_DIR)/parser_test.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/executor.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/executor_utils.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/executor_utils2.c\

@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 08:24:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 11:11:56 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	command_in(t_data *data, int in, int out)
 	if (!data->parsed->cmd_list || !data->env)
 		return (perror("No data"), EXIT_FAILURE);
 	if (is_built_in(data->parsed->cmd_list->args->value))
-		return (built_in(data->parsed->cmd_list->args->value, data, -1));
+		return (built_in(data->parsed->cmd_list, data, -1, 0));
 	pid = fork();
 	if (pid < 0)
 		return (perror("Fork"), EXIT_FAILURE);
