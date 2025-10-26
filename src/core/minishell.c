@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 14:45:45 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/26 11:49:04 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,17 @@
  * exit code.
  * This function proceses the status set by the signal handler and resets the
  * global variable.
- * @param exit_signal The previous exit status of the last command.
+ * @param exit_code The previous exit status of the last command.
  * @return int The updated exit status.
  */
-static int	sigint_check(int exit_signal)
+static int	sigint_check(int exit_code)
 {
-	if (g_sigint_status == SIGINT)
+	if (g_exit_code == SIGINT || g_exit_code == 130)
 	{
-		g_sigint_status = 0;
+		g_exit_code = 0;
 		return (130);
 	}
-	else if (g_sigint_status == SIGQUIT)
-	{
-		g_sigint_status = 0;
-		return (131);
-	}
-	return (exit_signal);
+	return (exit_code);
 }
 
 /**
@@ -68,19 +63,19 @@ static char	*read_input(int interactive)
  * expansion, execution, and signal status update.
  * @param data The main data structure.
  * @param input The command line input string.
- * @param ex_sig The current exit signal to pass to the expander.
+ * @param ex_code The current exit signal to pass to the expander.
  * @param inter Flag indicating interactive mode.
  * @return int The exit status of the executed command.
  */
-static int	expand_and_execute(t_data *data, char *input, int ex_sig, int inter)
+static int	expand_and_execute(t_data *data, char *input, int excode, int inter)
 {
 	data->parsed->cmd_list = expander(data->parsed->cmd_list, \
-	data->env, ex_sig);
-	ex_sig = execute_all(data);
+	data->env, excode);
+	excode = execute_all(data);
 	if (inter)
-		ex_sig = sigint_check(ex_sig);
+		excode = sigint_check(excode);
 	ft_cleanup_loop(data, input, 0);
-	return (ex_sig);
+	return (excode);
 }
 
 /**
@@ -88,12 +83,12 @@ static int	expand_and_execute(t_data *data, char *input, int ex_sig, int inter)
  * This loop continuously reads input, tokenizes, parses, expands, and
  * executes command until EOF or the exit builtin is encountered.
  * @param data The main data structure.
- * @param exit_signal The initial or previous exit status.
+ * @param exit_code The initial or previous exit status.
  * @param input Pointer to the input string (used for readline or GNL).
  * @param inter Flag indicating interactive mode.
  * @return int The final exit status of the shell.
  */
-static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
+static int	rep_loop(t_data *data, int exit_code, char *input, int inter)
 {
 	while (1)
 	{
@@ -116,10 +111,10 @@ static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 				ft_cleanup_loop(data, input, 1);
 				continue ;
 			}
-			exit_signal = expand_and_execute(data, input, exit_signal, inter);
+			exit_code = expand_and_execute(data, input, exit_code, inter);
 		}
 	}
-	return (exit_signal);
+	return (exit_code);
 }
 
 /**
@@ -133,7 +128,7 @@ static int	rep_loop(t_data *data, int exit_signal, char *input, int inter)
 int	main(int argc, char **argv, char **envp)
 {
 	char			*input;
-	int				exit_signal;
+	int				exit_code;
 	t_data			*data;
 	int				interactive;
 
@@ -150,10 +145,10 @@ int	main(int argc, char **argv, char **envp)
 		if (!shell_lvl_handler(data))
 			return (1);
 		setup_signals();
-		exit_signal = 0;
+		exit_code = 0;
 		interactive = isatty(STDIN_FILENO);
-		exit_signal = rep_loop(data, exit_signal, input, interactive);
+		exit_code = rep_loop(data, exit_code, input, interactive);
 		ft_cleanup_end(data);
 	}
-	return (exit_signal);
+	return (exit_code);
 }

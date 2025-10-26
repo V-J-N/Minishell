@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:11:34 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 06:38:02 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 12:03:43 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	heredoc_child_process(char *limiter, int *pipe_fd)
 {
 	char	*line;
 
-	restore_child_signals();
+	signal(SIGINT, heredoc_sigint_handler);
 	close(pipe_fd[0]);
 	while (1)
 	{
@@ -108,8 +108,8 @@ int	get_heredoc_fd(char *limiter)
 	if (pid == 0)
 		heredoc_child_process(limiter, pipe_fd);
 	close(pipe_fd[1]);
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		return (close(pipe_fd[0]), -1);
-	return (pipe_fd[0]);
+	setup_signals();
+	return (heredoc_end(status, pipe_fd[0]));
 }

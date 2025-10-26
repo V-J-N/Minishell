@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 05:31:01 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 01:43:12 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/26 07:58:03 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,4 @@
  * This variable is set by the signal handler and read by the main
  * REPL loop to determine if the last command was terminated by an interrupt.
  */
-volatile sig_atomic_t	g_sigint_status = 0;
+volatile sig_atomic_t	g_exit_code = 0;

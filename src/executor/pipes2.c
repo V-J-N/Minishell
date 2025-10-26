@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:33:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 06:39:17 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 11:45:19 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ static void	exec_child(t_pipe *pipe_data, int new_in, int new_out, int *pipe_fd)
 	ft_close_three(pipe_data->in, pipe_data->out, new_in);
 	if (pipe_data->index < pipe_data->command_count - 1)
 		ft_close_two(pipe_fd[0], pipe_fd[1]);
-	cmd = pipe_data->commands;
+	cmd = pipe_data->current_command;
 	if ((!cmd->args || !cmd->args->value) && has_redirs(cmd))
 		exit(EXIT_SUCCESS);
 	if (cmd->args && cmd->args->value && is_built_in(cmd->args->value))
-		exit(built_in(cmd->args->value, pipe_data->data, -1));
+		exit(built_in(cmd, pipe_data->data, -1, 1));
 	if (cmd->args && cmd->args->value)
-		execute_command(pipe_data->commands, pipe_data->env_list);
+		execute_command(cmd, pipe_data->env_list);
 	exit(EXIT_FAILURE);
 }
 
@@ -80,7 +80,7 @@ void	p_child_process(t_pipe *pipe_data, int prev, int *pipe_fd)
 	int	new_in;
 	int	new_out;
 
-	restore_child_signals();
+	signal(SIGINT, SIG_DFL);
 	new_in = get_new_in(pipe_data, prev);
 	new_out = get_new_out(pipe_data, pipe_fd);
 	exec_child(pipe_data, new_in, new_out, pipe_fd);

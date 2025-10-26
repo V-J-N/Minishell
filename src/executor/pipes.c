@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:26:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 06:38:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 11:45:30 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static int	pipes_return(t_pipe *pipe_data, pid_t last_pid)
 
 	ft_close_two(pipe_data->in, pipe_data->out);
 	status = ft_wait_and_exit(last_pid);
+	setup_signals();
 	return (status);
 }
 
@@ -60,13 +61,17 @@ int	pipes(t_pipe *pipe_data, int prev_pipe, pid_t last_pid)
 			return (perror("fork"), EXIT_FAILURE);
 		if (pid == 0)
 			p_child_process(pipe_data, prev_pipe, pipe_fd);
-		if (pipe_data->index == pipe_data->command_count - 1)
-			last_pid = pid;
-		safe_close(prev_pipe);
-		next_pipe(pipe_data, pipe_fd, &prev_pipe);
-		if (pipe_data->commands)
-			pipe_data->commands = pipe_data->commands->next;
-		pipe_data->index++;
+		else
+		{
+			signal(SIGINT, SIG_IGN);
+			if (pipe_data->index == pipe_data->command_count - 1)
+				last_pid = pid;
+			safe_close(prev_pipe);
+			next_pipe(pipe_data, pipe_fd, &prev_pipe);
+			if (pipe_data->current_command)
+				pipe_data->current_command = pipe_data->current_command->next;
+			pipe_data->index++;
+		}
 	}
 	return (pipes_return(pipe_data, last_pid));
 }

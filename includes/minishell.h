@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 12:31:47 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/26 12:02:07 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/ioctl.h>
 # include <stdbool.h>
 # include <errno.h>
 # include <limits.h>
@@ -54,7 +55,7 @@
  * This volatile variable is safely used across the main loop and signal
  * handlers to track interrupt events, tipycally setting the exit status.
  */
-extern volatile sig_atomic_t	g_sigint_status;
+extern volatile sig_atomic_t	g_exit_code;
 
 /* ************************************************************************** */
 /* Macros */
@@ -79,6 +80,7 @@ void			setup_signals(void);
 void			ft_free_array(char **array);
 void			ft_cleanup_loop(t_data *data, char *input, bool	error);
 void			ft_cleanup_end(t_data *data);
+void			sigint_handler(int signum);
 
 /* ************************************************************************** */
 /* Environment */
@@ -101,7 +103,6 @@ char			*ft_check_path(char *command, char **envp);
 char			**envlist_to_arr(t_env **envlist);
 char			**command_to_arr(t_command *command);
 int				ft_wait_and_exit(pid_t last_pid);
-void			restore_child_signals(void);
 
 /* ************************************************************************** */
 /* Executor */
@@ -136,6 +137,8 @@ bool			has_output_redir(t_command *cmd);
 int				manage_in_redir(char *file, int *fd, int *last_fd);
 int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
 int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
+void			heredoc_sigint_handler(int sign);
+int				heredoc_end(int status, int pipe_fd_readend);
 
 /* ************************************************************************** */
 /* Lexer */
@@ -190,8 +193,8 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 
 /* ************************************************************************** */
 /* Builtin In */
-int				built_in(char *cmd, t_data *data, int exit_return);
-int				execute_builtin(char *cmd, t_data *data);
+int				built_in(t_command *cmd_list, t_data *data, int exit_return, bool pipe);
+int				execute_builtin(char *cmd, t_command *cmd_list, t_data *data);
 
 /* ************************************************************************** */
 /* Bi Child */
@@ -201,7 +204,7 @@ int				ft_echo(t_command *cmd);
 
 /* ************************************************************************** */
 /* Bi Parent */
-int				ft_exit(t_data *data);
+int				ft_exit(t_data *data, t_command *cmd_list);
 int				ft_unset(t_command *cmd_lst, t_env **env);
 int				ft_export(t_command *cmd, t_env **env);
 int				ft_assign_in(char *full_var, t_env **env);
