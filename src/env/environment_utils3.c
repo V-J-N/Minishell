@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 11:55:04 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/20 17:36:54 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/24 23:49:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
  * @param key The environment variable key to search for.
  * @return A new dynamically allocated string containing the variable's value.
  * Returns NULL if the key is not found or if inputs are invalid.
+ * Returns an empty string copy if the key is not found, which is a common
+ * practice in shell expasion for non-existent variables.
  */
 char	*get_value_by_key(t_env *env_list, const char *key)
 {
@@ -54,6 +56,8 @@ char	*get_value_by_key(t_env *env_list, const char *key)
  */
 t_env	*find_node_by_key(t_env *env_list, const char *key)
 {
+	if (!env_list || !key)
+		return (NULL);
 	while (env_list)
 	{
 		if (ft_strlen(env_list->key) == ft_strlen(key)
