@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/23 12:53:31 by serjimen         ###   ########.fr        #
+#    Updated: 2025/10/26 08:44:46 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ LIBFT_INCLUDE	=	-I$(LIBFT_DIR)/include
 
 SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(CORE_DIR)/minishell_utils.c\
-			$(SRC_DIR)/$(CORE_DIR)/minishell_utils2.c\
+			$(SRC_DIR)/$(CORE_DIR)/signals.c\
 			$(SRC_DIR)/$(CORE_DIR)/global.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment.c\
 			$(SRC_DIR)/$(ENV_DIR)/environment_utils.c\
@@ -74,6 +74,7 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc.c\
+			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc_utils.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes_utils.c\

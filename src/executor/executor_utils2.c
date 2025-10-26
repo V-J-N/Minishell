@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:25:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/24 07:05:17 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 09:31:23 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,35 +55,20 @@ int	ft_wait_and_exit(pid_t last_pid)
 {
 	int		status;
 	pid_t	pid;
+	int		exit_code;
 
+	exit_code = 0;
 	pid = wait(&status);
 	while (pid > 0)
 	{
 		if (pid == last_pid)
 		{
 			if (WIFEXITED(status))
-				return (WEXITSTATUS(status));
+				exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				return (128 + WTERMSIG(status));
+				exit_code = 128 + WTERMSIG(status);
 		}
 		pid = wait(&status);
 	}
-	return (EXIT_FAILURE);
-}
-
-/**
- * @brief Restaura el comportamiento por defecto de las señales
- * en el proceso hijo. Se usa tras el fork() y antes del execve(), 
- * para que los comandos reaccionen correctamente 
- * a Ctrl+C (SIGINT) y Ctrl+\ (SIGQUIT).
- */
-void	restore_child_signals(void)
-{
-	struct sigaction	sa_default;
-
-	sa_default.sa_handler = SIG_DFL;
-	sigemptyset(&sa_default.sa_mask);
-	sa_default.sa_flags = 0;
-	sigaction(SIGINT, &sa_default, NULL);
-	sigaction(SIGQUIT, &sa_default, NULL);
+	return (exit_code);
 }
