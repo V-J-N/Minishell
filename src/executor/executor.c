@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 20:30:11 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/27 09:02:25 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int	command_in(t_data *data, int in, int out)
 	if (pid == 0)
 		exec_child_process(data->parsed->cmd_list, &data->env, in, out);
 	status = ft_wait_and_exit(pid);
+	if (g_exit_code == SIGINT)
+		ft_putstr_fd("\n", 1);
 	setup_signals();
 	return (status);
 }

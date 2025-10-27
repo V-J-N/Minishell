@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 20:36:15 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/27 09:54:32 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,7 @@ static int	rep_loop(t_data *data, int exit_code, char *input, int inter)
 	{
 		input = read_input(inter);
 		if (!input)
-		{
-			if (inter)
-				printf("exit\n"); //para cumplir norma, eliminar esto??
 			break ;
-		}
 		if (*input)
 		{
 			if (inter)
