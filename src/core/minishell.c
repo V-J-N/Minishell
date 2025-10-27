@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 11:49:04 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:36:15 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,6 @@
  * for minishell execution flow.
  */
 #include "minishell.h"
-
-/**
- * @brief Checks the global signal status and converts it to a standard
- * exit code.
- * This function proceses the status set by the signal handler and resets the
- * global variable.
- * @param exit_code The previous exit status of the last command.
- * @return int The updated exit status.
- */
-static int	sigint_check(int exit_code)
-{
-	if (g_exit_code == SIGINT || g_exit_code == 130)
-	{
-		g_exit_code = 0;
-		return (130);
-	}
-	return (exit_code);
-}
 
 /**
  * @brief Reads the command line input from the user or a file descriptor.
@@ -96,22 +78,23 @@ static int	rep_loop(t_data *data, int exit_code, char *input, int inter)
 		if (!input)
 		{
 			if (inter)
-				printf("exit\n");
+				printf("exit\n"); //para cumplir norma, eliminar esto??
 			break ;
 		}
 		if (*input)
 		{
 			if (inter)
+			{
+				exit_code = sigint_check(exit_code);
 				add_history(input);
+			}
 			data->token = tokenizer(input);
 			if (data->token)
 				data->parsed = parse_command(&data->token);
 			if (!data->token || !data->parsed)
-			{
 				ft_cleanup_loop(data, input, 1);
-				continue ;
-			}
-			exit_code = expand_and_execute(data, input, exit_code, inter);
+			else
+				exit_code = expand_and_execute(data, input, exit_code, inter);
 		}
 	}
 	return (exit_code);

@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:33:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 11:45:19 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:34:10 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ static void	handle_in_out_fds(int new_in, int new_out)
 
 static int	get_new_in(t_pipe *pipe_data, int prev)
 {
-	if (has_input_redir(pipe_data->commands))
-		return (redirect_in(pipe_data->commands, STDIN_FILENO));
+	t_command	*cmd;
+
+	cmd = pipe_data->current_command;
+	if (has_input_redir(cmd))
+		return (redirect_in(cmd, STDIN_FILENO));
 	if (pipe_data->index == 0)
 		return (pipe_data->in);
 	return (prev);
@@ -47,8 +50,11 @@ static int	get_new_in(t_pipe *pipe_data, int prev)
 
 static int	get_new_out(t_pipe *pipe_data, int *pipe_fd)
 {
-	if (has_output_redir(pipe_data->commands))
-		return (redirect_out(pipe_data->commands, STDOUT_FILENO));
+	t_command	*cmd;
+
+	cmd = pipe_data->current_command;
+	if (has_output_redir(cmd))
+		return (redirect_out(cmd, STDOUT_FILENO));
 	if (pipe_data->index == pipe_data->command_count - 1)
 		return (pipe_data->out);
 	return (pipe_fd[1]);
