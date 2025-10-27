@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 12:06:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/27 09:09:29 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ int	built_in(t_command *cmd_list, t_data *data, int exit_return, bool pipe)
 		{
 			signal(SIGINT, SIG_IGN);
 			exit_return = ft_wait_and_exit(pid);
-			signal(SIGINT, sigint_handler);
+			if (g_exit_code == SIGINT)
+				ft_putstr_fd("\n", 1);
+			setup_signals();
 			return (exit_return);
 		}
 	}

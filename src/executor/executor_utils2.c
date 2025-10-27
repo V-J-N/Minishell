@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:25:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/26 10:06:47 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/27 08:59:48 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ int	ft_wait_and_exit(pid_t last_pid)
 			if (WIFEXITED(status))
 				exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
+			{
+				g_exit_code = SIGINT;
 				exit_code = 128 + WTERMSIG(status);
+			}
 		}
 		pid = wait(&status);
 	}
