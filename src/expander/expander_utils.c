@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:26:41 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/23 10:44:12 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/28 11:13:37 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*get_expand_env(t_arg *arg, t_env *env)
 
 	old = arg->exp_value;
 	new = get_value_by_key(env, arg->env_value);
+	if (!new)
+		new = ft_strdup("");
 	arg->exp_value = ft_strjoin(old, new);
 	free(old);
 	free(new);
