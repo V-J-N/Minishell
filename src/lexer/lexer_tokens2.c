@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokens2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 19:52:41 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/28 13:48:23 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,13 @@ t_lexer	*lexer_loop(t_lexer *lexer)
 		return (NULL);
 	while (lexer->string[lexer->i])
 	{
-		if (((lexer->string[lexer->i] == 34 \
-			&& lexer->string[lexer->i + 1] == 34)) \
-			|| ((lexer->string[lexer->i] == 39 \
-			&& lexer->string[lexer->i + 1] == 39)))
+		if (lexer->string[lexer->i + 1] && ((lexer->string[lexer->i] == 34 \
+			&& lexer->string[lexer->i + 1] == 34) || \
+			(lexer->string[lexer->i] == 39 && \
+				lexer->string[lexer->i + 1] == 39)))
 		{
 			lexer->i += 2;
+			continue ;
 		}
 		lexer->quote = verify_quotes(lexer->string[lexer->i]);
 		lexer->state = set_state(lexer->quote, lexer->state);
