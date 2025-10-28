@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:34:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 07:52:09 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/28 14:14:06 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*get_target_path(char **args, t_env *env)
 	return (args[1]);
 }
 
-static int	update_oldpwd(t_env **env, char *cwd)
+int	update_oldpwd(t_env **env, char *cwd)
 {
 	char	*full;
 
@@ -47,7 +47,7 @@ static int	update_oldpwd(t_env **env, char *cwd)
 	return (0);
 }
 
-static int	update_pwd(t_env **env)
+int	update_pwd(t_env **env)
 {
 	char	cwd[4096];
 	char	*full;

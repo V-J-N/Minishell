@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 20:39:57 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/28 14:34:27 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,8 @@ int				execute_builtin(char *cmd, t_command *cmd_list, t_data *data);
 
 /* ************************************************************************** */
 /* Bi Child */
-int				ft_pwd(t_env *env);
-int				ft_env(t_env *env, t_command *cmd_lst);
+int				ft_pwd(t_env **env);
+int				ft_env(t_env **env, t_command *cmd_lst);
 int				ft_echo(t_command *cmd);
 
 /* ************************************************************************** */
@@ -222,6 +222,8 @@ bool			is_parent_built_in(char *cmd);
 t_env			*find_node_by_key(t_env *env_list, const char *key);
 char			**args_to_array(t_arg *args);
 void			delete_env_key(t_env **env, const char *key);
+int				update_oldpwd(t_env **env, char *cwd);
+int				update_pwd(t_env **env);
 
 /* ************************************************************************** */
 /* Expander */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_unset_pwd_env.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:05:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/06 13:06:27 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/28 14:34:06 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
  * está corrupto. Uso getcwd como backup pero
  * no sé si debería dejarlo romperse en paz.
  */
-int	ft_pwd(t_env *env)
+int	ft_pwd(t_env **env)
 {
 	char	*value;
 	char	*cwd;
 
 	if (!env)
 		return (perror("env error"), EXIT_FAILURE);
-	value = get_value_by_key(env, "PWD");
+	value = get_value_by_key(*env, "PWD");
 	if (value && *value && access(value, F_OK) == 0)
 	{
 		ft_printf("%s\n", value);
@@ -35,6 +35,8 @@ int	ft_pwd(t_env *env)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (perror("getcwd error"), EXIT_FAILURE);
+	update_oldpwd(env, cwd);	
+	update_pwd(env);
 	ft_printf("%s\n", cwd);
 	free(cwd);
 	return (EXIT_SUCCESS);
@@ -43,7 +45,7 @@ int	ft_pwd(t_env *env)
 /** @brief Shows in terminal the environment variables
  * stored in the t_env list.
  */
-int	ft_env(t_env *env, t_command *cmd_lst)
+int	ft_env(t_env **env, t_command *cmd_lst)
 {
 	t_env	*temp;
 
@@ -57,7 +59,7 @@ int	ft_env(t_env *env, t_command *cmd_lst)
 		ft_putstr_fd("env: too many arguments\n", 2);
 		return (EXIT_FAILURE);
 	}
-	temp = env;
+	temp = *env;
 	while (temp)
 	{
 		ft_printf("%s\n", temp->full_env);
