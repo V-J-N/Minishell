@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/27 09:54:32 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/28 10:33:14 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	exit_code = 0;
 	if (argc != 1)
 		ft_putstr_fd("Usage ./minishell\n", STDERR_FILENO);
 	else
@@ -124,7 +125,6 @@ int	main(int argc, char **argv, char **envp)
 		if (!shell_lvl_handler(data))
 			return (1);
 		setup_signals();
-		exit_code = 0;
 		interactive = isatty(STDIN_FILENO);
 		exit_code = rep_loop(data, exit_code, input, interactive);
 		ft_cleanup_end(data);
