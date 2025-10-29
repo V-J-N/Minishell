@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/29 05:58:47 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 12:42:56 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ static char	*read_input(int interactive)
 	if (interactive)
 		return (readline("$> "));
 	input = get_next_line(STDIN_FILENO);
-	if (input && input[ft_strlen(input) - 1] == '\n')
-	{
+	if (input && ft_strlen(input) > 0 && input[ft_strlen(input) - 1] == '\n')
 		input[ft_strlen(input) - 1] = '\0';
-	}
 	return (input);
 }
 
@@ -92,6 +90,8 @@ static int	rep_loop(t_data *data, int exit_code, char *input, int inter)
 			else
 				exit_code = expand_and_execute(data, input, exit_code, inter);
 		}
+		else
+			free(input);
 	}
 	return (exit_code);
 }
@@ -115,7 +115,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	exit_code = 0;
 	if (argc != 1)
-		ft_putstr_fd("Usage ./minishell\n", STDERR_FILENO);
+		ft_putstr_fd("Usage: ./minishell\n", STDERR_FILENO);
 	input = NULL;
 	data = init_data(envp);
 	if (!data)
@@ -126,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 	interactive = isatty(STDIN_FILENO);
 	exit_code = rep_loop(data, exit_code, input, interactive);
 	if (interactive)
-		ft_putstr_fd("Exit\n", STDIN_FILENO);
+		ft_putstr_fd("exit\n", STDIN_FILENO);
 	ft_cleanup_end(data);
 	return (exit_code);
 }

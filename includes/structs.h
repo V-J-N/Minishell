@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/26 10:46:33 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:56:07 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef enum e_token_type
 	REDIR_OUT,		/**< Represents the '>' symbol for output redirection. */
 	APPEND,			/**< Represents the '>>' symbol for appending output. */
 	HEREDOC,		/**< Represents the '<<' symbol for here-document. */
-	UNKNOWN,		/**< Represents a invalid command. */
 }			t_token_type;
 
 /**
@@ -228,7 +227,7 @@ typedef struct s_parse_state
 }						t_parse_state;
 
 /**
- * @struct
+ * @struct t_data
  * @brief Global container for all main shell data structures.
  * This acts as the central data object passed between major components.
  * @param env Head of the environment variable list.
@@ -249,6 +248,8 @@ typedef struct s_data
  * commands, including file descriptors for input/output redirection and
  * environment context.
  * @param commands Head of the command list to execute.
+ * @param current_command Pointer to the command currently being executed in
+ * the pipeline.
  * @param env_list Pointer to the environment variables list.
  * @param command_count Total number of commands int he pipeline.
  * @param in Input file descriptor for the pipeline.

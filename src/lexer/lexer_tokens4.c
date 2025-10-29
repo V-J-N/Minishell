@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:55:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 10:12:45 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 13:00:18 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_lexer	*check_none(t_lexer *lexer)
 		if (!lexer)
 			return (NULL);
 	}
-	else if (lexer->string[lexer->i] == ' ')
+	else if (lexer->string[lexer->i] == ' ' || lexer->string[lexer->i] == '\t')
 		lexer = tokenize_space(lexer);
 	else if (lexer->string[lexer->i] == '|')
 		lexer = tokenize_pipe(lexer);
