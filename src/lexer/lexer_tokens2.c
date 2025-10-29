@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokens2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/28 13:48:23 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 13:52:38 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,23 @@
  * @brief Dispatcher for the lexing state machine.
  */
 #include "minishell.h"
+
+/**
+ * @brief Checks for empty quote pairs.
+ * This utility function looks ahead to see if the current character and the
+ * next character form an empty set of quotes.
+ * @param str The input string.
+ * @param i The current index.
+ * @return true If an empty quote pair is found.
+ * @return false Otherwise.
+ */
+static bool	is_quotes(char *str, size_t i)
+{
+	if (str[i + 1] && ((str[i] == 34 && str[i + 1] == 34)
+			|| (str[i] == 39 && str[i + 1] == 39)))
+		return (true);
+	return (false);
+}
 
 /**
  * @brief Dispatches character proccessing based on the lexer's current state.
@@ -68,10 +85,7 @@ t_lexer	*lexer_loop(t_lexer *lexer)
 		return (NULL);
 	while (lexer->string[lexer->i])
 	{
-		if (lexer->string[lexer->i + 1] && ((lexer->string[lexer->i] == 34 \
-			&& lexer->string[lexer->i + 1] == 34) || \
-			(lexer->string[lexer->i] == 39 && \
-				lexer->string[lexer->i + 1] == 39)))
+		if (is_quotes(lexer->string, lexer->i))
 		{
 			lexer->i += 2;
 			continue ;

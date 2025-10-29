@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/29 12:42:56 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 13:20:51 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	exit_code = 0;
 	if (argc != 1)
-		ft_putstr_fd("Usage: ./minishell\n", STDERR_FILENO);
+		return (ft_putstr_fd("Usage: ./minishell\n", STDERR_FILENO), 1);
 	input = NULL;
 	data = init_data(envp);
 	if (!data)
@@ -126,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 	interactive = isatty(STDIN_FILENO);
 	exit_code = rep_loop(data, exit_code, input, interactive);
 	if (interactive)
-		ft_putstr_fd("exit\n", STDIN_FILENO);
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	ft_cleanup_end(data);
 	return (exit_code);
 }

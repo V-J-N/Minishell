@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:04:32 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/22 10:46:24 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:41:05 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,13 @@ t_token_state	set_state(t_token_quote quote, t_token_state state)
 }
 
 /**
- * 
+ * @brief Checks if a given string contains any quote characters.
+ * This utility function is used to set the `has_quotes` flag on a final
+ * token structure. This flag is often used later in the parsing or
+ * expansion phase to decide whether quote removal should occur.
+ * @param str The string to be checked.
+ * @return true if the string contains either single or double quotes.
+ * @return false otherwise.
  */
 bool	check_quotes(char *str)
 {

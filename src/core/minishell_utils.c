@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/24 19:52:47 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 13:27:49 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_free_array(char **array)
  * @param input string read by readline.
  * @param error Boolean flag: true if a sintax error ocurred.
  */
-void	ft_cleanup_loop(t_data *data, char *input, bool	error)
+void	ft_cleanup_loop(t_data *data, char *input, bool error)
 {
 	if (data)
 	{
