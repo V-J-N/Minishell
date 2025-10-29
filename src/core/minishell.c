@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/28 10:33:14 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 05:58:47 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,17 @@ int	main(int argc, char **argv, char **envp)
 	exit_code = 0;
 	if (argc != 1)
 		ft_putstr_fd("Usage ./minishell\n", STDERR_FILENO);
-	else
-	{
-		input = NULL;
-		data = init_data(envp);
-		if (!data)
-			return (1);
-		if (!shell_lvl_handler(data))
-			return (1);
-		setup_signals();
-		interactive = isatty(STDIN_FILENO);
-		exit_code = rep_loop(data, exit_code, input, interactive);
-		ft_cleanup_end(data);
-	}
+	input = NULL;
+	data = init_data(envp);
+	if (!data)
+		return (1);
+	if (!shell_lvl_handler(data))
+		return (1);
+	setup_signals();
+	interactive = isatty(STDIN_FILENO);
+	exit_code = rep_loop(data, exit_code, input, interactive);
+	if (interactive)
+		ft_putstr_fd("Exit\n", STDIN_FILENO);
+	ft_cleanup_end(data);
 	return (exit_code);
 }

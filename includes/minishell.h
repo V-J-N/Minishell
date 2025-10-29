@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/26 20:39:57 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 05:54:27 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ int				execute_builtin(char *cmd, t_command *cmd_list, t_data *data);
 
 /* ************************************************************************** */
 /* Bi Child */
-int				ft_pwd(t_env *env);
+
 int				ft_env(t_env *env, t_command *cmd_lst);
 int				ft_echo(t_command *cmd);
 
@@ -214,6 +214,7 @@ void			ft_not_valid(char *var);
 void			print_sorted_env(t_env *env);
 bool			is_valid_identifier(const char *var);
 int				ft_cd(t_command *cmd, t_env **env);
+int				ft_pwd(t_env **env);
 
 /* ************************************************************************** */
 /* Builtin In Utils */
