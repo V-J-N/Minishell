@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/27 09:09:29 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 06:28:10 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	execute_builtin(char *cmd, t_command *cmd_list, t_data *data)
 	if (!(ft_strncmp(cmd, "echo", 5)))
 		return (ft_echo(cmd_list));
 	else if (!(ft_strncmp(cmd, "pwd", 4)))
-		return (ft_pwd(data->env));
+		return (ft_pwd(&data->env));
 	else if (!(ft_strncmp(cmd, "env", 4)))
 		return (ft_env(data->env, cmd_list));
 	else if (!(ft_strncmp(cmd, "exit", 5)))

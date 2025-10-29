@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:34:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/24 07:52:09 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 06:01:05 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	update_pwd(t_env **env)
 
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
-		ft_putstr_fd("cd: getcwd", STDERR_FILENO);
+		ft_putstr_fd("cd: getcwd\n", STDERR_FILENO);
 		return (1);
 	}
 	full = ft_strjoin("PWD=", cwd);

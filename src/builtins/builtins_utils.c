@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:34:38 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/09/29 12:19:36 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 06:27:40 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ bool	is_parent_built_in(char *cmd)
 	return (!ft_strncmp(cmd, "cd", 3) \
 	|| !ft_strncmp(cmd, "export", 7) \
 	||!ft_strncmp(cmd, "unset", 6) \
+	|| !ft_strncmp(cmd, "pwd", 4) \
 	|| !ft_strncmp(cmd, "exit", 5));
 }
 

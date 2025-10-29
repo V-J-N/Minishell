@@ -6,25 +6,41 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:05:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/06 13:06:27 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 06:49:31 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	safety_update_pwd(t_env **env, char *cwd)
+{
+	char	*full;
+
+	full = ft_strjoin("PWD=", cwd);
+	if (!full)
+		return (1);
+	if (!ft_assign_in(full, env))
+	{
+		free(full);
+		return (1);
+	}
+	free(full);
+	return (0);
+}
 
 /** @brief Prints PWD from env_list.
  * @warning No sé cómo debería actuar si PWD
  * está corrupto. Uso getcwd como backup pero
  * no sé si debería dejarlo romperse en paz.
  */
-int	ft_pwd(t_env *env)
+int	ft_pwd(t_env **env)
 {
 	char	*value;
 	char	*cwd;
 
 	if (!env)
 		return (perror("env error"), EXIT_FAILURE);
-	value = get_value_by_key(env, "PWD");
+	value = get_value_by_key(*env, "PWD");
 	if (value && *value && access(value, F_OK) == 0)
 	{
 		ft_printf("%s\n", value);
@@ -35,6 +51,8 @@ int	ft_pwd(t_env *env)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (perror("getcwd error"), EXIT_FAILURE);
+	if (!safety_update_pwd(env, cwd))
+		ft_putstr_fd("Failed to update PWD\n", 2);
 	ft_printf("%s\n", cwd);
 	free(cwd);
 	return (EXIT_SUCCESS);
