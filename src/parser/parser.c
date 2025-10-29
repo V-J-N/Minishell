@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:10:27 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/24 12:17:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:46:15 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ static t_parse_state	*init_parser(void)
 	return (parser);
 }
 
+/**
+ * @brief Handles token processing based on its type.
+ * This function serves as the core dispatcher for the parser loop, delegating
+ * the token processing to specialized handler functions.
+ * It includes error cleanup logic for memory and syntax failures.
+ * @param tokens A pointer to the head of the original token list.
+ * @param temp A pointer to the current token being processed.
+ * @param p_struct A pointer to the central 't_parse_state' structure.
+ * @return true If the token was processed successfully.
+ * @return false If a syntax error or memory allocation failure occurred,
+ * and cleanup is performed.
+ */
 static bool	t_checks(t_token **tokens, t_token **temp, t_parse_state *p_struct)
 {
 	if ((*temp)->type == WORD)
@@ -104,7 +116,7 @@ t_parse_state	*parse_command(t_token **tokens)
 
 	parser = NULL;
 	if (!tokens || !*tokens)
-		return (ft_printf("ERROR - Tokens needed\n"), NULL);
+		return (ft_putstr_fd("Minishell: Token Error\n", STDERR_FILENO), NULL);
 	parser = init_parser();
 	if (!parser)
 		return (free_tokens(tokens), NULL);

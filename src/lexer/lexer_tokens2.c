@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:46:25 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/29 13:52:38 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 20:43:47 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_lexer	*lexer_loop(t_lexer *lexer)
 		}
 		lexer->quote = verify_quotes(lexer->string[lexer->i]);
 		lexer->state = set_state(lexer->quote, lexer->state);
-		lexer_selector(lexer);
+		lexer = lexer_selector(lexer);
 		if (!lexer)
 			return (NULL);
 	}

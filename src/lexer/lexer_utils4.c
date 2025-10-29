@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:04:32 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/29 14:41:05 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 20:42:58 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ t_token_quote	verify_quotes(char c)
 
 	quote = NONE;
 	if (c == 34)
-		return (quote = DOUBLE);
+		return (DOUBLE);
 	else if (c == 39)
-		return (quote = SINGLE);
+		return (SINGLE);
 	return (quote);
 }
 
@@ -72,6 +72,8 @@ bool	check_quotes(char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (false);
 	while (str[i])
 	{
 		if (str[i] == 34 || str[i] == 39)

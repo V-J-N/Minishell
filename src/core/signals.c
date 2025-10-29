@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 07:54:20 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/28 10:42:19 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/29 20:14:25 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,9 @@ void	sigint_handler(int signum)
 }
 
 /**
- * @brief Sets up robust signal handling using sigaction.
- * Configures the siganl actions for SIGINT and SIGQUIT.
- * - SIGINT is handled to refresh the prompt.
- * - SIGQUIT is handled to record the status.
- * The SA_RESTART flag is used automatically restart interrupted system
- * calls.
+ * @brief Configures signal handling for interactive mode.
+ * SIGINT refreshes the prompt (Ctrl+C), SIGQUIT is ignored to
+ * prevent accidental quits.
  */
 void	setup_signals(void)
 {
