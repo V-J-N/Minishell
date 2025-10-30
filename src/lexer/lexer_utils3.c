@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 11:45:46 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 15:16:50 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 13:03:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ t_lexer	*init_lexer_buffer(t_lexer *lexer)
 bool	is_char(t_lexer *lexer)
 {
 	if (lexer->string[lexer->i] != 32 && lexer->string[lexer->i] != '|'
-		&& lexer->string[lexer->i] != '<' && lexer->string[lexer->i] != '>')
+		&& lexer->string[lexer->i] != '<' && lexer->string[lexer->i] != '>'
+		&& lexer->string[lexer->i] != '\t')
 		return (true);
 	return (false);
 }

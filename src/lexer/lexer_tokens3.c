@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:07:52 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/20 15:14:05 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/29 13:05:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ t_lexer	*tokenize_space(t_lexer *lexer)
 		lexer->quote = verify_quotes(lexer->string[lexer->i - 1]);
 	if (lexer->buffer && *lexer->buffer != '\0')
 		lexer->buffer = tokenize_buffer(lexer);
-	lexer->i++;
+	while (lexer->string[lexer->i] == ' ' || lexer->string[lexer->i] == '\t')
+		lexer->i++;
 	return (lexer);
 }
 
