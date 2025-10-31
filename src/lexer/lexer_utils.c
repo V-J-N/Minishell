@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:03:18 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/22 19:51:35 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/31 10:27:48 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ t_token	*lstnew_token(char *value, t_token_type type,
 		node->is_expanded = false;
 	else
 		node->is_expanded = true;
+	if (node->type == HEREDOC)
+		node->is_expanded = false;
 	node->has_quotes = has_quotes;
 	node->next = NULL;
 	return (node);

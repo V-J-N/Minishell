@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/22 13:28:21 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/31 10:31:11 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ t_redir	*create_redir(t_token *tokens)
 	redir->quote = temp->next->quote;
 	redir->has_quotes = temp->next->has_quotes;
 	redir->is_expanded = temp->next->is_expanded;
+	if (redir->type == HEREDOC)
+		redir->is_expanded = false;
 	redir->exp_file = NULL;
 	redir->env_file = NULL;
 	redir->next = NULL;

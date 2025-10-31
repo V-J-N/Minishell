@@ -1,0 +1,12 @@
+documents
+includes
+libft
+Makefile
+minishell
+obj
+outfile
+README.md
+src
+testing_files
+testnew.sh
+valgrind.supp
