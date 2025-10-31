@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:19:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/31 10:31:11 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/31 12:43:06 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
  * @brief Utility functions for managing redirections in the parser.
  */
 #include "minishell.h"
+
+/**
+ * 
+ */
+static void	init_redir(t_redir *redir)
+{
+	redir->exp_file = NULL;
+	redir->env_file = NULL;
+	redir->next = NULL;
+	redir->heredoc_fd = -1;
+	redir->i = 0;
+}
 
 /**
  * @brief Appends a new redirection node to a command's redirection list.
@@ -63,15 +75,14 @@ t_redir	*create_redir(t_token *tokens)
 	redir->quote = temp->next->quote;
 	redir->has_quotes = temp->next->has_quotes;
 	redir->is_expanded = temp->next->is_expanded;
-	if (redir->type == HEREDOC)
-		redir->is_expanded = false;
-	redir->exp_file = NULL;
-	redir->env_file = NULL;
-	redir->next = NULL;
 	redir->file = ft_strdup(temp->next->value);
 	if (!redir->file)
 		return (free_redirs(redir), NULL);
-	redir->heredoc_fd = -1;
-	redir->i = 0;
+	if (redir->type == HEREDOC && contains_dollar(redir->file))
+		redir->is_expanded = false;
+	if (redir->type == HEREDOC && !contains_dollar(redir->file)
+		&& redir->quote == DOUBLE)
+		redir->is_expanded = false;
+	init_redir(redir);
 	return (redir);
 }

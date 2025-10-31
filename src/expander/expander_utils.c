@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:26:41 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/28 11:13:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/31 12:00:14 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	contains_dollar(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == 36)
+		if (str[0] == 36)
 			return (true);
 		i++;
 	}
