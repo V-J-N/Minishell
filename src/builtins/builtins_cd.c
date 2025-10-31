@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:34:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/29 06:01:05 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/30 23:25:26 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ static char	*get_target_path(char **args, t_env *env)
 	}
 	if (args[1][0] == '\0')
 		return (NULL);
+	if (args[2])
+	{
+		ft_putstr_fd("cd: Too many args\n", STDERR_FILENO);
+		return (NULL);
+	}
 	return (args[1]);
 }
 
@@ -75,7 +80,7 @@ static int	update_pwd(t_env **env)
  */
 int	ft_cd(t_command *cmd, t_env **env)
 {
-	char	cwd[4096];
+	char	cwd[PATH_MAX];
 	char	**args;
 	char	*path;
 
@@ -89,13 +94,15 @@ int	ft_cd(t_command *cmd, t_env **env)
 		return (0);
 	}
 	if (!getcwd(cwd, sizeof(cwd)))
-		return (perror("cd: getcwd"), ft_free_array(args), 1);
+	{
+		perror("minishell: error retrieving current directory\n");
+		cwd[0] = '\0';
+	}
 	if (chdir(path) == -1)
-		return (perror("cd"), ft_free_array(args), 1);
+		return (perror("chdir"), ft_free_array(args), 1);
 	if (update_oldpwd(env, cwd))
 		return (ft_free_array(args), 1);
 	if (update_pwd(env))
 		return (ft_free_array(args), 1);
-	ft_free_array(args);
-	return (0);
+	return (ft_free_array(args), 0);
 }
