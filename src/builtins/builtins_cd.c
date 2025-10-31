@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:34:58 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/30 23:25:26 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:22:33 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_target_path(char **args, t_env *env)
 		return (NULL);
 	if (args[2])
 	{
-		ft_putstr_fd("cd: Too many args\n", STDERR_FILENO);
+		ft_putstr_fd("cd: Too many arguments\n", STDERR_FILENO);
 		return (NULL);
 	}
 	return (args[1]);
@@ -46,32 +46,32 @@ static int	update_oldpwd(t_env **env, char *cwd)
 	if (ft_assign_in(full, env))
 	{
 		free(full);
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	free(full);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static int	update_pwd(t_env **env)
 {
-	char	cwd[4096];
+	char	cwd[PATH_MAX];
 	char	*full;
 
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
 		ft_putstr_fd("cd: getcwd\n", STDERR_FILENO);
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	full = ft_strjoin("PWD=", cwd);
 	if (!full)
-		return (1);
+		return (EXIT_FAILURE);
 	if (ft_assign_in(full, env))
 	{
 		free(full);
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	free(full);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /**
@@ -86,23 +86,23 @@ int	ft_cd(t_command *cmd, t_env **env)
 
 	args = args_to_array(cmd->args);
 	if (!args)
-		return (1);
+		return (EXIT_FAILURE);
 	path = get_target_path(args, *env);
 	if (!path)
 	{
 		ft_free_array(args);
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
-		perror("minishell: error retrieving current directory\n");
+		ft_putstr_fd("cd: getcwd\n", STDERR_FILENO);
 		cwd[0] = '\0';
 	}
 	if (chdir(path) == -1)
-		return (perror("chdir"), ft_free_array(args), 1);
+		return (perror("chdir"), ft_free_array(args), EXIT_FAILURE);
 	if (update_oldpwd(env, cwd))
-		return (ft_free_array(args), 1);
+		return (ft_free_array(args), EXIT_FAILURE);
 	if (update_pwd(env))
-		return (ft_free_array(args), 1);
-	return (ft_free_array(args), 0);
+		return (ft_free_array(args), EXIT_FAILURE);
+	return (ft_free_array(args), EXIT_SUCCESS);
 }
