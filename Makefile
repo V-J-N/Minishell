@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
+#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/28 11:15:05 by serjimen         ###   ########.fr        #
+#    Updated: 2025/10/31 10:02:42 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,7 +110,7 @@ OBJ_DIRS =	$(OBJ_DIR)\
 # Compiling rules
 
 CC		= 	cc
-CFLAGS	= 	-Wall -Wextra -Werror
+CFLAGS	= 	-Wall -Wextra -Werror -g
 
 # **************************************************************************** #
 # Includes
