@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:11:50 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/29 13:20:51 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:46:47 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	expand_and_execute(t_data *data, char *input, int excode, int inter)
 {
 	data->parsed->cmd_list = expander(data->parsed->cmd_list, \
 	data->env, excode);
-	excode = execute_all(data);
+	excode = execute_all(data, excode);
 	if (inter)
 		excode = sigint_check(excode);
 	ft_cleanup_loop(data, input, 0);

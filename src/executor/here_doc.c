@@ -6,20 +6,20 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:11:34 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/31 16:18:52 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:53:10 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	prepare_all_heredocs(t_command *cmd_list)
+bool	prepare_all_heredocs(t_command *cmd_list, t_data *data, int excode)
 {
 	t_command	*current;
 
 	current = cmd_list;
 	while (current)
 	{
-		if (!prepare_heredocs(current))
+		if (!prepare_heredocs(current, data, excode))
 			return (false);
 		current = current->next;
 	}
@@ -29,7 +29,7 @@ bool	prepare_all_heredocs(t_command *cmd_list)
 /** @brief Handles heredoc through a pipe 
  * and a child process, before any execution.
  */
-bool	prepare_heredocs(t_command *cmd)
+bool	prepare_heredocs(t_command *cmd, t_data *data, int excode)
 {
 	t_redir	*redir;
 	int		fd;
@@ -41,7 +41,7 @@ bool	prepare_heredocs(t_command *cmd)
 	{
 		if (redir->type == HEREDOC)
 		{
-			fd = get_heredoc_fd(redir->file);
+			fd = get_heredoc_fd(redir->file, data, excode);
 			if (fd == -1)
 				return (false);
 			redir->heredoc_fd = fd;
@@ -60,7 +60,7 @@ static bool	is_limiter(char *limiter, char *line)
 		return (false);
 }
 
-static void	heredoc_child_process(char *limiter, int *pipe_fd)
+static void	heredoc_child_process(char *limiter, int *pipe_fd, t_data *data, int excode)
 {
 	char	*line;
 	char	*expanded;
@@ -75,7 +75,7 @@ static void	heredoc_child_process(char *limiter, int *pipe_fd)
 			exit(EXIT_SUCCESS);
 		if (flagisexpanded)
 		{
-			expanded = expand_heredoc_line(line, env, exit_status);
+			expanded = expand_heredoc_line(line, data->env, excode);
 		}
 		if (is_limiter(limiter, line))
 		{
@@ -99,7 +99,7 @@ static void	heredoc_child_process(char *limiter, int *pipe_fd)
  * returning the reading end of the pipe. SIGINT is ignored in the
  * parent process until child process ends (waitpid).
  */
-int	get_heredoc_fd(char *limiter)
+int	get_heredoc_fd(char *limiter, t_data *data, int excode)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -111,7 +111,7 @@ int	get_heredoc_fd(char *limiter)
 	if (pid == -1)
 		return (perror("fork"), -1);
 	if (pid == 0)
-		heredoc_child_process(limiter, pipe_fd);
+		heredoc_child_process(limiter, pipe_fd, data, excode);
 	close(pipe_fd[1]);
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
