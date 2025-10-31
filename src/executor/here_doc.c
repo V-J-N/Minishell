@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:11:34 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/28 10:46:21 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:18:52 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static bool	is_limiter(char *limiter, char *line)
 static void	heredoc_child_process(char *limiter, int *pipe_fd)
 {
 	char	*line;
+	char	*expanded;
 
 	signal(SIGINT, heredoc_sigint_handler);
 	close(pipe_fd[0]);
@@ -72,6 +73,10 @@ static void	heredoc_child_process(char *limiter, int *pipe_fd)
 		line = get_next_line(0);
 		if (!line)
 			exit(EXIT_SUCCESS);
+		if (flagisexpanded)
+		{
+			expanded = expand_heredoc_line(line, env, exit_status);
+		}
 		if (is_limiter(limiter, line))
 		{
 			free(line);
