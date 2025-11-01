@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/10/31 10:02:42 by serjimen         ###   ########.fr        #
+#    Updated: 2025/11/01 11:55:41 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc_utils.c\
+			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc_utils2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes_utils.c\

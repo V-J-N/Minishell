@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/31 16:52:17 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/01 11:56:31 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void			p_child_process(t_pipe *pipe_data, int prev, int *pipe_fd);
 int				get_inputfile_fd(char *infile);
 int				get_outputfile_fd(char *outfile);
 int				get_append_fd(char *outfile);
-int				get_heredoc_fd(char *limiter, t_data *data);
+int				get_heredoc_fd(t_redir *redir, t_data *data, int excode);
 int				redirect_in(t_command *command_list, int in_fd);
 int				redirect_out(t_command *command_list, int out_fd);
 bool			prepare_heredocs(t_command *cmd, t_data *data, int excode);
@@ -140,7 +140,7 @@ int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
 int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
 void			heredoc_sigint_handler(int sign);
 int				heredoc_end(int status, int pipe_fd_readend);
-char			*expand_heredoc_line(const char *line, t_env *env, int exit_status);
+char			*expand_heredoc_line(char *line, t_env *env, int exit_status);
 
 /* ************************************************************************** */
 /* Lexer */

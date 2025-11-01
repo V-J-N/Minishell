@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_expand.c                                   :+:      :+:    :+:   */
+/*   here_doc_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 16:08:30 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/31 16:52:56 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/01 12:30:53 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	contains_dollar_heredoc(char *str)
+{
+	size_t	i = 0;
+
+	while (str && str[i])
+	{
+		if (str[i] == '$')
+			return (true);
+		i++;
+	}
+	return (false);
+}
 
 char	*ft_strjoin_free(char *s1, const char *s2)
 {
@@ -30,19 +43,18 @@ char	*ft_strjoin_char(char *s, char c)
 	return (ft_strjoin_free(s, tmp));
 }
 
-/* Expande una única línea heredoc */
-char	*expand_heredoc_line(const char *line, t_env *env, int exit_status)
+char	*expand_heredoc_line(char *line, t_env *env, int exit_status)
 {
 	size_t	i;
 	char	*result;
 	char	*tmp;
-	size_t	start = i;
+	size_t	start;
 	char	*var_name;
 	char	*value;
 
 	if (!line)
 		return (NULL);
-	if (!contains_dollar(line))
+	if (!contains_dollar_heredoc(line))
 		return (ft_strdup(line));
 	result = ft_strdup("");
 	i = 0;
@@ -66,6 +78,7 @@ char	*expand_heredoc_line(const char *line, t_env *env, int exit_status)
 				var_name = ft_substr(line, start, i - start);
 				value = get_value_by_key(env, var_name);
 				result = ft_strjoin_free(result, value);
+				free(value);
 				free(var_name);
 			}
 			else
