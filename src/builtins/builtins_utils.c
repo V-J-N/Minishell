@@ -3,15 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:34:38 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/29 06:27:40 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/01 10:19:48 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file builtins_utils.c
+ * @brief Utility functions for identifying built-in commands and preparing
+ * command arguments for execution.
+ */
 #include "minishell.h"
 
+/**
+ * @brief Checks if a given command name corresponds to any of the built-in
+ * commands.
+ * This function is used to determine if a command should be handled internally
+ * by the shell instead of being searched for in the PATH (external command).
+ * @param cmd The command name string.
+ * @return bool True if the command is a built-in, false otherwise.
+ */
 bool	is_built_in(char *cmd)
 {
 	return (!ft_strncmp(cmd, "cd", 3) || \
@@ -23,6 +36,14 @@ bool	is_built_in(char *cmd)
 	|| !ft_strncmp(cmd, "env", 4));
 }
 
+/**
+ * @brief Checks if a built-in command must be executed in the parent process.
+ * Commands that modify the shell's state (environment variables or current
+ * working directory) must run in the parent process. 'echo' and 'env' can run
+ * in a child process (unless they are the only command).
+ * @param cmd The command name string.
+ * @return bool True if the command must run in the parent shell process.
+ */
 bool	is_parent_built_in(char *cmd)
 {
 	return (!ft_strncmp(cmd, "cd", 3) \
@@ -32,6 +53,11 @@ bool	is_parent_built_in(char *cmd)
 	|| !ft_strncmp(cmd, "exit", 5));
 }
 
+/**
+ * @brief Counts the number of arguments in the linked list structure.
+ * @param args The head of the `t_arg` list.
+ * @return size_t The total count of arguments (including the command name).
+ */
 static size_t	args_count(t_arg *args)
 {
 	t_arg	*tmp;
@@ -47,6 +73,16 @@ static size_t	args_count(t_arg *args)
 	return (count);
 }
 
+/**
+ * @brief Converts the linked list of arguments (`t_arg`) into a null-terminated
+ * array of strings (`char **`).
+ * This is essential because many built-ins (like `exit` or `cd`) and the
+ * system call `execve` require arguments in the `char **` format.
+ * @param args The head of the `t_arg` list.
+ * @return char** A newly allocated, null-terminated array of duplicated argument
+ * strings, or NULL on memory allocation failure. Must be freed
+ * by `ft_free_array`.
+ */
 char	**args_to_array(t_arg *args)
 {
 	size_t	count;
