@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/11/01 11:55:41 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/11/01 20:07:47 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ PARSER_DIR =	parser
 EXECUTOR_DIR =	executor
 BUILTINS_DIR =	builtins
 EXPANDER_DIR =	expander
+REDIR_DIR =		redirection
 
 # **************************************************************************** #
 # Libft
@@ -68,15 +69,15 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/executor.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/executor_utils.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/executor_utils2.c\
-			$(SRC_DIR)/$(EXECUTOR_DIR)/redir.c\
-			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils.c\
-			$(SRC_DIR)/$(EXECUTOR_DIR)/redir_utils2.c\
-			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc.c\
-			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc_utils.c\
-			$(SRC_DIR)/$(EXECUTOR_DIR)/here_doc_utils2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes2.c\
 			$(SRC_DIR)/$(EXECUTOR_DIR)/pipes_utils.c\
+			$(SRC_DIR)/$(REDIR_DIR)/redir.c\
+			$(SRC_DIR)/$(REDIR_DIR)/redir_utils.c\
+			$(SRC_DIR)/$(REDIR_DIR)/redir_utils2.c\
+			$(SRC_DIR)/$(REDIR_DIR)/here_doc.c\
+			$(SRC_DIR)/$(REDIR_DIR)/here_doc_utils.c\
+			$(SRC_DIR)/$(REDIR_DIR)/here_doc_utils2.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_utils.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins_exit.c\
@@ -104,6 +105,7 @@ OBJ_DIRS =	$(OBJ_DIR)\
 			$(OBJ_DIR)/lexer\
 			$(OBJ_DIR)/parser\
 			$(OBJ_DIR)/executor\
+			$(OBJ_DIR)/redirection\
 			$(OBJ_DIR)/builtins\
 			$(OBJ_DIR)/expander\
 

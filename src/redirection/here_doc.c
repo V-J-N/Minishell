@@ -6,50 +6,11 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:11:34 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/11/01 11:38:02 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/01 20:27:22 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	prepare_all_heredocs(t_command *cmd_list, t_data *data, int excode)
-{
-	t_command	*current;
-
-	current = cmd_list;
-	while (current)
-	{
-		if (!prepare_heredocs(current, data, excode))
-			return (false);
-		current = current->next;
-	}
-	return (true);
-}
-
-/** @brief Handles heredoc through a pipe 
- * and a child process, before any execution.
- */
-bool	prepare_heredocs(t_command *cmd, t_data *data, int excode)
-{
-	t_redir	*redir;
-	int		fd;
-
-	if (!cmd)
-		return (true);
-	redir = cmd->redirs;
-	while (redir)
-	{
-		if (redir->type == HEREDOC)
-		{
-			fd = get_heredoc_fd(redir, data, excode);
-			if (fd == -1)
-				return (false);
-			redir->heredoc_fd = fd;
-		}
-		redir = redir->next;
-	}
-	return (true);
-}
 
 static bool	is_limiter(char *limiter, char *line)
 {
@@ -58,6 +19,48 @@ static bool	is_limiter(char *limiter, char *line)
 		return (true);
 	else
 		return (false);
+}
+
+static void	heredoc_write_pipe(char *line, int *pipe_fd)
+{
+	if (write(pipe_fd[1], line, ft_strlen(line)) == -1)
+	{
+		perror("write to pipe");
+		free(line);
+		exit(EXIT_FAILURE);
+	}
+	free(line);
+	return ;
+	
+}
+
+static void	heredoc_user_loop(t_redir *redir, int *pipe_fd, t_data *data, int excode)
+{
+	char	*line;
+	char	*expanded;
+
+	while (1)
+	{
+		write(1, "heredoc> ", 9);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			exit(EXIT_SUCCESS);
+		if (redir->is_expanded)
+		{
+			expanded = expand_heredoc_line(line, data->env, excode);
+			if (expanded)
+			{
+				free(line);
+				line = expanded;
+			}
+		}
+		if (is_limiter(redir->file, line))
+		{
+			free(line);
+			break ;
+		}
+		heredoc_write_pipe(line, pipe_fd);
+	}
 }
 
 static void	heredoc_child_process(t_redir *redir, int *pipe_fd, t_data *data, int excode)
@@ -87,12 +90,7 @@ static void	heredoc_child_process(t_redir *redir, int *pipe_fd, t_data *data, in
 			free(line);
 			break ;
 		}
-		if (write(pipe_fd[1], line, ft_strlen(line)) == -1)
-		{
-			perror("write to pipe");
-			free(line);
-			exit(EXIT_FAILURE);
-		}
+		heredoc_write_pipe(line, pipe_fd);
 		free(line);
 	}
 	close(pipe_fd[1]);

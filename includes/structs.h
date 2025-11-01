@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/29 11:56:07 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/11/01 20:58:23 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,5 +300,16 @@ typedef struct s_lexer
 	size_t			buffer_size;
 	bool			has_quotes;
 }					t_lexer;
+
+/**
+ * Data to use in heredoc expander.
+ */
+typedef struct s_hd_exp
+{
+	t_env			*env;
+	char			*line;
+	char			*result;
+	int				exit_code;
+}					t_hd_exp;
 
 #endif
