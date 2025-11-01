@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/27 09:02:25 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:51:09 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,14 @@ int	command_in(t_data *data, int in, int out)
  * Prepares heredoc FDs before execution, and saves them in the
  * corresponding redir struct.
 */
-int	execute_all(t_data *data)
+int	execute_all(t_data *data, int exit_signal)
 {
 	size_t	command_count;
 	t_pipe	*pipe_data;
-	int		exit_signal;
 
 	if (!data->parsed->cmd_list || !data->env)
 		return (perror("Missing data structures"), EXIT_FAILURE);
-	if (!prepare_all_heredocs(data->parsed->cmd_list))
+	if (!prepare_all_heredocs(data->parsed->cmd_list, data, exit_signal))
 		return (EXIT_FAILURE);
 	command_count = number_of_commands(data->parsed->cmd_list);
 	if (command_count < 1)

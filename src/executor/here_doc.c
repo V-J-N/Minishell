@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:11:34 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/28 10:46:21 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/01 11:38:02 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	prepare_all_heredocs(t_command *cmd_list)
+bool	prepare_all_heredocs(t_command *cmd_list, t_data *data, int excode)
 {
 	t_command	*current;
 
 	current = cmd_list;
 	while (current)
 	{
-		if (!prepare_heredocs(current))
+		if (!prepare_heredocs(current, data, excode))
 			return (false);
 		current = current->next;
 	}
@@ -29,7 +29,7 @@ bool	prepare_all_heredocs(t_command *cmd_list)
 /** @brief Handles heredoc through a pipe 
  * and a child process, before any execution.
  */
-bool	prepare_heredocs(t_command *cmd)
+bool	prepare_heredocs(t_command *cmd, t_data *data, int excode)
 {
 	t_redir	*redir;
 	int		fd;
@@ -41,7 +41,7 @@ bool	prepare_heredocs(t_command *cmd)
 	{
 		if (redir->type == HEREDOC)
 		{
-			fd = get_heredoc_fd(redir->file);
+			fd = get_heredoc_fd(redir, data, excode);
 			if (fd == -1)
 				return (false);
 			redir->heredoc_fd = fd;
@@ -60,9 +60,10 @@ static bool	is_limiter(char *limiter, char *line)
 		return (false);
 }
 
-static void	heredoc_child_process(char *limiter, int *pipe_fd)
+static void	heredoc_child_process(t_redir *redir, int *pipe_fd, t_data *data, int excode)
 {
 	char	*line;
+	char	*expanded;
 
 	signal(SIGINT, heredoc_sigint_handler);
 	close(pipe_fd[0]);
@@ -72,7 +73,16 @@ static void	heredoc_child_process(char *limiter, int *pipe_fd)
 		line = get_next_line(0);
 		if (!line)
 			exit(EXIT_SUCCESS);
-		if (is_limiter(limiter, line))
+		if (redir->is_expanded)
+		{
+			expanded = expand_heredoc_line(line, data->env, excode);
+			if (expanded)
+			{
+				free(line);
+				line = expanded;
+			}
+		}
+		if (is_limiter(redir->file, line))
 		{
 			free(line);
 			break ;
@@ -94,7 +104,7 @@ static void	heredoc_child_process(char *limiter, int *pipe_fd)
  * returning the reading end of the pipe. SIGINT is ignored in the
  * parent process until child process ends (waitpid).
  */
-int	get_heredoc_fd(char *limiter)
+int	get_heredoc_fd(t_redir *redir, t_data *data, int excode)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -106,7 +116,7 @@ int	get_heredoc_fd(char *limiter)
 	if (pid == -1)
 		return (perror("fork"), -1);
 	if (pid == 0)
-		heredoc_child_process(limiter, pipe_fd);
+		heredoc_child_process(redir, pipe_fd, data, excode);
 	close(pipe_fd[1]);
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
