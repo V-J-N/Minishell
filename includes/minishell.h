@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/11/01 11:56:31 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/02 00:11:36 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,17 @@ int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
 int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
 void			heredoc_sigint_handler(int sign);
 int				heredoc_end(int status, int pipe_fd_readend);
+
+
+/* ************************************************************************** */
+/* Heredoc expansor */
+
 char			*expand_heredoc_line(char *line, t_env *env, int exit_status);
+bool			contains_dollar_heredoc(char *str);
+char			*ft_strjoin_free(char *s1, const char *s2);
+char			*ft_strjoin_char(char *s, char c);
+t_hd_exp		*init_hd_expander_data(char *line, t_env *env, int exit_status);
+void			free_hd_expander_data(t_hd_exp *hd);
 
 /* ************************************************************************** */
 /* Lexer */
