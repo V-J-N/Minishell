@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/11/02 00:11:36 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/02 01:22:51 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ int				get_heredoc_fd(t_redir *redir, t_data *data, int excode);
 int				redirect_in(t_command *command_list, int in_fd);
 int				redirect_out(t_command *command_list, int out_fd);
 bool			prepare_heredocs(t_command *cmd, t_data *data, int excode);
-bool			prepare_all_heredocs(t_command *cmd_list, t_data *data, int excode);
+bool			prepare_all_heredocs(t_command *cmd_list,
+					t_data *data, int excode);
 int				redirection_only(t_command *cmd, int in, int out);
 bool			has_redirs(t_command *cmd);
 bool			has_input_redir(t_command *cmd);
@@ -140,7 +141,6 @@ int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
 int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
 void			heredoc_sigint_handler(int sign);
 int				heredoc_end(int status, int pipe_fd_readend);
-
 
 /* ************************************************************************** */
 /* Heredoc expansor */
@@ -207,7 +207,8 @@ bool			handle_word(t_token *tokens, t_parse_state *p_struct);
 /* Builtin In */
 int				built_in(t_command *cmd_list, t_data *data,
 					int exit_return, bool pipe);
-int				execute_builtin(char *cmd, t_command *cmd_list, t_data *data);
+int				execute_builtin(char *cmd, t_command *cmd_list,
+					t_data *data, bool pipe);
 
 /* ************************************************************************** */
 /* Bi Child */
@@ -217,7 +218,7 @@ int				ft_echo(t_command *cmd);
 
 /* ************************************************************************** */
 /* Bi Parent */
-int				ft_exit(t_data *data, t_command *cmd_list);
+int				ft_exit(t_data *data, t_command *cmd_list, bool pipe);
 int				ft_unset(t_command *cmd_lst, t_env **env);
 int				ft_export(t_command *cmd, t_env **env);
 int				ft_assign_in(char *full_var, t_env **env);

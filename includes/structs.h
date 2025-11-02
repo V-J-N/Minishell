@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 23:30:20 by serjimen          #+#    #+#             */
-/*   Updated: 2025/11/01 20:58:23 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/02 00:34:15 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ typedef struct s_data
 	t_env			*env;
 	t_token			*token;
 	t_parse_state	*parsed;
+	int				exit_status;
 }					t_data;
 
 /**

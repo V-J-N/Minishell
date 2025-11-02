@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:09:17 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/31 23:03:19 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/11/02 01:19:12 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,11 @@ static bool	is_numeric(const char *str)
  * @param args The temporary argument array (char **) created for this execution.
  * @note This function is the last call and will NOT return.
  */
-static void	cleanup_and_exit(int exit_code, t_data *data, char **args)
+static void	cleanup_and_exit(int exit_status, t_data *data, char **args)
 {
+	int	exit_code;
+
+	exit_code = exit_status;
 	if (data)
 	{
 		if (data->token)
@@ -95,7 +98,7 @@ static void	no_numeric_arg(char **args, t_data *data)
  * @note Because `exit` is state-modifying, it is expected to run in the
  * parent process.
  */
-int	ft_exit(t_data *data, t_command *cmd_list)
+int	ft_exit(t_data *data, t_command *cmd_list, bool pipe)
 {
 	char	**args;
 	long	code;
@@ -106,9 +109,10 @@ int	ft_exit(t_data *data, t_command *cmd_list)
 	args = args_to_array(cmd_list->args);
 	if (!args)
 		cleanup_and_exit(EXIT_FAILURE, data, NULL);
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	if (!pipe)
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!args[1])
-		cleanup_and_exit(0, data, args);
+		cleanup_and_exit(data->exit_status, data, args);
 	if (!is_numeric(args[1]))
 		no_numeric_arg(args, data);
 	if (args[2])
