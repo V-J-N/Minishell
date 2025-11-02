@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:23:54 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/10/29 13:27:49 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/11/02 00:35:39 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_data	*init_data(char **envp)
 		free(data);
 		return (NULL);
 	}
+	data->exit_status = 0;
 	return (data);
 }
 

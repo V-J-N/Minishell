@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:31:42 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/31 19:37:47 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/11/02 01:17:48 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
  * @return int The exit status of the built-in command. 0 for success, >0 for
  * failure, -1 if the command string does not match any recognized built-in.
  */
-int	execute_builtin(char *cmd, t_command *cmd_list, t_data *data)
+int	execute_builtin(char *cmd, t_command *cmd_list, t_data *data, bool pipe)
 {
 	if (!(ft_strncmp(cmd, "echo", 5)))
 		return (ft_echo(cmd_list));
@@ -39,7 +39,7 @@ int	execute_builtin(char *cmd, t_command *cmd_list, t_data *data)
 	else if (!(ft_strncmp(cmd, "env", 4)))
 		return (ft_env(data->env, cmd_list));
 	else if (!(ft_strncmp(cmd, "exit", 5)))
-		return (ft_exit(data, cmd_list));
+		return (ft_exit(data, cmd_list, pipe));
 	else if (!(ft_strncmp(cmd, "unset", 6)))
 		return (ft_unset(cmd_list, &data->env));
 	else if (!(ft_strncmp(cmd, "export", 7)))
@@ -85,7 +85,7 @@ static void	blt_c_procss(t_command *cmd_lst, t_data *data, int n_in, int n_out)
 		dup2(n_out, STDOUT_FILENO);
 		close(n_out);
 	}
-	exit_return = execute_builtin(cmd, cmd_lst, data);
+	exit_return = execute_builtin(cmd, cmd_lst, data, 1);
 	if (exit_return == -1)
 		exit(EXIT_FAILURE);
 	else
@@ -111,7 +111,7 @@ int	built_in(t_command *cmd_list, t_data *data, int exit_return, bool pipe)
 
 	cmd = cmd_list->args->value;
 	if (is_parent_built_in(cmd) || pipe)
-		return (execute_builtin(cmd, cmd_list, data));
+		return (execute_builtin(cmd, cmd_list, data, pipe));
 	else
 	{
 		pid = fork();
