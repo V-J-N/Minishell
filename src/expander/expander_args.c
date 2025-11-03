@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   expander_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 13:25:55 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/23 10:47:22 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/03 22:50:11 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- *
+ * @file expander_args.c
+ * @brief Handles the final stage of argument processing: calculating the
+ * final string length and removing the surrounding quotes.
  */
 #include "minishell.h"
 
 /**
- * 
+ * @brief Copies the argument value into the expanded value (`exp_value`),
+ * removing any double quotes (ASCII 34).
+ * This function is used after variable expansion has already occurred.
+ * @param args The argument node (t_arg) to process.
  */
 static void	copy_value_double(t_arg *args)
 {
@@ -26,6 +31,8 @@ static void	copy_value_double(t_arg *args)
 
 	i = 0;
 	j = 0;
+	if (!args || !args->value)
+		return ;
 	temp = args;
 	while (temp->value[i])
 	{
@@ -41,7 +48,11 @@ static void	copy_value_double(t_arg *args)
 }
 
 /**
- * 
+ * @brief Copies the argument value into the expanded value (`exp_value`),
+ * removing any single quotes (ASCII 39).
+ * Single quotes block expansion, so the value should already be stable
+ * at this point.
+ * @param args The argument node (t_arg) to process.
  */
 static void	copy_value_single(t_arg *args)
 {
@@ -51,6 +62,8 @@ static void	copy_value_single(t_arg *args)
 
 	i = 0;
 	j = 0;
+	if (!args || !args->value)
+		return ;
 	temp = args;
 	while (temp->value[i])
 	{
@@ -66,12 +79,20 @@ static void	copy_value_single(t_arg *args)
 }
 
 /**
- *
+ * @brief Finalizes the argument value change. It frees the old value,
+ * duplicates the final processed string from `exp_value` into `value`,
+ * and frees `exp_value`.
+ * This function consolidates the result of expansion and quote stripping.
+ * @param args The argument node (t_arg) containing the final string in
+ * `exp_value`.
+ * @return t_arg* Returns the same argument node (`temp`).
  */
 t_arg	*change_value(t_arg *args)
 {
 	t_arg	*temp;
 
+	if (!args || !args->value)
+		return (NULL);
 	temp = args;
 	free(temp->value);
 	temp->value = ft_strdup(temp->exp_value);
@@ -81,7 +102,12 @@ t_arg	*change_value(t_arg *args)
 }
 
 /**
- *
+ * @brief Calculates the length of the string after removing double quotes,
+ * allocates memory for the new string (`exp_value`), and performs the copy.
+ * This is the primary function for stripping double quotes from an argument.
+ * @param args The argument node to check.
+ * @return t_arg* The processed argument node, or NULL on memory allocation
+ * failure.
  */
 t_arg	*check_doubles_arg(t_arg *args)
 {
@@ -92,6 +118,8 @@ t_arg	*check_doubles_arg(t_arg *args)
 
 	i = 0;
 	quotes = 0;
+	if (!args || !args->value)
+		return (NULL);
 	temp = args;
 	len = ft_strlen(temp->value);
 	while (temp->value[i])
@@ -108,7 +136,12 @@ t_arg	*check_doubles_arg(t_arg *args)
 }
 
 /**
- *
+ * @brief Calculates the length of the string after removing single quotes,
+ * allocates memory for the new string (`exp_value`), and performs the copy.
+ * This is the primary function for stripping single quotes from an argument.
+ * @param args The argument node to check.
+ * @return t_arg* The processed argument node, or NULL on memory allocation
+ * failure.
  */
 t_arg	*check_singles_arg(t_arg *args)
 {
@@ -119,6 +152,8 @@ t_arg	*check_singles_arg(t_arg *args)
 
 	i = 0;
 	quotes = 0;
+	if (!args || !args->value)
+		return (NULL);
 	temp = args;
 	len = ft_strlen(temp->value);
 	while (temp->value[i])
