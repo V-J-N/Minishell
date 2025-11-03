@@ -6,7 +6,7 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:47:33 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/11/02 01:22:51 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/03 11:43:10 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ int				manage_heredoc(int heredoc_fd, int *fd, int *last_fd);
 int				manage_out_redir(t_redir *redir, int *fd, int *last_fd);
 void			heredoc_sigint_handler(int sign);
 int				heredoc_end(int status, int pipe_fd_readend);
+void			heredoc_canceled(char *true_limiter, int *pipe_fd);
+bool			is_limiter(char *limiter, char *line);
 
 /* ************************************************************************** */
 /* Heredoc expansor */
