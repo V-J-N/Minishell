@@ -6,7 +6,7 @@
 #    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/17 12:24:16 by vjan-nie          #+#    #+#              #
-#    Updated: 2025/11/02 00:12:22 by vjan-nie         ###   ########.fr        #
+#    Updated: 2025/11/03 11:44:43 by vjan-nie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,7 @@ SRC		=	$(SRC_DIR)/$(CORE_DIR)/minishell.c\
 			$(SRC_DIR)/$(REDIR_DIR)/redir_utils2.c\
 			$(SRC_DIR)/$(REDIR_DIR)/heredoc.c\
 			$(SRC_DIR)/$(REDIR_DIR)/heredoc_utils.c\
+			$(SRC_DIR)/$(REDIR_DIR)/heredoc_utils2.c\
 			$(SRC_DIR)/$(REDIR_DIR)/heredoc_expanse.c\
 			$(SRC_DIR)/$(REDIR_DIR)/heredoc_expanse_utils.c\
 			$(SRC_DIR)/$(BUILTINS_DIR)/builtins.c\

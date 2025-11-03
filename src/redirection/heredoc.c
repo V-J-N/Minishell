@@ -6,60 +6,64 @@
 /*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:11:34 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/11/02 00:16:30 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/03 11:42:30 by vjan-nie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	is_limiter(char *limiter, char *line)
-{
-	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 \
-	&& line[ft_strlen(limiter)] == '\n')
-		return (true);
-	else
-		return (false);
-}
 
 static void	heredoc_write_pipe(char *line, int *pipe_fd)
 {
 	if (write(pipe_fd[1], line, ft_strlen(line)) == -1)
 	{
 		perror("write to pipe");
-		free(line);
 		exit(EXIT_FAILURE);
 	}
-	free(line);
+	return ;
+}
+
+static void	process_line(t_redir *redir, char **line, t_data *data, int excode)
+{
+	char	*expanded;
+
+	expanded = NULL;
+	if (!redir->has_quotes)
+	{
+		expanded = expand_heredoc_line(*line, data->env, excode);
+		if (expanded)
+		{
+			free(*line);
+			*line = expanded;
+		}
+	}
 	return ;
 }
 
 static void	user_loop(t_redir *redir, int *pipe_fd, t_data *data, int excode)
 {
 	char	*line;
-	char	*expanded;
+	char	*true_limiter;
+	int		stop;
 
-	while (1)
+	true_limiter = ft_strdup(redir->file);
+	stop = 0;
+	while (!stop)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
-			exit(EXIT_SUCCESS);
-		if (redir->is_expanded)
+			heredoc_canceled(true_limiter, pipe_fd);
+		if (is_limiter(true_limiter, line))
+			stop = 1;
+		else
 		{
-			expanded = expand_heredoc_line(line, data->env, excode);
-			if (expanded)
-			{
-				free(line);
-				line = expanded;
-			}
+			process_line(redir, &line, data, excode);
+			heredoc_write_pipe(line, pipe_fd);
 		}
-		if (is_limiter(redir->file, line))
-		{
-			free(line);
-			break ;
-		}
-		heredoc_write_pipe(line, pipe_fd);
+		free(line);
 	}
+	free(true_limiter);
+	return ;
 }
 
 static void	hd_ch_process(t_redir *redir, int *pipe_fd, t_data *dt, int excode)
