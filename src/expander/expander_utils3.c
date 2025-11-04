@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:36:31 by serjimen          #+#    #+#             */
-/*   Updated: 2025/10/23 10:41:10 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:09:25 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@ char	*redir_exit(t_redir *redir, int exit)
 {
 	char	*old;
 	char	*new;
+	char	*itoa_value;
 
 	old = redir->exp_file;
-	new = ft_strdup(ft_itoa(exit));
-	redir->exp_file = ft_strjoin(old, new);
+	itoa_value = ft_itoa(exit);
+	new = ft_strjoin(old, itoa_value);
+	if (!new)
+		return (NULL);
 	free(old);
-	free(new);
+	free(itoa_value);
+	redir->exp_file = new;
 	redir->i++;
 	return (redir->exp_file);
 }
@@ -33,6 +37,8 @@ char	*redir_value(t_redir *redir, size_t i)
 
 	old = redir->exp_file;
 	new = ft_calloc(2, sizeof(char));
+	if (!new)
+		return (NULL);
 	new[0] = redir->file[i];
 	redir->exp_file = ft_strjoin(old, new);
 	free(old);
@@ -48,8 +54,9 @@ char	*redir_environment(t_redir *redir, size_t i)
 
 	old = redir->env_file;
 	new = ft_calloc(2, sizeof(char));
+	if (!new)
+		return (NULL);
 	new[0] = redir->file[i];
-	i++;
 	redir->env_file = ft_strjoin(old, new);
 	free(old);
 	free(new);
