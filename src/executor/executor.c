@@ -3,15 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:12:05 by vjan-nie          #+#    #+#             */
-/*   Updated: 2025/10/31 16:51:09 by vjan-nie         ###   ########.fr       */
+/*   Updated: 2025/11/04 01:09:56 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file executor.c
+ * @brief Main logic for command execution, process management (fork/wait),
+ * I/O redirection setup, and handling of built-in functions.
+ */
 #include "minishell.h"
 
+/**
+ * @brief Handles the cleanup and exit sequence for a child process upon
+ * execve failure.
+ * It frees all memory associated with the execution (args, environment array,
+ * path) and exits with the appropriate status code based on errno.
+ * @param args Array of arguments passed to execve.
+ * @param env_arr Array of environment variables passed to execve.
+ * @param full_path The resolved path to the executable.
+ */
 static void	ft_execve_failed(char **args, char **env_arr, char *full_path)
 {
 	ft_free_array(args);
@@ -29,7 +43,11 @@ static void	ft_execve_failed(char **args, char **env_arr, char *full_path)
 /**
  * @brief Execution of command if there's a valid path inside a child process.
  * If execve fails, ft_execve_failed handles a clean exit of the child process.
-*/
+ * Steps:
+ * 1. Convert lists to arrays. 2. Find executable path. 3. Execute via execve.
+ * @param command The command node to execute.
+ * @param envlist Pointer to the head of the environment list (t_env **).
+ */
 void	execute_command(t_command *command, t_env **envlist)
 {
 	char	**args;
@@ -52,6 +70,15 @@ void	execute_command(t_command *command, t_env **envlist)
 	ft_execve_failed(args, env_arr, full_path);
 }
 
+/**
+ * @brief Sets up I/O redirections for a child process and executes the command.
+ * This function handles `dup2` for standard I/O based on the command's
+ * redirections and the pipe file descriptors (`in` and `out`).
+ * @param command The command node to execute.
+ * @param env Pointer to the environment list.
+ * @param in File descriptor for input (STDIN_FILENO or read end of a pipe).
+ * @param out File descriptor for output (STDOUT_FILENO or write end of a pipe).
+ */
 static void	exec_child_process(t_command *command, t_env **env, int in, int out)
 {
 	int	new_in;
@@ -77,10 +104,13 @@ static void	exec_child_process(t_command *command, t_env **env, int in, int out)
 }
 
 /** 
- * @brief Unless a built_in function is called, 
- * a child process is started to execute a given command,
- * handling existing redirections.
-*/
+ * @brief Executes a single command block (without pipes) by forking a child
+ * process or by directly executing a built-in function.
+ * @param data Pointer to the main data structure.
+ * @param in Input file descriptor (usually STDIN_FILENO).
+ * @param out Output file descriptor (usually STDOUT_FILENO).
+ * @return int The exit status of the executed command.
+ */
 int	command_in(t_data *data, int in, int out)
 {
 	pid_t	pid;
@@ -104,12 +134,12 @@ int	command_in(t_data *data, int in, int out)
 }
 
 /**
- * @brief Checks if we need to execute a single command block
- * or several ones through pipes, and returns the exit signal
- * of the process.
- * Prepares heredoc FDs before execution, and saves them in the
- * corresponding redir struct.
-*/
+ * @brief Main execution entry point. It prepares heredocs, determines if
+ * execution is a single command or a pipeline, and delegates accordingly.
+ * @param data Pointer to the main data structure.
+ * @param exit_signal The previous exit status (can be used for $?).
+ * @return int The final exit status of the executed command(s).
+ */
 int	execute_all(t_data *data, int exit_signal)
 {
 	size_t	command_count;
