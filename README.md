@@ -74,8 +74,8 @@ src/
 
 ## Authors
 
-- **serjimen** - Servidor de Schutter
-- **vjan-nie** - Victor Jimenez
+- **serjimen** - Sergio Jiménez
+- **vjan-nie** - Vadim Jan
 
 ## Notes
 
